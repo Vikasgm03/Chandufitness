@@ -3,549 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chandhu-Fitness Gym | Build Your Legacy</title>
+    <title>Chandhu-Fitness | Elite Training Facility</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 1. GLOBAL VARIABLES & RESET --- */
+        /* --- 1. MODERN VARIABLES --- */
         :root {
-            --primary: #ff3b3b; /* Gym Red */
-            --dark: #0a0a0a;
-            --gray: #1f1f1f;
+            --primary: #ff3b3b;
+            --primary-glow: rgba(255, 59, 59, 0.5);
+            --dark: #050505;
+            --dark-glass: rgba(20, 20, 20, 0.7);
             --text: #ffffff;
-            --text-muted: #aaaaaa;
+            --text-gray: #b3b3b3;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
             background-color: var(--dark); 
+            background-image: radial-gradient(circle at 50% 50%, #1a0505 0%, #000000 100%);
             color: var(--text); 
-            font-family: 'Roboto', sans-serif; 
+            font-family: 'Montserrat', sans-serif; 
             overflow-x: hidden; 
         }
 
-        h1, h2, h3, .btn, .nav-link, .day-btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        h1, h2, h3, .btn-nav, .day-btn, .price { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
         
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
         html { scroll-behavior: smooth; }
 
-        /* --- MOBILE NAV STYLES --- */
-        .menu-toggle {
-            display: none;
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            nav ul {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: rgba(10, 10, 10, 0.98);
-                padding: 20px 0;
-                text-align: center;
-                border-bottom: 2px solid var(--primary);
-            }
-            nav ul.active { display: flex; }
-            nav ul li { margin: 15px 0; }
-        }
-
-        /* --- 2. HEADER --- */
+        /* --- 2. DYNAMIC HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: rgba(10, 10, 10, 0.95);
+            padding: 20px 5%; 
             position: fixed; width: 100%; top: 0; z-index: 1000;
-            border-bottom: 2px solid var(--primary);
+            transition: 0.4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 5%;
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo { font-size: 1.8rem; font-weight: bold; color: white; letter-spacing: 1px; }
-        .logo span { color: var(--primary); }
+        .logo { font-size: 2rem; font-weight: 700; color: white; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .logo span { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
 
-        nav ul { display: flex; gap: 30px; }
-        nav a:hover { color: var(--primary); }
-        
+        nav ul { display: flex; gap: 30px; align-items: center; }
+        nav a { font-weight: 600; font-size: 0.9rem; position: relative; }
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background: var(--primary); transition: 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
         .join-btn {
-            background: var(--primary); padding: 8px 25px; color: white;
-            border-radius: 4px; font-weight: bold; cursor: pointer; border: none;
+            background: transparent; border: 2px solid var(--primary); color: var(--primary);
+            padding: 8px 25px; font-weight: bold; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 0 10px transparent;
         }
-        .join-btn:hover { background: white; color: black; }
+        .join-btn:hover { 
+            background: var(--primary); color: white; 
+            box-shadow: 0 0 20px var(--primary-glow); 
+            transform: translateY(-2px);
+        }
 
-        /* --- 3. HERO SECTION --- */
+        /* --- 3. CINEMATIC HERO --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover; background-position: center; background-attachment: fixed;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover; background-position: center; background-attachment: fixed; /* Parallax */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 0 20px;
         }
 
-        .hero h1 { font-size: 4rem; margin-bottom: 15px; line-height: 1.2; }
-        .typewriter { color: var(--primary); border-right: 3px solid white; animation: blink 0.75s step-end infinite; }
-        @keyframes blink { 50% { border-color: transparent; } }
-
-        .cta-btn {
-            padding: 15px 40px; background: transparent; border: 2px solid var(--primary);
-            color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            transition: 0.3s; margin-top: 30px;
-        }
-        .cta-btn:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
-
-        /* --- 4. WEEKLY SCHEDULE (TABS) --- */
-        .schedule-section { background: #000; padding: 80px 5%; text-align: center; border-bottom: 1px solid #333; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
-        .section-title span { color: var(--primary); }
-
-        .days-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .hero h1 { font-size: 5rem; line-height: 1.1; margin-bottom: 20px; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .typewriter { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
         
+        .cta-btn {
+            padding: 15px 50px; background: var(--primary); border: none;
+            color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer;
+            transition: 0.3s; margin-top: 30px; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px var(--primary-glow); }
+
+        /* --- 4. GLASSMORPHISM CARDS --- */
+        section { padding: 100px 5%; }
+        .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); }
+        .section-title span { color: var(--primary); }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 4px; background: var(--primary);
+            margin: 10px auto 0; border-radius: 2px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            padding: 30px; border-radius: 15px;
+            transition: 0.4s;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: var(--primary);
+        }
+
+        /* --- 5. SCHEDULE --- */
+        .days-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 40px; }
         .day-btn {
-            background: #222; border: 1px solid #333; color: #888;
-            padding: 12px 25px; cursor: pointer; font-weight: bold;
-            border-radius: 30px; transition: 0.3s;
+            background: transparent; border: 1px solid #333; color: #666;
+            padding: 10px 30px; cursor: pointer; border-radius: 50px; transition: 0.3s;
         }
-        .day-btn:hover { color: white; border-color: var(--primary); }
-        .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
+        .day-btn:hover, .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
 
-        .workout-content {
-            display: none; background: #151515; max-width: 800px; margin: auto;
-            padding: 30px; border-radius: 15px; border: 1px solid #333;
-            animation: fadeIn 0.5s ease;
-        }
+        .workout-content { display: none; max-width: 800px; margin: auto; animation: slideUp 0.5s ease; }
         .workout-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .workout-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 15px; }
-        .muscle-group { color: var(--primary); font-size: 1.5rem; font-weight: bold; text-transform: uppercase; }
-
+        
         .exercise-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px; border-bottom: 1px solid #222; transition: 0.3s;
+            display: flex; justify-content: space-between; padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
         }
-        .exercise-item:last-child { border-bottom: none; }
-        .exercise-item:hover { background: #1a1a1a; padding-left: 20px; border-left: 3px solid var(--primary); }
-        .ex-sets { color: #888; font-size: 0.9rem; background: #222; padding: 5px 10px; border-radius: 5px; }
+        .exercise-item:hover { background: rgba(255,59,59,0.1); padding-left: 25px; border-left: 4px solid var(--primary); }
 
-        /* --- 5. CALCULATORS --- */
-        section { padding: 80px 5%; }
-        .tools-container { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
-        .tool-card {
-            background: var(--gray); padding: 30px; border-radius: 10px; width: 100%; max-width: 450px;
-            border-top: 3px solid var(--primary);
+        /* --- 6. TOOLS & CALCULATORS --- */
+        .tools-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+        .tool-card { width: 100%; max-width: 450px; }
+        
+        .form-group { margin-bottom: 15px; }
+        input, select, textarea {
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid #333;
+            color: white; border-radius: 8px; font-family: 'Montserrat', sans-serif;
         }
-        .input-group { display: flex; gap: 10px; margin: 15px 0; }
-        input, select { 
-            width: 100%; padding: 12px; background: #333; border: 1px solid #444; 
-            color: white; border-radius: 4px; 
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
+
+        /* --- 7. TRAINERS --- */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .trainer-card { text-align: center; }
+        .trainer-img { 
+            width: 180px; height: 180px; border-radius: 50%; object-fit: cover; 
+            border: 4px solid transparent; background: linear-gradient(black, black), linear-gradient(var(--primary), #333); 
+            background-origin: border-box; background-clip: content-box, border-box;
+            margin-bottom: 20px;
         }
-        .calc-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .calc-btn:hover { background: white; color: black; }
-        .result-box { margin-top: 15px; font-weight: bold; color: var(--primary); min-height: 25px; }
 
-        /* --- 6. GALLERY & TRAINERS --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .gallery-item { height: 250px; overflow: hidden; border-radius: 8px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: grayscale(50%); }
-        .gallery-item:hover img { transform: scale(1.1); filter: grayscale(0%); }
-
-        .trainer-card { text-align: center; background: #151515; padding: 20px; border-radius: 10px; width: 300px; margin: 10px; }
-        .trainer-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 15px; }
-
-        /* --- 7. PRICING --- */
+        /* --- 8. PRICING --- */
         .pricing-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-        .plan-card {
-            background: var(--gray); padding: 40px; width: 320px; border-radius: 10px; text-align: center;
-            border: 1px solid #333; position: relative; transition: 0.3s;
+        .plan-card { width: 320px; text-align: center; position: relative; overflow: hidden; }
+        .plan-card.popular::before {
+            content: 'BEST VALUE'; position: absolute; top: 15px; right: -30px;
+            background: var(--primary); width: 120px; font-size: 0.7rem; font-weight: bold;
+            transform: rotate(45deg); padding: 5px 0;
         }
-        .plan-card:hover { border-color: var(--primary); transform: scale(1.05); }
-        .plan-card.popular { border: 2px solid var(--primary); background: #181818; transform: scale(1.05); }
-        .price { font-size: 3rem; font-weight: bold; color: white; margin: 20px 0; }
-        .price span { font-size: 1rem; color: #888; font-weight: normal; }
-        .features li { padding: 8px 0; color: #ccc; border-bottom: 1px solid #333; }
+        .price { font-size: 3.5rem; font-weight: 700; margin: 20px 0; color: white; }
+        .price span { font-size: 1rem; color: var(--text-gray); font-weight: 400; }
+        .features li { padding: 12px 0; color: var(--text-gray); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .features li i { color: var(--primary); margin-right: 10px; }
 
-        /* --- 8. FOOTER & FAQ --- */
-        details { background: #151515; margin-bottom: 10px; padding: 15px; border-radius: 5px; border: 1px solid #333; }
-        summary { cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-        .map-frame { width: 100%; height: 250px; border: 0; filter: grayscale(100%) invert(92%); border-radius: 10px; }
+        /* --- 9. FAQ & FOOTER --- */
+        details { 
+            background: rgba(255,255,255,0.03); margin-bottom: 15px; padding: 20px; 
+            border-radius: 10px; border: 1px solid transparent; transition: 0.3s;
+        }
+        details[open] { border-color: var(--primary); background: rgba(255,59,59,0.05); }
+        summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--primary); font-weight: 300; }
+        details[open] summary::after { content: '-'; }
 
-        /* --- 9. MODAL --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; backdrop-filter: blur(5px); }
-        .modal-content { background: #111; margin: 5% auto; padding: 30px; width: 95%; max-width: 500px; border-radius: 10px; border: 1px solid #333; position: relative; text-align: center; }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; }
+        footer { background: #020202; padding: 60px 5%; border-top: 1px solid #111; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
+        .map-frame { width: 100%; height: 100%; min-height: 200px; border-radius: 10px; filter: grayscale(100%) invert(92%); }
 
+        /* --- 10. MODALS --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(5px); overflow-y: auto; }
+        .modal-content { 
+            background: #111; margin: 5% auto; padding: 40px; width: 90%; max-width: 500px; 
+            border-radius: 15px; border: 1px solid #333; position: relative; text-align: center;
+            box-shadow: 0 0 50px rgba(255, 59, 59, 0.1);
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; transition: 0.3s; }
+        .close-btn:hover { color: var(--primary); }
+
+        /* Mobile Adjustments */
+        .menu-toggle { display: none; font-size: 1.8rem; color: white; cursor: pointer; }
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
+            .hero h1 { font-size: 3rem; }
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none; flex-direction: column; position: absolute;
+                top: 70px; left: 0; width: 100%; background: #0a0a0a;
+                padding: 30px 0; border-bottom: 2px solid var(--primary);
+            }
+            nav ul.active { display: flex; }
         }
+
+        @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">IRON<span>LIFTERS</span></div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div class="logo">CHANDHU<span>FITNESS</span></div>
+    <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     <nav>
         <ul id="nav-list"> 
-            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
-            <li><a href="#schedule" onclick="toggleMenu()">Schedule</a></li>
-            <li><a href="#tools" onclick="toggleMenu()">Tools</a></li>
-            <li><a href="#plans" onclick="toggleMenu()">Plans</a></li>
-            <li><button class="join-btn" onclick="openAdmission()">ADMISSION</button></li>
+            <li><a href="#home" onclick="toggleMenu()">HOME</a></li>
+            <li><a href="#schedule" onclick="toggleMenu()">TRAINING</a></li>
+            <li><a href="#tools" onclick="toggleMenu()">TOOLS</a></li>
+            <li><a href="#plans" onclick="toggleMenu()">MEMBERSHIP</a></li>
+            <li><button class="join-btn" onclick="openAdmission()">JOIN NOW</button></li>
         </ul>
     </nav>
 </header>
 
 <div class="hero" id="home">
-    <h1>WE BUILD <span class="typewriter"></span></h1>
-    <p>State-of-the-art equipment. Expert trainers. A community that pushes you.</p>
-    <button class="cta-btn" onclick="document.getElementById('plans').scrollIntoView()">START MEMBERSHIP</button>
+    <h1 data-aos="fade-down">BUILD YOUR <br><span class="typewriter"></span></h1>
+    <p data-aos="fade-up" style="font-size: 1.2rem; color: #ccc; max-width: 600px; margin-bottom: 10px;">
+        State-of-the-art equipment. Elite certified trainers. A community that pushes limits.
+    </p>
+    <button class="cta-btn" data-aos="zoom-in" onclick="document.getElementById('plans').scrollIntoView()">START YOUR JOURNEY</button>
 </div>
 
-<section class="schedule-section" id="schedule">
+<section id="schedule">
     <h2 class="section-title">WEEKLY <span>ROUTINE</span></h2>
     <div class="days-wrapper" data-aos="fade-up">
-        <button class="day-btn active" onclick="openDay(event, 'mon')">Mon</button>
-        <button class="day-btn" onclick="openDay(event, 'tue')">Tue</button>
-        <button class="day-btn" onclick="openDay(event, 'wed')">Wed</button>
-        <button class="day-btn" onclick="openDay(event, 'thu')">Thu</button>
-        <button class="day-btn" onclick="openDay(event, 'fri')">Fri</button>
-        <button class="day-btn" onclick="openDay(event, 'sat')">Sat</button>
+        <button class="day-btn active" onclick="openDay(event, 'mon')">MON</button>
+        <button class="day-btn" onclick="openDay(event, 'tue')">TUE</button>
+        <button class="day-btn" onclick="openDay(event, 'wed')">WED</button>
+        <button class="day-btn" onclick="openDay(event, 'thu')">THU</button>
+        <button class="day-btn" onclick="openDay(event, 'fri')">FRI</button>
+        <button class="day-btn" onclick="openDay(event, 'sat')">SAT</button>
     </div>
 
-    <div id="mon" class="workout-content active">
-        <div class="workout-header"><div class="muscle-group">Chest & Triceps</div><div style="color:#666">Focus: Strength</div></div>
-        <div class="exercise-list">
-            <div class="exercise-item"><span>Flat Bench Press</span><span class="ex-sets">4 Sets x 8 Reps</span></div>
-            <div class="exercise-item"><span>Incline DB Press</span><span class="ex-sets">3 Sets x 12 Reps</span></div>
-            <div class="exercise-item"><span>Cable Flys</span><span class="ex-sets">3 Sets x 15 Reps</span></div>
-            <div class="exercise-item"><span>Tricep Pushdown</span><span class="ex-sets">4 Sets x 12 Reps</span></div>
+    <div id="mon" class="workout-content glass-card active">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1)">
+            <h3 style="font-size:1.5rem">CHEST & TRICEPS</h3>
+            <span style="color:var(--primary); font-weight:bold">STRENGTH DAY</span>
         </div>
+        <div class="exercise-item"><span>Flat Bench Press</span><span class="ex-sets">4 Sets x 8 Reps</span></div>
+        <div class="exercise-item"><span>Incline DB Press</span><span class="ex-sets">3 Sets x 12 Reps</span></div>
+        <div class="exercise-item"><span>Cable Flys</span><span class="ex-sets">3 Sets x 15 Reps</span></div>
+        <div class="exercise-item"><span>Tricep Pushdown</span><span class="ex-sets">4 Sets x 12 Reps</span></div>
     </div>
-    <div id="tue" class="workout-content">
-        <div class="workout-header"><div class="muscle-group">Back & Biceps</div><div style="color:#666">Focus: Width</div></div>
-        <div class="exercise-list">
-            <div class="exercise-item"><span>Deadlifts</span><span class="ex-sets">4 Sets x 6 Reps</span></div>
-            <div class="exercise-item"><span>Lat Pulldowns</span><span class="ex-sets">4 Sets x 12 Reps</span></div>
-            <div class="exercise-item"><span>Barbell Curls</span><span class="ex-sets">4 Sets x 10 Reps</span></div>
-        </div>
+    <div id="tue" class="workout-content glass-card">
+        <div class="exercise-item"><span>Deadlifts</span><span class="ex-sets">4x6</span></div>
+        <div class="exercise-item"><span>Lat Pulldown</span><span class="ex-sets">4x12</span></div>
     </div>
-    <div id="wed" class="workout-content">
-        <div class="workout-header"><div class="muscle-group">Legs & Abs</div><div style="color:#666">Focus: Power</div></div>
-        <div class="exercise-list">
-            <div class="exercise-item"><span>Squats</span><span class="ex-sets">5 Sets x 5 Reps</span></div>
-            <div class="exercise-item"><span>Leg Press</span><span class="ex-sets">4 Sets x 15 Reps</span></div>
-            <div class="exercise-item"><span>Plank</span><span class="ex-sets">3 Sets x 60 Sec</span></div>
-        </div>
-    </div>
-    <div id="thu" class="workout-content">
-        <div class="workout-header"><div class="muscle-group">Shoulders</div><div style="color:#666">Focus: 3D Delts</div></div>
-        <div class="exercise-list">
-            <div class="exercise-item"><span>Overhead Press</span><span class="ex-sets">4 Sets x 8 Reps</span></div>
-            <div class="exercise-item"><span>Lateral Raises</span><span class="ex-sets">4 Sets x 15 Reps</span></div>
-            <div class="exercise-item"><span>Face Pulls</span><span class="ex-sets">3 Sets x 15 Reps</span></div>
-        </div>
-    </div>
-    <div id="fri" class="workout-content">
-        <div class="workout-header"><div class="muscle-group">Upper Body Mix</div><div style="color:#666">Focus: Pump</div></div>
-        <div class="exercise-list">
-            <div class="exercise-item"><span>Incline Bench</span><span class="ex-sets">3 Sets x 10 Reps</span></div>
-            <div class="exercise-item"><span>Pull Ups</span><span class="ex-sets">3 Sets x Failure</span></div>
-            <div class="exercise-item"><span>Bicep 21s</span><span class="ex-sets">2 Sets x 21 Reps</span></div>
-        </div>
-    </div>
-    <div id="sat" class="workout-content">
-        <div class="workout-header"><div class="muscle-group">Cardio & Core</div><div style="color:#666">Focus: Stamina</div></div>
-        <div class="exercise-list">
-            <div class="exercise-item"><span>Treadmill HIIT</span><span class="ex-sets">20 Mins</span></div>
-            <div class="exercise-item"><span>Russian Twists</span><span class="ex-sets">3 Sets x 20 Reps</span></div>
-            <div class="exercise-item"><span>Burpees</span><span class="ex-sets">3 Sets x 10 Reps</span></div>
-        </div>
-    </div>
+    <div id="wed" class="workout-content glass-card"><div class="exercise-item"><span>Squats</span><span class="ex-sets">5x5</span></div></div>
+    <div id="thu" class="workout-content glass-card"><div class="exercise-item"><span>Overhead Press</span><span class="ex-sets">4x8</span></div></div>
+    <div id="fri" class="workout-content glass-card"><div class="exercise-item"><span>Bicep Curls</span><span class="ex-sets">3x12</span></div></div>
+    <div id="sat" class="workout-content glass-card"><div class="exercise-item"><span>HIIT Cardio</span><span class="ex-sets">20 Mins</span></div></div>
 </section>
 
 <section id="tools">
-    <h2 class="section-title">FITNESS <span>TOOLS</span></h2>
+    <h2 class="section-title">FITNESS <span>CALCULATORS</span></h2>
     <div class="tools-container">
-        <div class="tool-card" data-aos="fade-right">
-            <h3>BMI Calculator</h3>
-            <div class="input-group">
+        <div class="glass-card tool-card" data-aos="fade-right">
+            <h3 style="margin-bottom:20px"><i class="fas fa-weight-scale"></i> BMI Check</h3>
+            <div class="form-group">
                 <input type="number" id="bmi-weight" placeholder="Weight (kg)">
+            </div>
+            <div class="form-group">
                 <input type="number" id="bmi-height" placeholder="Height (cm)">
             </div>
-            <button class="calc-btn" onclick="calcBMI()">Check Status</button>
-            <div id="bmi-result" class="result-box"></div>
+            <button class="join-btn" style="width:100%" onclick="calcBMI()">CALCULATE</button>
+            <div id="bmi-result" class="result-box" style="margin-top:15px; font-weight:bold; color:var(--primary)"></div>
         </div>
-        <div class="tool-card" data-aos="fade-left">
-            <h3>Calorie Needs (TDEE)</h3>
-            <div class="input-group">
-                <input type="number" id="cal-weight" placeholder="Weight (kg)">
-                <input type="number" id="cal-height" placeholder="Height (cm)">
+        
+        <div class="glass-card tool-card" data-aos="fade-left">
+            <h3 style="margin-bottom:20px"><i class="fas fa-fire"></i> Calorie Needs</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px">
+                <input type="number" id="cal-weight" placeholder="Weight">
+                <input type="number" id="cal-height" placeholder="Height">
             </div>
-            <div class="input-group">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px">
                 <input type="number" id="cal-age" placeholder="Age">
-                <select id="cal-gender"><option value="male">Male</option><option value="female">Female</option></select>
+                <select id="cal-gender" style="padding:15px"><option value="male">Male</option><option value="female">Female</option></select>
             </div>
-            <select id="cal-activity" style="margin-bottom: 15px;">
+            <select id="cal-activity" style="margin-bottom:15px">
                 <option value="1.2">Sedentary (No exercise)</option>
-                <option value="1.375">Lightly Active (1-3 days/week)</option>
-                <option value="1.55">Moderately Active (3-5 days/week)</option>
-                <option value="1.725">Very Active (6-7 days/week)</option>
-                <option value="1.9">Super Active (Physical job + Gym)</option>
+                <option value="1.375">Light Activity (1-3 days)</option>
+                <option value="1.55">Moderate Activity (3-5 days)</option>
+                <option value="1.725">Very Active (6-7 days)</option>
+                <option value="1.9">Pro Athlete</option>
             </select>
-            <button class="calc-btn" onclick="calcCalories()">Calculate TDEE</button>
-            <div id="cal-result" class="result-box"></div>
+            <button class="join-btn" style="width:100%" onclick="calcCalories()">CALCULATE</button>
+            <div id="cal-result" class="result-box" style="margin-top:15px; font-weight:bold; color:var(--primary)"></div>
         </div>
     </div>
 </section>
 
-<section id="gallery">
-    <h2 class="section-title">OUR <span>FACILITY</span></h2>
-    <div class="gallery-grid">
-        <div class="gallery-item" data-aos="zoom-in"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600"></div>
-        <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600"></div>
-        <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1574680096141-9832005263d8?w=600"></div>
-        <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600"></div>
-    </div>
-</section>
-
-<section id="trainers">
-    <h2 class="section-title">EXPERT <span>TRAINERS</span></h2>
-    <div class="pricing-container">
-        <div class="trainer-card" data-aos="flip-left">
+<section id="trainers" style="background: #080808;">
+    <h2 class="section-title">MEET THE <span>COACHES</span></h2>
+    <div class="grid-container">
+        <div class="glass-card trainer-card" data-aos="flip-left">
             <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300" class="trainer-img">
-            <h3>Rahul Sharma</h3><p style="color:var(--primary)">Bodybuilding</p>
+            <h3>RAHUL SHARMA</h3>
+            <p style="color:var(--primary); font-size:0.9rem; margin-top:5px">HEAD COACH</p>
+            <p style="color:#888; margin-top:10px; font-size:0.9rem">Specialist in Hypertrophy and Strength Conditioning.</p>
         </div>
-        <div class="trainer-card" data-aos="flip-left" data-aos-delay="200">
+        <div class="glass-card trainer-card" data-aos="flip-left" data-aos-delay="200">
             <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300" class="trainer-img">
-            <h3>Priya Singh</h3><p style="color:var(--primary)">Yoga & Mobility</p>
+            <h3>PRIYA SINGH</h3>
+            <p style="color:var(--primary); font-size:0.9rem; margin-top:5px">MOBILITY EXPERT</p>
+            <p style="color:#888; margin-top:10px; font-size:0.9rem">Focuses on Flexibility, Yoga, and Injury Prevention.</p>
         </div>
     </div>
 </section>
 
 <section id="plans">
-    <h2 class="section-title">CHOOSE YOUR <span>PLAN</span></h2>
+    <h2 class="section-title">MEMBERSHIP <span>PLANS</span></h2>
     <div class="pricing-container">
-        <div class="plan-card" data-aos="fade-up">
-            <h3>Silver</h3><div class="price">₹1000<span>/mo</span></div>
-            <ul class="features"><li>Morning Access</li><li>Cardio Section</li><li>General Locker</li></ul>
-            <button class="join-btn" style="width:100%; margin-top:20px;" onclick="openModal('Silver', '1000')">SELECT</button>
+        <div class="glass-card plan-card" data-aos="fade-up">
+            <h3>SILVER</h3>
+            <div class="price">₹1000<span>/mo</span></div>
+            <ul class="features">
+                <li><i class="fas fa-check"></i> Morning Access</li>
+                <li><i class="fas fa-check"></i> Cardio Zone</li>
+                <li><i class="fas fa-check"></i> General Locker</li>
+            </ul>
+            <button class="join-btn" style="width:100%; margin-top:30px" onclick="openModal('Silver', '1000')">CHOOSE</button>
         </div>
-        <div class="plan-card popular" data-aos="fade-up" data-aos-delay="100">
-            <div style="background:var(--primary); color:white; padding:5px; font-size:0.8rem; margin-bottom:10px;">MOST POPULAR</div>
-            <h3>Gold</h3><div class="price">₹2000<span>/mo</span></div>
-            <ul class="features"><li>Full Access</li><li>Steam Bath</li><li>Personal Locker</li></ul>
-            <button class="join-btn" style="width:100%; margin-top:20px;" onclick="openModal('Gold', '2000')">SELECT</button>
+        <div class="glass-card plan-card popular" data-aos="fade-up" data-aos-delay="100" style="border-color:var(--primary); background:rgba(255,59,59,0.05)">
+            <h3>GOLD</h3>
+            <div class="price">₹2000<span>/mo</span></div>
+            <ul class="features">
+                <li><i class="fas fa-check"></i> 24/7 Access</li>
+                <li><i class="fas fa-check"></i> Steam & Sauna</li>
+                <li><i class="fas fa-check"></i> Personal Locker</li>
+                <li><i class="fas fa-check"></i> Free Diet Plan</li>
+            </ul>
+            <button class="cta-btn" style="width:100%; margin-top:30px; padding:15px" onclick="openModal('Gold', '2000')">CHOOSE</button>
         </div>
-        <div class="plan-card" data-aos="fade-up" data-aos-delay="200">
-            <h3>Platinum</h3><div class="price">₹5000<span>/3mo</span></div>
-            <ul class="features"><li>All Gold Benefits</li><li>Personal Trainer</li><li>Diet Chart</li></ul>
-            <button class="join-btn" style="width:100%; margin-top:20px;" onclick="openModal('Platinum', '5000')">SELECT</button>
+        <div class="glass-card plan-card" data-aos="fade-up" data-aos-delay="200">
+            <h3>PLATINUM</h3>
+            <div class="price">₹5000<span>/3mo</span></div>
+            <ul class="features">
+                <li><i class="fas fa-check"></i> All Gold Benefits</li>
+                <li><i class="fas fa-check"></i> 1-on-1 Training</li>
+                <li><i class="fas fa-check"></i> Weekly Check-ins</li>
+            </ul>
+            <button class="join-btn" style="width:100%; margin-top:30px" onclick="openModal('Platinum', '5000')">CHOOSE</button>
         </div>
     </div>
 </section>
 
 <section id="faq" style="max-width: 800px; margin: auto;">
-    <h2 class="section-title">FAQ</h2>
-    <details data-aos="fade-up"><summary>What are the gym timings?</summary><div style="padding:10px; color:#aaa;">Mon-Sat: 5AM - 10PM. Sunday: Closed.</div></details>
-    <details data-aos="fade-up"><summary>Is Parking available?</summary><div style="padding:10px; color:#aaa;">Yes, we have free dedicated parking for members.</div></details>
+    <h2 class="section-title">COMMON <span>QUESTIONS</span></h2>
+    <details data-aos="fade-up">
+        <summary>What are the operating hours?</summary>
+        <p style="padding-top:15px; color:#ccc;">We are open Mon-Sat from 5:00 AM to 10:00 PM. Sundays are closed for maintenance.</p>
+    </details>
+    <details data-aos="fade-up">
+        <summary>Is there parking available?</summary>
+        <p style="padding-top:15px; color:#ccc;">Yes, we have a dedicated free parking lot for all members.</p>
+    </details>
+    <details data-aos="fade-up">
+        <summary>Can I freeze my membership?</summary>
+        <p style="padding-top:15px; color:#ccc;">Yes, memberships can be frozen for up to 1 month for medical reasons.</p>
+    </details>
 </section>
 
-<footer id="contact" style="background:black; padding:50px 5%; border-top:1px solid #222;">
+<footer>
     <div class="footer-grid">
         <div>
             <div class="logo">CHANDHU<span>FITNESS</span></div>
-            <p style="margin-top:20px; color:#888;">Transforming lives since 2024.</p>
-            <br>
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXdxcBWuJkbcy?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" loading="lazy"></iframe>
+            <p style="margin:20px 0; color:#888; line-height:1.6">Forging elite bodies and minds since 2024. Join the revolution.</p>
+            <div style="margin-top:20px">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
         </div>
         <div>
-            <h3>CONTACT</h3>
-            <p style="color:#888; margin-top:10px;">123 Fitness St, Mumbai, India</p>
-            <p style="color:#888;">+91 98765 43210</p>
+            <h3 style="margin-bottom:20px">GET IN TOUCH</h3>
+            <p style="color:#888; margin-bottom:10px"><i class="fas fa-location-dot" style="color:var(--primary); margin-right:10px"></i> 123 Fitness St, Mumbai, India</p>
+            <p style="color:#888; margin-bottom:10px"><i class="fas fa-phone" style="color:var(--primary); margin-right:10px"></i> +91 98765 43210</p>
+            <p style="color:#888;"><i class="fas fa-envelope" style="color:var(--primary); margin-right:10px"></i> info@chandhufitness.com</p>
         </div>
-        <div><iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.792568779058!2d72.877!3d19.076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzM0LjgiTiA3MsKwNTInNDEuMiJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"></iframe></div>
+        <div>
+            <div style="height:200px; width:100%; border-radius:10px; overflow:hidden">
+                <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.792576202163!2d72.87765591490252!3d19.07609005701835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1645520845330!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center; margin-top:50px; color:#555; font-size:0.8rem">
+        &copy; 2026 Chandhu Fitness. All Rights Reserved.
     </div>
 </footer>
 
 <div id="paymentModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">×</span>
-        <h2 style="color:var(--primary); margin-bottom:10px;">STEP 1: SCAN & PAY</h2>
-        <p>Pay <strong>₹<span id="modalPrice"></span></strong> for <span id="modalPlan"></span> Plan</p>
-        <div style="background:white; padding:10px; display:inline-block; margin:20px 0;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" width="150" alt="UPI QR">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 style="color:var(--primary); margin-bottom:10px">STEP 1: PAYMENT</h2>
+        <p>Selected Plan: <span id="modalPlan" style="color:white; font-weight:bold"></span></p>
+        <p style="font-size:2rem; font-weight:bold; margin:10px 0">₹<span id="modalPrice"></span></p>
+        
+        <div style="background:white; padding:15px; display:inline-block; margin:20px 0; border-radius:10px">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=gym@upi&pn=ChandhuFitness" alt="UPI QR">
         </div>
-        <p style="font-size:0.8rem; color:#aaa;">Accepted: GPay, PhonePe, Paytm</p>
-        <hr style="border-color:#333; margin:20px 0;">
-        <h2 style="color:var(--primary); margin-bottom:10px;">STEP 2: REGISTER</h2>
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd8.../viewform?embedded=true" width="100%" height="300" frameborder="0" style="background:white;">Loading…</iframe>
+        <p style="font-size:0.9rem; color:#aaa;">Scan with GPay / PhonePe / Paytm</p>
+        
+        <div style="margin-top:20px; border-top:1px solid #333; padding-top:20px">
+            <h3 style="margin-bottom:10px; font-size:1rem">STEP 2: CONFIRM DETAILS</h3>
+            <button class="join-btn" onclick="alert('Redirecting to Google Form...')">FILL REGISTRATION FORM</button>
+        </div>
     </div>
 </div>
 
 <div id="admissionModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeAdmission()">×</span>
-        <h2 style="color:var(--primary);margin-bottom:15px">GYM ADMISSION FORM</h2>
-        <input type="text" id="name" placeholder="Full Name">
-        <input type="tel" id="phone" placeholder="Mobile Number">
-        <input type="email" id="email" placeholder="Email (optional)">
-        <input type="number" id="age" placeholder="Age">
-        <select id="gender">
-            <option value="">Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-        </select>
-        <select id="plan-choice">
-            <option value="">Select Plan</option>
-            <option>Silver – ₹1000</option>
-            <option>Gold – ₹2000</option>
-            <option>Platinum – ₹5000</option>
-        </select>
-        <select id="goal">
-            <option value="">Fitness Goal</option>
-            <option>Weight Loss</option>
-            <option>Muscle Gain</option>
-            <option>General Fitness</option>
-        </select>
-        <textarea id="message" rows="3" placeholder="Any medical condition? (optional)" style="width:100%;padding:12px;background:#333;border:1px solid #444;color:white;margin-top:10px"></textarea>
-        <button class="calc-btn" onclick="submitAdmission()">SUBMIT ADMISSION</button>
-        <p style="font-size:0.8rem;color:#aaa;margin-top:10px">Our team will contact you within 24 hours</p>
+        <span class="close-btn" onclick="closeAdmission()">&times;</span>
+        <h2 style="color:var(--primary); margin-bottom:20px">JOIN THE CLUB</h2>
+        <form onsubmit="event.preventDefault(); submitAdmission();">
+            <input type="text" id="name" placeholder="Full Name" required style="margin-bottom:10px">
+            <input type="tel" id="phone" placeholder="Mobile Number" required style="margin-bottom:10px">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px">
+                <input type="number" id="age" placeholder="Age">
+                <select id="gender"><option value="">Gender</option><option>Male</option><option>Female</option></select>
+            </div>
+            <select id="plan-choice" style="margin-bottom:10px">
+                <option value="">Select Membership</option>
+                <option>Silver – ₹1000</option>
+                <option>Gold – ₹2000</option>
+                <option>Platinum – ₹5000</option>
+            </select>
+            <button class="cta-btn" style="width:100%; margin-top:10px">SUBMIT INQUIRY</button>
+        </form>
     </div>
 </div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 800, once: true, offset: 100 });
 
-/* ================= TYPEWRITER ================= */
-const words = ["MUSCLE", "CONFIDENCE", "DISCIPLINE"];
-let wordIdx = 0, charIdx = 0, isDeleting = false;
+    // Navbar Scroll Effect
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
 
-function type() {
-    const current = words[wordIdx];
-    const el = document.querySelector(".typewriter");
-    el.innerText = isDeleting ? current.substring(0, charIdx--) : current.substring(0, charIdx++);
-
-    if (!isDeleting && charIdx > current.length) {
-        isDeleting = true;
-        setTimeout(type, 1000);
-    } else if (isDeleting && charIdx < 0) {
-        isDeleting = false;
-        wordIdx = (wordIdx + 1) % words.length;
-        charIdx = 0;
-        setTimeout(type, 500);
-    } else {
-        setTimeout(type, isDeleting ? 100 : 200);
+    // Typewriter
+    const words = ["LEGACY", "STRENGTH", "DISCIPLINE", "PHYSIQUE"];
+    let wordIdx = 0, charIdx = 0, isDeleting = false;
+    function type() {
+        const current = words[wordIdx];
+        const el = document.querySelector(".typewriter");
+        el.innerText = isDeleting ? current.substring(0, charIdx--) : current.substring(0, charIdx++);
+        if (!isDeleting && charIdx > current.length) { isDeleting = true; setTimeout(type, 1500); }
+        else if (isDeleting && charIdx < 0) { isDeleting = false; wordIdx = (wordIdx + 1) % words.length; charIdx = 0; setTimeout(type, 500); }
+        else setTimeout(type, isDeleting ? 50 : 150);
     }
-}
-type();
+    type();
 
-/* ================= MOBILE MENU ================= */
-function toggleMenu() {
-    document.getElementById("nav-list").classList.toggle("active");
-}
+    // Mobile Menu
+    function toggleMenu() { document.getElementById("nav-list").classList.toggle("active"); }
 
-/* ================= SCHEDULE ================= */
-function openDay(evt, dayName) {
-    document.querySelectorAll(".workout-content").forEach(el => el.classList.remove("active"));
-    document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
-    document.getElementById(dayName).classList.add("active");
-    evt.currentTarget.classList.add("active");
-}
-
-/* ================= BMI ================= */
-function calcBMI() {
-    const w = document.getElementById('bmi-weight').value;
-    const h = document.getElementById('bmi-height').value;
-    const resultBox = document.getElementById('bmi-result');
-    if (!w || !h) return;
-
-    const bmiValue = (w / ((h / 100) ** 2)).toFixed(1);
-    let status = "";
-    if(bmiValue < 18.5) status = "Underweight";
-    else if(bmiValue < 25) status = "Normal";
-    else if(bmiValue < 30) status = "Overweight";
-    else status = "Obese";
-
-    resultBox.innerHTML = `BMI: ${bmiValue} (${status})`;
-}
-
-/* ================= TDEE ================= */
-function calcCalories() {
-    const age = parseFloat(document.getElementById('cal-age').value);
-    const weight = parseFloat(document.getElementById('cal-weight').value);
-    const height = parseFloat(document.getElementById('cal-height').value);
-    const gender = document.getElementById('cal-gender').value;
-    const activity = parseFloat(document.getElementById('cal-activity').value);
-    const resultBox = document.getElementById('cal-result');
-
-    if (!age || !weight || !height) {
-        resultBox.innerHTML = "<span style='color:red'>Fill all fields</span>";
-        return;
+    // Schedule Tabs
+    function openDay(evt, dayName) {
+        document.querySelectorAll(".workout-content").forEach(el => el.classList.remove("active"));
+        document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
+        document.getElementById(dayName).classList.add("active");
+        evt.currentTarget.classList.add("active");
     }
 
-    const bmr = gender === "male"
-        ? 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
-        : 447.593 + (9.247 * weight) + (3.098 * height) - (4.33 * age);
-
-    const tdee = Math.round(bmr * activity);
-    resultBox.innerHTML = `Maintain: ${tdee} kcal<br>Bulk: ${tdee + 300} kcal`;
-}
-
-/* ================= MODALS ================= */
-const paymentModal = document.getElementById("paymentModal");
-const admissionModal = document.getElementById("admissionModal");
-
-function openModal(plan, price) {
-    paymentModal.style.display = "block";
-    document.getElementById("modalPlan").innerText = plan;
-    document.getElementById("modalPrice").innerText = price;
-    document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-    paymentModal.style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
-function openAdmission() {
-    admissionModal.style.display = "block";
-    document.body.style.overflow = "hidden";
-}
-
-function closeAdmission() {
-    admissionModal.style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
-function submitAdmission() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const plan = document.getElementById("plan-choice").value;
-
-    if (!name || !phone || !plan) {
-        alert("Please fill required fields");
-        return;
+    // BMI Calculator
+    function calcBMI() {
+        const w = document.getElementById('bmi-weight').value;
+        const h = document.getElementById('bmi-height').value;
+        const res = document.getElementById('bmi-result');
+        if(w && h) {
+            const bmi = (w / ((h/100)**2)).toFixed(1);
+            let txt = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Normal" : "Overweight";
+            res.innerHTML = `BMI: <span style="font-size:1.2rem">${bmi}</span> (${txt})`;
+        }
     }
 
-    const msg = `New Gym Admission Enquiry\nName: ${name}\nPhone: ${phone}\nPlan: ${plan}`;
-    window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, "_blank");
-    closeAdmission();
-}
+    // TDEE Calculator
+    function calcCalories() {
+        const age = document.getElementById('cal-age').value;
+        const weight = document.getElementById('cal-weight').value;
+        const height = document.getElementById('cal-height').value;
+        const activity = document.getElementById('cal-activity').value;
+        const isMale = document.getElementById('cal-gender').value === 'male';
+        const res = document.getElementById('cal-result');
 
-window.onclick = function (e) {
-    if (e.target === paymentModal) closeModal();
-    if (e.target === admissionModal) closeAdmission();
-};
+        if(age && weight && height) {
+            let bmr = isMale ? (10*weight + 6.25*height - 5*age + 5) : (10*weight + 6.25*height - 5*age - 161);
+            let tdee = Math.round(bmr * activity);
+            res.innerHTML = `Maintain: ${tdee} kcal | Bulk: ${tdee+300} kcal`;
+        }
+    }
+
+    // Modals
+    function openModal(plan, price) {
+        document.getElementById('paymentModal').style.display = "block";
+        document.getElementById('modalPlan').innerText = plan;
+        document.getElementById('modalPrice').innerText = price;
+        document.body.style.overflow = "hidden";
+    }
+    function closeModal() { document.getElementById('paymentModal').style.display = "none"; document.body.style.overflow = "auto"; }
+    function openAdmission() { document.getElementById('admissionModal').style.display = "block"; document.body.style.overflow = "hidden"; }
+    function closeAdmission() { document.getElementById('admissionModal').style.display = "none"; document.body.style.overflow = "auto"; }
+
+    function submitAdmission() {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const plan = document.getElementById('plan-choice').value;
+        if(name && phone) {
+            const url = `https://wa.me/919876543210?text=Hi, I am ${name}. I want to join the ${plan} plan.`;
+            window.open(url, '_blank');
+            closeAdmission();
+        } else {
+            alert("Please fill in your name and phone number.");
+        }
+    }
+
+    // Close modal on outside click
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    }
 </script>
+
 </body>
 </html>
