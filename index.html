@@ -198,7 +198,8 @@
             <li><a href="#schedule" onclick="toggleMenu()">Schedule</a></li>
             <li><a href="#tools" onclick="toggleMenu()">Tools</a></li>
             <li><a href="#plans" onclick="toggleMenu()">Plans</a></li>
-            <li><button class="join-btn" onclick="toggleMenu(); document.getElementById('plans').scrollIntoView()">JOIN</button></li>
+            <button class="join-btn" onclick="openAdmission()">ADMISSION</button>
+
         </ul>
     </nav>
 </header>
@@ -390,6 +391,53 @@
     </div>
 </div>
 
+    <div id="admissionModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeAdmission()">×</span>
+
+    <h2 style="color:var(--primary);margin-bottom:15px">
+      GYM ADMISSION FORM
+    </h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="tel" id="phone" placeholder="Mobile Number">
+    <input type="email" id="email" placeholder="Email (optional)">
+    <input type="number" id="age" placeholder="Age">
+
+    <select id="gender">
+      <option value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+
+    <select id="plan">
+      <option value="">Select Plan</option>
+      <option>Silver – ₹1000</option>
+      <option>Gold – ₹2000</option>
+    </select>
+
+    <select id="goal">
+      <option value="">Fitness Goal</option>
+      <option>Weight Loss</option>
+      <option>Muscle Gain</option>
+      <option>General Fitness</option>
+      <option>Rehabilitation</option>
+    </select>
+
+    <textarea id="message" rows="3" placeholder="Any medical condition? (optional)"
+      style="width:100%;padding:12px;background:#333;border:1px solid #444;color:white;margin-top:10px"></textarea>
+
+    <button class="calc-btn" onclick="submitAdmission()">
+      SUBMIT ADMISSION
+    </button>
+
+    <p style="font-size:0.8rem;color:#aaa;margin-top:10px">
+      Our team will contact you within 24 hours
+    </p>
+  </div>
+</div>
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init({ duration: 1000, once: true });
@@ -474,6 +522,47 @@
         document.getElementById('paymentModal').style.display = 'none';
         document.body.style.overflow = 'auto';
     }
+
+    <script>
+function openAdmission(){
+  document.getElementById("admissionModal").style.display="block";
+}
+function closeAdmission(){
+  document.getElementById("admissionModal").style.display="none";
+}
+
+function submitAdmission(){
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const plan = document.getElementById("plan").value;
+
+  if(!name || !phone || !plan){
+    alert("Please fill required fields");
+    return;
+  }
+
+  // WhatsApp lead message
+  const msg = 
+`New Gym Admission Enquiry
+Name: ${name}
+Phone: ${phone}
+Plan: ${plan}`;
+
+  window.open(
+    `https://wa.me/919876543210?text=${encodeURIComponent(msg)}`,
+    "_blank"
+  );
+
+  closeAdmission();
+}
+
+    window.onclick = function(e){
+  if(e.target === admissionModal) closeAdmission();
+}
+
+    
+</script>
+
 </script>
 </body>
 </html>
