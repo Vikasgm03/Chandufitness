@@ -128,56 +128,98 @@
             border-color: var(--primary);
         }
 
-        /* --- 4.5 SERVICES SLIDER (New) --- */
-        .scrolling-wrapper {
-            display: flex;
-            gap: 25px;
-            overflow-x: auto;
-            padding: 20px 5px; /* Padding for hover effects */
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* Smooth swipe on mobile */
-        }
-
-        /* Custom Scrollbar Styling */
-        .scrolling-wrapper::-webkit-scrollbar { height: 6px; }
-        .scrolling-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .scrolling-wrapper::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        .service-card {
-            min-width: 280px; /* Fixed width for slider */
-            flex: 0 0 auto;   /* Don't shrink */
-            scroll-snap-align: center;
+        /* --- 4.5 INFINITE SERVICE SLIDER --- */
+        .slider-container {
+            height: 320px;
+            margin: auto;
             position: relative;
-            overflow: hidden;
-            text-align: left;
-            padding: 0; /* Remove default padding for full image */
-        }
-
-        .service-img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: 0.5s;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
         }
 
-        .service-content {
-            padding: 20px;
-            background: linear-gradient(to top, #000 0%, transparent 100%);
+        /* Gradient Fade Effect on Sides */
+        .slider-container::before,
+        .slider-container::after {
+            background: linear-gradient(to right, var(--dark) 0%, transparent 100%);
+            content: "";
+            height: 100%;
+            position: absolute;
+            width: 100px;
+            z-index: 2;
+        }
+        .slider-container::before { left: 0; top: 0; }
+        .slider-container::after { right: 0; top: 0; transform: rotateZ(180deg); }
+
+        .slide-track {
+            display: flex;
+            width: calc(250px * 12); /* Width x Number of Total Slides (Original + Duplicate) */
+            animation: scroll 20s linear infinite;
+        }
+
+        .slide-track:hover {
+            animation-play-state: paused; /* Pause on hover */
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 6)); } /* Move left by width of Original Set */
+        }
+
+        .slide {
+            height: 280px;
+            width: 230px; /* Smaller Compact Width */
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            perspective: 100px;
+        }
+
+        .service-card-small {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #000;
+        }
+
+        .service-card-small:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .service-card-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .service-card-small:hover img { opacity: 0.3; }
+
+        .service-overlay {
             position: absolute;
             bottom: 0;
+            left: 0;
             width: 100%;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
 
-        .service-card:hover .service-img {
-            transform: scale(1.1);
+        .service-overlay h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 5px;
         }
         
-        .service-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
+        .service-overlay i { color: var(--primary); font-size: 1.2rem; }
 
         /* --- 5. SCHEDULE SECTION --- */
         .level-controls { display: flex; justify-content: center; gap: 20px; margin-bottom: 50px; flex-wrap: wrap; }
@@ -302,61 +344,88 @@
     </nav>
 </header>
 
-    <section id="services" style="padding-bottom: 50px;">
-    <h2 class="section-title">OUR <span>EXPERTISE</span></h2>
+   <section id="services" style="padding: 50px 0;">
+    <h2 class="section-title" data-aos="fade-up">OUR <span>EXPERTISE</span></h2>
     
-    <div class="scrolling-wrapper">
-        
-        <div class="glass-card service-card" data-aos="fade-left" data-aos-delay="0">
-            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500" class="service-img" alt="Weights">
-            <div class="service-content">
-                <i class="fas fa-dumbbell service-icon"></i>
-                <h3>WEIGHTLIFTING</h3>
-                <p style="color:#ccc; font-size:0.9rem;">Heavy compound movements to build raw power.</p>
+    <div class="slider-container">
+        <div class="slide-track">
+            
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400">
+                    <div class="service-overlay"><i class="fas fa-dumbbell"></i><h4>WEIGHTLIFTING</h4></div>
+                </div>
             </div>
-        </div>
-
-        <div class="glass-card service-card" data-aos="fade-left" data-aos-delay="100">
-            <img src="https://images.unsplash.com/photo-1538805060518-e356e22c9491?w=500" class="service-img" alt="Cardio">
-            <div class="service-content">
-                <i class="fas fa-running service-icon"></i>
-                <h3>HIIT & CARDIO</h3>
-                <p style="color:#ccc; font-size:0.9rem;">Endurance training to shred fat and boost stamina.</p>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1538805060518-e356e22c9491?w=400">
+                    <div class="service-overlay"><i class="fas fa-running"></i><h4>CARDIO</h4></div>
+                </div>
             </div>
-        </div>
-
-        <div class="glass-card service-card" data-aos="fade-left" data-aos-delay="200">
-            <img src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=500" class="service-img" alt="Crossfit">
-            <div class="service-content">
-                <i class="fas fa-burn service-icon"></i>
-                <h3>CROSSFIT</h3>
-                <p style="color:#ccc; font-size:0.9rem;">High-intensity functional movements for athletes.</p>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=400">
+                    <div class="service-overlay"><i class="fas fa-burn"></i><h4>CROSSFIT</h4></div>
+                </div>
             </div>
-        </div>
-
-        <div class="glass-card service-card" data-aos="fade-left" data-aos-delay="300">
-            <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=500" class="service-img" alt="Yoga">
-            <div class="service-content">
-                <i class="fas fa-spa service-icon"></i>
-                <h3>YOGA & REHAB</h3>
-                <p style="color:#ccc; font-size:0.9rem;">Improve flexibility and recover from injuries.</p>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400">
+                    <div class="service-overlay"><i class="fas fa-spa"></i><h4>YOGA</h4></div>
+                </div>
             </div>
-        </div>
-
-        <div class="glass-card service-card" data-aos="fade-left" data-aos-delay="400">
-            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500" class="service-img" alt="Personal Trainer">
-            <div class="service-content">
-                <i class="fas fa-user-friends service-icon"></i>
-                <h3>PERSONAL TRAINING</h3>
-                <p style="color:#ccc; font-size:0.9rem;">1-on-1 coaching tailored to your specific goals.</p>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400">
+                    <div class="service-overlay"><i class="fas fa-user-friends"></i><h4>TRAINING</h4></div>
+                </div>
             </div>
-        </div>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=400">
+                    <div class="service-overlay"><i class="fas fa-heartbeat"></i><h4>ZUMBA</h4></div>
+                </div>
+            </div>
 
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400">
+                    <div class="service-overlay"><i class="fas fa-dumbbell"></i><h4>WEIGHTLIFTING</h4></div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1538805060518-e356e22c9491?w=400">
+                    <div class="service-overlay"><i class="fas fa-running"></i><h4>CARDIO</h4></div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=400">
+                    <div class="service-overlay"><i class="fas fa-burn"></i><h4>CROSSFIT</h4></div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400">
+                    <div class="service-overlay"><i class="fas fa-spa"></i><h4>YOGA</h4></div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400">
+                    <div class="service-overlay"><i class="fas fa-user-friends"></i><h4>TRAINING</h4></div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="service-card-small">
+                    <img src="https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=400">
+                    <div class="service-overlay"><i class="fas fa-heartbeat"></i><h4>ZUMBA</h4></div>
+                </div>
+            </div>
+
+        </div>
     </div>
-    
-    <p style="text-align:center; color:#666; margin-top:10px; font-size:0.8rem;">
-        <i class="fas fa-arrows-alt-h"></i> Swipe to explore services
-    </p>
 </section>
 
 <div class="hero" id="home">
