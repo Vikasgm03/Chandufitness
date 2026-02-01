@@ -303,15 +303,123 @@
         .features li { padding: 12px 0; color: #b3b3b3; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .features li i { color: var(--primary); margin-right: 10px; }
 
-        /* --- 8. FOOTER --- */
-        details { background: rgba(255,255,255,0.03); margin-bottom: 15px; padding: 20px; border-radius: 10px; }
-        details[open] { border: 1px solid var(--primary); background: rgba(255,59,59,0.05); }
-        summary { cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; }
-        
-        footer { background: #020202; padding: 60px 5%; border-top: 1px solid #111; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
-        .map-frame { width: 100%; height: 100%; min-height: 200px; border-radius: 10px; filter: grayscale(100%) invert(92%); border:0; }
+       /* --- 8. ENGAGING FOOTER --- */
+        footer {
+            background: #050505;
+            padding: 80px 5% 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
 
+        /* Top Red Gradient Line */
+        footer::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .footer-bio {
+            color: #888;
+            line-height: 1.8;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Quick Links Hover Effect */
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a {
+            color: #bbb;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px); /* Slide right on hover */
+        }
+
+        /* Social Icons */
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.05);
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 50%;
+            color: white;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+        .social-icons a:hover {
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            transform: translateY(-3px);
+        }
+
+        /* Contact Info */
+        .contact-row {
+            display: flex; align-items: center; gap: 15px;
+            margin-bottom: 20px; color: #bbb; font-size: 0.95rem;
+        }
+        .contact-row i { color: var(--primary); font-size: 1.1rem; }
+
+        /* --- BOTTOM BAR & DEV BUTTON --- */
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright { color: #555; font-size: 0.85rem; }
+
+        /* Premium Developer Button */
+        .dev-btn {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: #aaa;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.4s;
+        }
+        .dev-btn i { color: #0077b5; font-size: 1.1rem; } /* LinkedIn Blue */
+        
+        .dev-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #0077b5;
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 119, 181, 0.3);
+        }
+
+        /* Mobile Footer Adjustments */
+        @media (max-width: 768px) {
+            .footer-bottom { justify-content: center; text-align: center; }
+            .footer-col { text-align: center; }
+            .social-icons { justify-content: center; }
+            .contact-row { justify-content: center; }
+        }
         /* --- 9. MODALS --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-content { background: #111; margin: 5% auto; padding: 40px; width: 90%; max-width: 500px; border-radius: 15px; border: 1px solid #333; text-align: center; position: relative; box-shadow: 0 0 50px rgba(255, 59, 59, 0.1); }
@@ -517,20 +625,62 @@
 </section>
 
 <footer>
-    <div class="footer-grid">
-        <div>
+    <div class="footer-content">
+        
+        <div class="footer-col">
             <div class="logo">CHANDHU<span>FITNESS</span></div>
-            <p style="margin:20px 0; color:#888;">Forging elite bodies since 2024.</p>
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allow="encrypted-media"></iframe>
+            <p class="footer-bio">
+                We are more than just a gym. We are a sanctuary for those who refuse to be average. 
+                Forging elite bodies and minds since 2024. Join the revolution.
+            </p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </div>
         </div>
-        <div>
-            <h3 style="margin-bottom:20px">GET IN TOUCH</h3>
-            <p style="color:#888; margin-bottom:10px">123 Fitness St, Mumbai</p>
-            <p style="color:#888;">+91 98765 43210</p>
+
+        <div class="footer-col">
+            <h3>QUICK LINKS</h3>
+            <ul class="footer-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Our Expertise</a></li>
+                <li><a href="#schedule">Training Schedule</a></li>
+                <li><a href="#plans">Membership Plans</a></li>
+                <li><a href="join.html">Register Now</a></li>
+            </ul>
         </div>
-        <div><iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.792576202163!2d72.87765591490252!3d19.07609005701835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1645520845330!5m2!1sen!2sin"></iframe></div>
+
+        <div class="footer-col">
+            <h3>GET IN TOUCH</h3>
+            <div class="contact-row">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>123 Fitness Street, Mumbai, India</span>
+            </div>
+            <div class="contact-row">
+                <i class="fas fa-phone-alt"></i>
+                <span>+91 98765 43210</span>
+            </div>
+            <div class="contact-row">
+                <i class="fas fa-envelope"></i>
+                <span>info@chandhufitness.com</span>
+            </div>
+            <div class="contact-row">
+                <i class="fas fa-clock"></i>
+                <span>Mon - Sat: 5:00 AM - 10:00 PM</span>
+            </div>
+        </div>
+
     </div>
-    <div style="text-align:center; margin-top:50px; color:#555; font-size:0.8rem">© 2026 Chandhu Fitness. All Rights Reserved.</div>
+
+    <div class="footer-bottom">
+        <p class="copyright">© 2026 Chandhu Fitness. All Rights Reserved.</p>
+        
+        <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" class="dev-btn">
+            <i class="fab fa-linkedin"></i> Developed by Chandhu
+        </a>
+    </div>
 </footer>
 
 <div id="paymentModal" class="modal">
