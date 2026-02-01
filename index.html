@@ -420,92 +420,85 @@
             .social-icons { justify-content: center; }
             .contact-row { justify-content: center; }
         }
-/* --- 9. FAQ REDESIGN (Industrial Tech Style - Fixed Spacing) --- */
+/* --- 9. FAQ REDESIGN (Minimalist & Clean) --- */
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
         details {
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            /* Transparent background for a clean look */
+            background: transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider line */
+            margin-bottom: 0;
+            transition: 0.3s ease;
         }
 
-        /* Hover Effect */
-        details:hover {
-            background: #161616;
-            border-color: #444;
-            transform: translateY(-2px);
-        }
-
-        /* Active/Open State */
-        details[open] {
-            background: #000;
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(255, 59, 59, 0.15);
+        /* Remove border from last item */
+        details:last-child {
+            border-bottom: none;
         }
 
         summary {
-            padding: 22px 30px;
+            padding: 25px 10px; /* Spacious click area */
             cursor: pointer;
             font-family: 'Oswald', sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             letter-spacing: 1px;
             color: #fff;
             
-            /* Alignment */
+            /* Flexbox Alignment */
             display: flex;
             justify-content: space-between;
-            align-items: center; 
-            
+            align-items: center;
             list-style: none;
-            transition: 0.3s;
+            transition: color 0.3s;
         }
 
         summary::-webkit-details-marker { display: none; }
 
-        /* Arrow Icon */
+        /* Simple Plus Icon */
         summary::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            border-right: 2px solid #666;
-            border-bottom: 2px solid #666;
-            transform: rotate(45deg);
-            transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            margin-left: 20px;
+            content: '+';
+            font-size: 1.5rem;
+            color: #666; /* Grey by default */
+            font-weight: 300;
+            transition: 0.3s;
         }
 
-        /* Active State Changes */
+        /* Hover Effect */
+        details:hover summary {
+            color: var(--primary); /* Text turns red on hover */
+        }
+        details:hover summary::after {
+            color: white;
+        }
+
+        /* Active/Open State */
         details[open] summary {
             color: var(--primary);
-            border-bottom: 1px solid rgba(255, 59, 59, 0.15); /* The Divider Line */
+            padding-bottom: 15px; /* Adjust spacing when open */
         }
 
         details[open] summary::after {
-            transform: rotate(225deg);
-            border-color: var(--primary);
+            content: '-'; /* Changes to Minus */
+            color: var(--primary);
+            font-size: 2rem; /* Make minus slightly larger */
+            line-height: 0.5; /* Fix alignment */
         }
 
-        /* --- FIXED PADDING HERE --- */
+        /* Answer Text */
         .faq-answer {
-            /* Top: 25px | Sides: 30px | Bottom: 40px (Prevents touching border) */
-            padding: 25px 30px 40px 30px; 
-            color: #ccc;
+            padding: 0 10px 30px 10px; /* Clean spacing, no box */
+            color: #b3b3b3;
             line-height: 1.7;
-            font-size: 0.95rem;
+            font-size: 1rem;
             opacity: 0;
             animation: fadeIn 0.5s forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
        
