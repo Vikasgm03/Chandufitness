@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. GLOBAL VARIABLES & RESET --- */
         :root {
             --primary: #ff3b3b;
             --dark: #0a0a0a;
@@ -25,7 +24,7 @@
         ul { list-style: none; }
         html { scroll-behavior: smooth; }
 
-        /* --- 2. HEADER & NAV --- */
+        /* --- HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 5%; background: rgba(10, 10, 10, 0.95);
@@ -35,7 +34,6 @@
         .logo { font-size: 1.8rem; font-weight: bold; color: white; letter-spacing: 1px; }
         .logo span { color: var(--primary); }
         .menu-toggle { display: none; font-size: 1.8rem; color: white; cursor: pointer; }
-
         nav ul { display: flex; gap: 30px; align-items: center; }
         .join-btn {
             background: var(--primary); padding: 8px 25px; color: white;
@@ -54,7 +52,7 @@
             nav ul li { margin: 15px 0; }
         }
 
-        /* --- 3. HERO --- */
+        /* --- HERO --- */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
@@ -70,10 +68,12 @@
         }
         .cta-btn:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
 
-        /* --- 4. SCHEDULE --- */
+        /* --- SECTIONS --- */
         section { padding: 80px 5%; }
         .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
         .section-title span { color: var(--primary); }
+
+        /* --- SCHEDULE --- */
         .days-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
         .day-btn { background: #222; border: 1px solid #333; color: #888; padding: 12px 25px; cursor: pointer; border-radius: 30px; transition: 0.3s; }
         .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
@@ -83,38 +83,38 @@
         .ex-sets { color: #888; font-size: 0.9rem; background: #222; padding: 5px 10px; border-radius: 5px; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 5. TOOLS & CARDS --- */
-        .tools-container { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
+        /* --- CARDS & TOOLS --- */
+        .tools-container, .grid-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
         .tool-card, .trainer-card, .plan-card { background: var(--gray); padding: 30px; border-radius: 10px; border-top: 3px solid var(--primary); }
         .tool-card { width: 100%; max-width: 450px; }
-        input, select { width: 100%; padding: 12px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; margin: 5px 0; }
-        .calc-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .input-group { display: flex; gap: 10px; margin: 15px 0; }
+        input, select { width: 100%; padding: 12px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; }
+        .calc-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;}
+        .result-box { margin-top: 15px; font-weight: bold; color: var(--primary); min-height: 25px; line-height: 1.5; }
 
-        /* --- 6. GALLERY & TRAINERS --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .gallery-item { height: 250px; overflow: hidden; border-radius: 8px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%); transition: 0.5s; }
-        .gallery-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
-        
-        .trainer-card { text-align: center; width: 300px; }
+        /* --- TRAINERS --- */
+        .trainer-card { text-align: center; width: 300px; background: #151515; border-top: none; border-bottom: 3px solid var(--primary); }
         .trainer-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 15px; }
 
-        /* --- 7. PRICING --- */
-        .pricing-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        /* --- PRICING --- */
         .plan-card { width: 320px; text-align: center; transition: 0.3s; }
-        .plan-card.popular { border: 2px solid var(--primary); transform: scale(1.05); }
+        .plan-card:hover { border-color: var(--primary); transform: scale(1.05); }
+        .plan-card.popular { border: 2px solid var(--primary); background: #181818; transform: scale(1.05); }
         .price { font-size: 3rem; font-weight: bold; margin: 20px 0; }
         .price span { font-size: 1rem; color: #888; }
         .features li { padding: 10px 0; color: #ccc; border-bottom: 1px solid #333; }
 
-        /* --- 8. FAQ & FOOTER --- */
+        /* --- FAQ --- */
         details { background: #151515; margin-bottom: 10px; padding: 15px; border-radius: 5px; cursor: pointer; }
-        summary { font-weight: bold; display: flex; justify-content: space-between; list-style: none; }
-        summary::after { content: '▼'; color: var(--primary); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-        .map-frame { width: 100%; height: 250px; border: 0; filter: grayscale(100%) invert(92%); border-radius: 10px; }
+        summary { font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
+        summary::after { content: '▼'; font-size: 0.8rem; color: var(--primary); }
 
-        /* --- 9. MODAL --- */
+        /* --- FOOTER --- */
+        footer { background: black; padding: 50px 5%; border-top: 1px solid #222; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .map-frame { width: 100%; height: 200px; border: 0; filter: grayscale(100%) invert(92%); border-radius: 10px; }
+
+        /* --- MODAL --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
         .modal-content { background: #111; margin: 5% auto; padding: 30px; width: 95%; max-width: 500px; border-radius: 10px; border: 1px solid #333; position: relative; text-align: center; }
         .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; }
@@ -137,12 +137,12 @@
 </header>
 
 <div class="hero" id="home">
-    <h1>WE BUILD <span class="typewriter"></span></h1>
-    <p>Premium Equipment. Expert Trainers. Maximum Results.</p>
-    <button class="cta-btn" onclick="document.getElementById('plans').scrollIntoView()">START TODAY</button>
+    <h1 data-aos="fade-down">WE BUILD <span class="typewriter"></span></h1>
+    <p data-aos="fade-up">State-of-the-art equipment. Expert trainers. A community that pushes you.</p>
+    <button class="cta-btn" data-aos="zoom-in" onclick="document.getElementById('plans').scrollIntoView()">START MEMBERSHIP</button>
 </div>
 
-<section id="schedule">
+<section id="schedule" class="schedule-section">
     <h2 class="section-title">WEEKLY <span>ROUTINE</span></h2>
     <div class="days-wrapper" data-aos="fade-up">
         <button class="day-btn active" onclick="openDay(event, 'mon')">Mon</button>
@@ -152,15 +152,16 @@
         <button class="day-btn" onclick="openDay(event, 'fri')">Fri</button>
         <button class="day-btn" onclick="openDay(event, 'sat')">Sat</button>
     </div>
+
     <div id="mon" class="workout-content active">
-        <div class="exercise-item"><span>Bench Press</span><span class="ex-sets">4x10</span></div>
+        <div class="exercise-item"><span>Flat Bench Press</span><span class="ex-sets">4x8</span></div>
         <div class="exercise-item"><span>Incline DB Press</span><span class="ex-sets">3x12</span></div>
-        <div class="exercise-item"><span>Tricep Extension</span><span class="ex-sets">4x15</span></div>
+        <div class="exercise-item"><span>Tricep Pushdown</span><span class="ex-sets">4x12</span></div>
     </div>
     <div id="tue" class="workout-content">
-        <div class="exercise-item"><span>Deadlifts</span><span class="ex-sets">3x8</span></div>
-        <div class="exercise-item"><span>Lat Pulldown</span><span class="ex-sets">4x12</span></div>
-        <div class="exercise-item"><span>Barbell Curls</span><span class="ex-sets">3x10</span></div>
+        <div class="exercise-item"><span>Deadlifts</span><span class="ex-sets">4x6</span></div>
+        <div class="exercise-item"><span>Lat Pulldowns</span><span class="ex-sets">4x12</span></div>
+        <div class="exercise-item"><span>Barbell Curls</span><span class="ex-sets">4x10</span></div>
     </div>
     </section>
 
@@ -169,39 +170,43 @@
     <div class="tools-container">
         <div class="tool-card" data-aos="fade-right">
             <h3>BMI Calculator</h3>
-            <input type="number" id="bmi-weight" placeholder="Weight (kg)">
-            <input type="number" id="bmi-height" placeholder="Height (cm)">
+            <div class="input-group">
+                <input type="number" id="bmi-weight" placeholder="Weight (kg)">
+                <input type="number" id="bmi-height" placeholder="Height (cm)">
+            </div>
             <button class="calc-btn" onclick="calcBMI()">Check Status</button>
             <div id="bmi-result" class="result-box"></div>
         </div>
         <div class="tool-card" data-aos="fade-left">
             <h3>TDEE Calculator</h3>
-            <div style="display:flex; gap:5px;">
-                <input type="number" id="cal-weight" placeholder="Weight">
-                <input type="number" id="cal-height" placeholder="Height">
+            <div class="input-group">
+                <input type="number" id="cal-weight" placeholder="Weight (kg)">
+                <input type="number" id="cal-height" placeholder="Height (cm)">
             </div>
-            <input type="number" id="cal-age" placeholder="Age">
-            <select id="cal-gender"><option value="male">Male</option><option value="female">Female</option></select>
+            <div class="input-group">
+                <input type="number" id="cal-age" placeholder="Age">
+                <select id="cal-gender"><option value="male">Male</option><option value="female">Female</option></select>
+            </div>
             <select id="cal-activity">
                 <option value="1.2">Sedentary</option>
-                <option value="1.55">Moderate</option>
+                <option value="1.55">Moderate (3-5 days/week)</option>
                 <option value="1.9">Athlete</option>
             </select>
-            <button class="calc-btn" onclick="calcCalories()">Get Calories</button>
+            <button class="calc-btn" onclick="calcCalories()">Calculate Calories</button>
             <div id="cal-result" class="result-box"></div>
         </div>
     </div>
 </section>
 
 <section id="trainers">
-    <h2 class="section-title">OUR <span>TRAINERS</span></h2>
-    <div class="pricing-container">
+    <h2 class="section-title">EXPERT <span>TRAINERS</span></h2>
+    <div class="grid-container">
         <div class="trainer-card" data-aos="flip-left">
-            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300" class="trainer-img" alt="Trainer">
-            <h3>Rahul Sharma</h3><p style="color:var(--primary)">Bodybuilding</p>
+            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300" class="trainer-img">
+            <h3>Rahul Sharma</h3><p style="color:var(--primary)">Bodybuilding Coach</p>
         </div>
         <div class="trainer-card" data-aos="flip-left" data-aos-delay="200">
-            <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300" class="trainer-img" alt="Trainer">
+            <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300" class="trainer-img">
             <h3>Priya Singh</h3><p style="color:var(--primary)">Yoga & Mobility</p>
         </div>
     </div>
@@ -212,45 +217,54 @@
     <div class="pricing-container">
         <div class="plan-card" data-aos="fade-up">
             <h3>Silver</h3><div class="price">₹1000<span>/mo</span></div>
-            <ul class="features"><li>Morning Access</li><li>Cardio Access</li></ul>
+            <ul class="features"><li>Morning Access</li><li>Cardio Section</li><li>Locker Room</li></ul>
             <button class="calc-btn" onclick="openModal('Silver', '1000')">SELECT</button>
         </div>
         <div class="plan-card popular" data-aos="fade-up" data-aos-delay="100">
             <h3>Gold</h3><div class="price">₹2000<span>/mo</span></div>
-            <ul class="features"><li>Full Access</li><li>Steam Bath</li></ul>
+            <ul class="features"><li>Full Access</li><li>Steam Bath</li><li>Personal Locker</li></ul>
             <button class="calc-btn" onclick="openModal('Gold', '2000')">SELECT</button>
         </div>
     </div>
 </section>
 
-<section style="max-width: 800px; margin: auto;">
-    <h2 class="section-title">FAQ</h2>
-    <details><summary>What are the timings?</summary><p style="padding-top:10px; color:#aaa;">Mon-Sat: 5AM - 10PM</p></details>
-    <details><summary>Is parking available?</summary><p style="padding-top:10px; color:#aaa;">Yes, free parking is available.</p></details>
+<section id="faq" style="max-width: 800px; margin: auto;">
+    <h2 class="section-title">F.A.Q</h2>
+    <details data-aos="fade-up">
+        <summary>What are the gym timings?</summary>
+        <p style="padding-top:10px; color:#aaa;">Mon-Sat: 5:00 AM - 10:00 PM. Sun: 6:00 AM - 12:00 PM.</p>
+    </details>
+    <details data-aos="fade-up">
+        <summary>Do you provide personal training?</summary>
+        <p style="padding-top:10px; color:#aaa;">Yes, we have certified trainers available for 1-on-1 sessions.</p>
+    </details>
 </section>
 
-<footer style="background:black; padding:50px 5%; border-top:1px solid #222;">
+<footer>
     <div class="footer-grid">
         <div>
             <div class="logo">IRON<span>LIFTERS</span></div>
-            <p style="color:#888; margin-top:15px;">Transforming lives since 2024.</p>
+            <p style="margin:20px 0; color:#888;">Transforming lives through fitness since 2024.</p>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76W9SwwEbm7?utm_source=generator" width="100%" height="80" frameBorder="0" allow="encrypted-media"></iframe>
         </div>
         <div>
-            <h3>CONTACT</h3>
-            <p style="color:#888;">123 Fitness St, Mumbai</p>
-            <p style="color:#888;">+91 98765 43210</p>
+            <h3>LOCATION</h3>
+            <p style="color:#888; margin-top:10px;">123 Fitness Street, Mumbai, India</p>
+            <p style="color:#888;">Phone: +91 98765 43210</p>
+            <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.796395368305!2d72.8335!3d18.922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDU1JzE5LjIiTiA3MsKwNTAnMDAuNiJF!5e0!3m2!1sen!2sin!4v1640000000000!5m2!1sen!2sin"></iframe>
         </div>
-        <div><iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/5"></iframe></div>
     </div>
 </footer>
 
 <div id="paymentModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">×</span>
-        <h2 style="color:var(--primary)">PAYMENT</h2>
-        <p>Scan to pay for <span id="modalPlan"></span> Plan</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" width="150" style="margin:20px 0; background:white; padding:5px;">
-        <p>Price: ₹<span id="modalPrice"></span></p>
+        <h2 style="color:var(--primary)">JOIN <span id="modalPlan"></span></h2>
+        <p>Total: ₹<span id="modalPrice"></span></p>
+        <div style="background:white; padding:10px; display:inline-block; margin:20px 0;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" width="150">
+        </div>
+        <p style="font-size:0.8rem; color:#aaa;">Scan to pay via UPI</p>
     </div>
 </div>
 
@@ -260,12 +274,13 @@
 
     // Typewriter
     const words = ["MUSCLE", "CONFIDENCE", "DISCIPLINE"];
-    let i = 0, j = 0, isDeleting = false;
+    let wordIndex = 0, charIndex = 0, isDeleting = false;
     function type() {
-        const current = words[i];
-        document.querySelector(".typewriter").innerText = isDeleting ? current.substring(0, j--) : current.substring(0, j++);
-        if (!isDeleting && j > current.length) { isDeleting = true; setTimeout(type, 1000); }
-        else if (isDeleting && j < 0) { isDeleting = false; i = (i + 1) % words.length; j = 0; setTimeout(type, 500); }
+        const current = words[wordIndex];
+        const el = document.querySelector(".typewriter");
+        el.textContent = isDeleting ? current.substring(0, charIndex--) : current.substring(0, charIndex++);
+        if (!isDeleting && charIndex > current.length) { isDeleting = true; setTimeout(type, 1000); }
+        else if (isDeleting && charIndex < 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; charIndex = 0; setTimeout(type, 500); }
         else setTimeout(type, isDeleting ? 100 : 200);
     }
     type();
@@ -283,7 +298,7 @@
         const w = document.getElementById('bmi-weight').value, h = document.getElementById('bmi-height').value;
         if(w && h) {
             const bmi = (w / ((h/100)**2)).toFixed(1);
-            document.getElementById('bmi-result').innerText = `BMI: ${bmi}`;
+            document.getElementById('bmi-result').innerHTML = `Result: ${bmi}`;
         }
     }
 
@@ -293,15 +308,15 @@
         const a = parseFloat(document.getElementById('cal-age').value);
         const g = document.getElementById('cal-gender').value;
         const act = parseFloat(document.getElementById('cal-activity').value);
-        if(w && h && a) {
-            let bmr = (g === 'male') ? (10*w + 6.25*h - 5*a + 5) : (10*w + 6.25*h - 5*a - 161);
-            document.getElementById('cal-result').innerText = `TDEE: ${Math.round(bmr * act)} kcal`;
+        if (w && h && a) {
+            let bmr = (g === 'male') ? (10 * w + 6.25 * h - 5 * a + 5) : (10 * w + 6.25 * h - 5 * a - 161);
+            document.getElementById('cal-result').innerHTML = `Daily Goal: ${Math.round(bmr * act)} kcal`;
         }
     }
 
-    function openModal(p, pr) {
-        document.getElementById('modalPlan').innerText = p;
-        document.getElementById('modalPrice').innerText = pr;
+    function openModal(plan, price) {
+        document.getElementById('modalPlan').innerText = plan;
+        document.getElementById('modalPrice').innerText = price;
         document.getElementById('paymentModal').style.display = 'block';
     }
     function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
