@@ -34,6 +34,37 @@
         ul { list-style: none; }
         html { scroll-behavior: smooth; }
 
+        /* --- MOBILE NAV STYLES --- */
+.menu-toggle {
+    display: none;
+    font-size: 1.8rem;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle { display: block; } /* Show hamburger on mobile */
+
+    nav ul {
+        display: none; /* Hide links by default on mobile */
+        flex-direction: column;
+        position: absolute;
+        top: 70px; /* Push below header */
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.98);
+        padding: 20px 0;
+        text-align: center;
+        border-bottom: 2px solid var(--primary);
+    }
+
+    nav ul.active {
+        display: flex; /* Show when active */
+    }
+
+    nav ul li { margin: 15px 0; }
+}
+
         /* --- 2. HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
@@ -164,18 +195,21 @@
 </head>
 <body>
 
-    <header>
-        <div class="logo">CHANDHU <span>FITNESS</span></div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#schedule">Schedule</a></li>
-                <li><a href="#tools">Tools</a></li>
-                <li><a href="#plans">Plans</a></li>
-                <li><button class="join-btn" onclick="document.getElementById('plans').scrollIntoView()">JOIN</button></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <div class="logo">IRON<span>LIFTERS</span></div>
+    
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    
+    <nav>
+        <ul class="nav-list"> 
+            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+            <li><a href="#schedule" onclick="toggleMenu()">Schedule</a></li>
+            <li><a href="#tools" onclick="toggleMenu()">Tools</a></li>
+            <li><a href="#plans" onclick="toggleMenu()">Plans</a></li>
+            <li><button class="join-btn" onclick="toggleMenu(); document.getElementById('plans').scrollIntoView()">JOIN</button></li>
+        </ul>
+    </nav>
+</header>
 
     <div class="hero" id="home">
         <h1>WE BUILD <span class="typewriter"></span></h1>
@@ -262,19 +296,33 @@
                 <div id="bmi-result" class="result-box"></div>
             </div>
             <div class="tool-card" data-aos="fade-left">
-                <h3>Calorie Needs</h3>
-                <div class="input-group">
-                    <input type="number" id="cal-age" placeholder="Age">
-                    <select id="cal-gender"><option value="male">Male</option><option value="female">Female</option></select>
-                </div>
-                <select id="cal-activity" style="margin-bottom: 15px;">
-                    <option value="1.2">Sedentary</option>
-                    <option value="1.55">Moderate</option>
-                    <option value="1.9">Active</option>
-                </select>
-                <button class="calc-btn" onclick="calcCalories()">Calculate</button>
-                <div id="cal-result" class="result-box"></div>
-            </div>
+<div class="tool-card" data-aos="fade-left">
+    <h3>Calorie Needs (TDEE)</h3>
+    
+    <div class="input-group">
+        <input type="number" id="cal-weight" placeholder="Weight (kg)">
+        <input type="number" id="cal-height" placeholder="Height (cm)">
+    </div>
+
+    <div class="input-group">
+        <input type="number" id="cal-age" placeholder="Age">
+        <select id="cal-gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+    </div>
+
+    <select id="cal-activity" style="margin-bottom: 15px;">
+        <option value="1.2">Sedentary (Little to no exercise)</option>
+        <option value="1.375">Lightly Active (1-3 days/week)</option>
+        <option value="1.55">Moderately Active (3-5 days/week)</option>
+        <option value="1.725">Very Active (6-7 days/week)</option>
+        <option value="1.9">Super Active (Physical job + Gym)</option>
+    </select>
+
+    <button class="calc-btn" onclick="calcCalories()">Calculate TDEE</button>
+    <div id="cal-result" class="result-box"></div>
+</div>
         </div>
     </section>
 
@@ -414,13 +462,39 @@
             }
         }
 
-        function calcCalories() {
-            let age = document.getElementById('cal-age').value;
-            let act = document.getElementById('cal-activity').value;
-            if(age) {
-                let tdee = Math.round(2000 * act); // Simplified logic
-                document.getElementById('cal-result').innerText = `Approx. ${tdee} Cal/Day`;
-            }
+function calcCalories() {
+    // 1. Get Values
+    let age = parseFloat(document.getElementById('cal-age').value);
+    let gender = document.getElementById('cal-gender').value;
+    let weight = parseFloat(document.getElementById('cal-weight').value);
+    let height = parseFloat(document.getElementById('cal-height').value);
+    let activity = parseFloat(document.getElementById('cal-activity').value);
+
+    // 2. Validate Input
+    if (!age || !weight || !height) {
+        document.getElementById('cal-result').innerHTML = "<span style='color:red'>Please fill all fields</span>";
+        return;
+    }
+
+    // 3. Calculate BMR (Basal Metabolic Rate) - Harris-Benedict Formula
+    let bmr;
+    if (gender === 'male') {
+        // BMR for Men
+        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+    } else {
+        // BMR for Women
+        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+    }
+
+    // 4. Calculate TDEE (Total Daily Energy Expenditure)
+    let tdee = Math.round(bmr * activity);
+
+    // 5. Display Result with a "Bulking/Cutting" hint
+    document.getElementById('cal-result').innerHTML = `
+        <span style="color:white">Maintain:</span> ${tdee} kcal<br>
+        <span style="color:var(--primary)">Bulk:</span> ${tdee + 300} kcal
+    `;
+}
         }
 
         // Modal
@@ -434,6 +508,10 @@
             document.getElementById('paymentModal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
+        function toggleMenu() {
+    const nav = document.querySelector('nav ul');
+    nav.classList.toggle('active');
+}
     </script>
 </body>
 </html>
