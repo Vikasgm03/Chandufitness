@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IronLifters Gym | India</title>
+    <title>IronLifters Gym | Build Your Legacy</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -12,7 +12,7 @@
     <style>
         /* --- 1. GLOBAL VARIABLES & RESET --- */
         :root {
-            --primary: #ff3b3b; /* Aggressive Red */
+            --primary: #ff3b3b; /* Gym Red */
             --dark: #0a0a0a;
             --gray: #1f1f1f;
             --text: #ffffff;
@@ -28,12 +28,10 @@
             overflow-x: hidden; 
         }
 
-        h1, h2, h3, .btn, .nav-link { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        h1, h2, h3, .btn, .nav-link, .day-btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
         
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
-        
-        /* Smooth Scroll */
         html { scroll-behavior: smooth; }
 
         /* --- 2. HEADER --- */
@@ -49,16 +47,15 @@
         .logo span { color: var(--primary); }
 
         nav ul { display: flex; gap: 30px; }
-        nav a { font-size: 0.9rem; letter-spacing: 1px; }
         nav a:hover { color: var(--primary); }
         
         .join-btn {
             background: var(--primary); padding: 8px 25px; color: white;
-            border-radius: 4px; font-weight: bold;
+            border-radius: 4px; font-weight: bold; cursor: pointer; border: none;
         }
         .join-btn:hover { background: white; color: black; }
 
-        /* --- 3. HERO SECTION (Typing Effect) --- */
+        /* --- 3. HERO SECTION --- */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
@@ -69,41 +66,51 @@
 
         .hero h1 { font-size: 4rem; margin-bottom: 15px; line-height: 1.2; }
         .typewriter { color: var(--primary); border-right: 3px solid white; animation: blink 0.75s step-end infinite; }
-        
         @keyframes blink { 50% { border-color: transparent; } }
 
-        .hero p { font-size: 1.2rem; color: #ddd; margin-bottom: 30px; max-width: 600px; }
-        
         .cta-btn {
             padding: 15px 40px; background: transparent; border: 2px solid var(--primary);
             color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            transition: 0.3s;
+            transition: 0.3s; margin-top: 30px;
         }
         .cta-btn:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
 
-        /* --- 4. WORKOUT OF THE DAY (Dynamic) --- */
-        .wod-section { background: var(--gray); text-align: center; padding: 60px 5%; border-bottom: 1px solid #333; }
-        .wod-card {
-            background: #000; border: 1px solid var(--primary); display: inline-block;
-            padding: 30px; border-radius: 8px; min-width: 300px;
-            box-shadow: 0 0 15px rgba(255, 59, 59, 0.2);
-        }
-        #wod-day { color: var(--primary); font-size: 1.5rem; margin-bottom: 10px; }
-        #wod-routine { font-size: 1.1rem; color: white; }
-
-        /* --- 5. GALLERY (Grid) --- */
-        section { padding: 80px 5%; }
+        /* --- 4. WEEKLY SCHEDULE (TABS) --- */
+        .schedule-section { background: #000; padding: 80px 5%; text-align: center; border-bottom: 1px solid #333; }
         .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
         .section-title span { color: var(--primary); }
 
-        .gallery-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;
+        .days-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        
+        .day-btn {
+            background: #222; border: 1px solid #333; color: #888;
+            padding: 12px 25px; cursor: pointer; font-weight: bold;
+            border-radius: 30px; transition: 0.3s;
         }
-        .gallery-item { height: 250px; overflow: hidden; border-radius: 8px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: grayscale(50%); }
-        .gallery-item:hover img { transform: scale(1.1); filter: grayscale(0%); }
+        .day-btn:hover { color: white; border-color: var(--primary); }
+        .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
 
-        /* --- 6. CALCULATORS (Split View) --- */
+        .workout-content {
+            display: none; background: #151515; max-width: 800px; margin: auto;
+            padding: 30px; border-radius: 15px; border: 1px solid #333;
+            animation: fadeIn 0.5s ease;
+        }
+        .workout-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .workout-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 15px; }
+        .muscle-group { color: var(--primary); font-size: 1.5rem; font-weight: bold; text-transform: uppercase; }
+
+        .exercise-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px; border-bottom: 1px solid #222; transition: 0.3s;
+        }
+        .exercise-item:last-child { border-bottom: none; }
+        .exercise-item:hover { background: #1a1a1a; padding-left: 20px; border-left: 3px solid var(--primary); }
+        .ex-sets { color: #888; font-size: 0.9rem; background: #222; padding: 5px 10px; border-radius: 5px; }
+
+        /* --- 5. CALCULATORS --- */
+        section { padding: 80px 5%; }
         .tools-container { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
         .tool-card {
             background: var(--gray); padding: 30px; border-radius: 10px; width: 100%; max-width: 450px;
@@ -117,17 +124,16 @@
         .calc-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
         .result-box { margin-top: 15px; font-weight: bold; color: var(--primary); min-height: 25px; }
 
-        /* --- 7. TRAINERS & STORIES --- */
-        .trainer-card { text-align: center; background: #151515; padding: 20px; border-radius: 10px; transition: 0.3s; }
-        .trainer-card:hover { transform: translateY(-10px); }
+        /* --- 6. GALLERY & TRAINERS --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .gallery-item { height: 250px; overflow: hidden; border-radius: 8px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: grayscale(50%); }
+        .gallery-item:hover img { transform: scale(1.1); filter: grayscale(0%); }
+
+        .trainer-card { text-align: center; background: #151515; padding: 20px; border-radius: 10px; width: 300px; }
         .trainer-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 15px; }
 
-        .transformation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .trans-card { background: #151515; padding: 15px; border-radius: 8px; }
-        .ba-img { display: flex; gap: 5px; margin-bottom: 10px; }
-        .ba-img img { width: 50%; border-radius: 4px; }
-
-        /* --- 8. PRICING --- */
+        /* --- 7. PRICING --- */
         .pricing-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .plan-card {
             background: var(--gray); padding: 40px; width: 320px; border-radius: 10px; text-align: center;
@@ -138,28 +144,21 @@
         .price { font-size: 3rem; font-weight: bold; color: white; margin: 20px 0; }
         .price span { font-size: 1rem; color: #888; font-weight: normal; }
         .features li { padding: 8px 0; color: #ccc; border-bottom: 1px solid #333; }
-        
-        /* --- 9. FAQ --- */
-        details { background: #151515; margin-bottom: 10px; padding: 15px; border-radius: 5px; }
-        summary { cursor: pointer; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
-        summary::after { content: '+'; color: var(--primary); font-size: 1.5rem; }
-        details[open] summary::after { content: '-'; }
-        .faq-ans { margin-top: 10px; color: #aaa; }
 
-        /* --- 10. MODAL --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; backdrop-filter: blur(5px); }
-        .modal-content { background: #111; margin: 5% auto; padding: 30px; width: 95%; max-width: 500px; border-radius: 10px; border: 1px solid #333; position: relative; text-align: center; }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; }
-        
-        /* --- 11. FOOTER --- */
-        footer { background: black; padding: 50px 5%; border-top: 1px solid #222; }
+        /* --- 8. FOOTER & FAQ --- */
+        details { background: #151515; margin-bottom: 10px; padding: 15px; border-radius: 5px; }
+        summary { cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .map-frame { width: 100%; height: 250px; border: 0; filter: grayscale(100%) invert(92%); }
 
-        /* Mobile Nav */
+        /* --- 9. MODAL --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; backdrop-filter: blur(5px); }
+        .modal-content { background: #111; margin: 5% auto; padding: 30px; width: 95%; max-width: 500px; border-radius: 10px; border: 1px solid #333; position: relative; text-align: center; }
+        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
-            nav ul { display: none; } /* Simplified mobile nav */
+            nav ul { display: none; }
         }
     </style>
 </head>
@@ -170,9 +169,10 @@
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
+                <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#tools">Tools</a></li>
                 <li><a href="#plans">Plans</a></li>
-                <li><a href="#contact" class="join-btn">JOIN NOW</a></li>
+                <li><button class="join-btn" onclick="document.getElementById('plans').scrollIntoView()">JOIN</button></li>
             </ul>
         </nav>
     </header>
@@ -183,18 +183,75 @@
         <button class="cta-btn" onclick="document.getElementById('plans').scrollIntoView()">START MEMBERSHIP</button>
     </div>
 
-    <div class="wod-section" data-aos="fade-up">
-        <h2>TODAY'S WORKOUT FOCUS</h2>
-        <div class="wod-card">
-            <div id="wod-day">LOADING...</div>
-            <div id="wod-routine">Checking schedule...</div>
+    <section class="schedule-section" id="schedule">
+        <h2 class="section-title">WEEKLY <span>ROUTINE</span></h2>
+        
+        <div class="days-wrapper" data-aos="fade-up">
+            <button class="day-btn active" onclick="openDay(event, 'mon')">Mon</button>
+            <button class="day-btn" onclick="openDay(event, 'tue')">Tue</button>
+            <button class="day-btn" onclick="openDay(event, 'wed')">Wed</button>
+            <button class="day-btn" onclick="openDay(event, 'thu')">Thu</button>
+            <button class="day-btn" onclick="openDay(event, 'fri')">Fri</button>
+            <button class="day-btn" onclick="openDay(event, 'sat')">Sat</button>
         </div>
-    </div>
+    
+        <div id="mon" class="workout-content active">
+            <div class="workout-header">
+                <div class="muscle-group">Chest & Triceps</div>
+                <div style="color:#666">Focus: Strength</div>
+            </div>
+            <div class="exercise-list">
+                <div class="exercise-item"><span class="ex-name">Flat Bench Press</span><span class="ex-sets">4 Sets x 8 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Incline DB Press</span><span class="ex-sets">3 Sets x 12 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Cable Flys</span><span class="ex-sets">3 Sets x 15 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Tricep Pushdown</span><span class="ex-sets">4 Sets x 12 Reps</span></div>
+            </div>
+        </div>
+        <div id="tue" class="workout-content">
+            <div class="workout-header"><div class="muscle-group">Back & Biceps</div><div style="color:#666">Focus: Width</div></div>
+            <div class="exercise-list">
+                <div class="exercise-item"><span class="ex-name">Deadlifts</span><span class="ex-sets">4 Sets x 6 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Lat Pulldowns</span><span class="ex-sets">4 Sets x 12 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Barbell Curls</span><span class="ex-sets">4 Sets x 10 Reps</span></div>
+            </div>
+        </div>
+        <div id="wed" class="workout-content">
+            <div class="workout-header"><div class="muscle-group">Legs & Abs</div><div style="color:#666">Focus: Power</div></div>
+            <div class="exercise-list">
+                <div class="exercise-item"><span class="ex-name">Squats</span><span class="ex-sets">5 Sets x 5 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Leg Press</span><span class="ex-sets">4 Sets x 15 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Plank</span><span class="ex-sets">3 Sets x 60 Sec</span></div>
+            </div>
+        </div>
+        <div id="thu" class="workout-content">
+            <div class="workout-header"><div class="muscle-group">Shoulders</div><div style="color:#666">Focus: 3D Delts</div></div>
+            <div class="exercise-list">
+                <div class="exercise-item"><span class="ex-name">Overhead Press</span><span class="ex-sets">4 Sets x 8 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Lateral Raises</span><span class="ex-sets">4 Sets x 15 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Face Pulls</span><span class="ex-sets">3 Sets x 15 Reps</span></div>
+            </div>
+        </div>
+        <div id="fri" class="workout-content">
+            <div class="workout-header"><div class="muscle-group">Upper Body Mix</div><div style="color:#666">Focus: Pump</div></div>
+            <div class="exercise-list">
+                <div class="exercise-item"><span class="ex-name">Incline Bench</span><span class="ex-sets">3 Sets x 10 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Pull Ups</span><span class="ex-sets">3 Sets x Failure</span></div>
+                <div class="exercise-item"><span class="ex-name">Bicep 21s</span><span class="ex-sets">2 Sets x 21 Reps</span></div>
+            </div>
+        </div>
+        <div id="sat" class="workout-content">
+            <div class="workout-header"><div class="muscle-group">Cardio & Core</div><div style="color:#666">Focus: Stamina</div></div>
+            <div class="exercise-list">
+                <div class="exercise-item"><span class="ex-name">Treadmill HIIT</span><span class="ex-sets">20 Mins</span></div>
+                <div class="exercise-item"><span class="ex-name">Russian Twists</span><span class="ex-sets">3 Sets x 20 Reps</span></div>
+                <div class="exercise-item"><span class="ex-name">Burpees</span><span class="ex-sets">3 Sets x 10 Reps</span></div>
+            </div>
+        </div>
+    </section>
 
     <section id="tools">
         <h2 class="section-title">FITNESS <span>TOOLS</span></h2>
         <div class="tools-container">
-            
             <div class="tool-card" data-aos="fade-right">
                 <h3>BMI Calculator</h3>
                 <div class="input-group">
@@ -204,49 +261,43 @@
                 <button class="calc-btn" onclick="calcBMI()">Check Status</button>
                 <div id="bmi-result" class="result-box"></div>
             </div>
-
             <div class="tool-card" data-aos="fade-left">
-                <h3>Calorie Needs (TDEE)</h3>
+                <h3>Calorie Needs</h3>
                 <div class="input-group">
                     <input type="number" id="cal-age" placeholder="Age">
-                    <select id="cal-gender">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
+                    <select id="cal-gender"><option value="male">Male</option><option value="female">Female</option></select>
                 </div>
                 <select id="cal-activity" style="margin-bottom: 15px;">
-                    <option value="1.2">Sedentary (Office Job)</option>
-                    <option value="1.55">Moderate (Gym 3-4x/week)</option>
-                    <option value="1.9">Active (Athlete)</option>
+                    <option value="1.2">Sedentary</option>
+                    <option value="1.55">Moderate</option>
+                    <option value="1.9">Active</option>
                 </select>
-                <button class="calc-btn" onclick="calcCalories()">Calculate Macros</button>
+                <button class="calc-btn" onclick="calcCalories()">Calculate</button>
                 <div id="cal-result" class="result-box"></div>
             </div>
-
         </div>
     </section>
 
     <section id="gallery">
         <h2 class="section-title">OUR <span>FACILITY</span></h2>
         <div class="gallery-grid">
-            <div class="gallery-item" data-aos="zoom-in"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600" alt="Gym"></div>
-            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600" alt="Weights"></div>
-            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1574680096141-9832005263d8?w=600" alt="Cardio"></div>
-            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600" alt="Crossfit"></div>
+            <div class="gallery-item" data-aos="zoom-in"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600"></div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600"></div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1574680096141-9832005263d8?w=600"></div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600"></div>
         </div>
     </section>
 
     <section>
         <h2 class="section-title">EXPERT <span>TRAINERS</span></h2>
-        <div class="pricing-container"> <div class="trainer-card" data-aos="flip-left">
+        <div class="pricing-container">
+            <div class="trainer-card" data-aos="flip-left">
                 <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300" class="trainer-img">
-                <h3>Rahul Sharma</h3>
-                <p style="color:var(--primary)">Bodybuilding</p>
+                <h3>Rahul Sharma</h3><p style="color:var(--primary)">Bodybuilding</p>
             </div>
             <div class="trainer-card" data-aos="flip-left" data-aos-delay="200">
                 <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300" class="trainer-img">
-                <h3>Priya Singh</h3>
-                <p style="color:var(--primary)">Yoga & Mobility</p>
+                <h3>Priya Singh</h3><p style="color:var(--primary)">Yoga & Mobility</p>
             </div>
         </div>
     </section>
@@ -255,36 +306,19 @@
         <h2 class="section-title">CHOOSE YOUR <span>PLAN</span></h2>
         <div class="pricing-container">
             <div class="plan-card" data-aos="fade-up">
-                <h3>Silver</h3>
-                <div class="price">₹1000<span>/mo</span></div>
-                <ul class="features">
-                    <li>Morning Access Only</li>
-                    <li>Cardio Section</li>
-                    <li>General Locker</li>
-                </ul>
+                <h3>Silver</h3><div class="price">₹1000<span>/mo</span></div>
+                <ul class="features"><li>Morning Access</li><li>Cardio Section</li><li>General Locker</li></ul>
                 <button class="join-btn" style="width:100%; margin-top:20px;" onclick="openModal('Silver', '1000')">SELECT</button>
             </div>
             <div class="plan-card popular" data-aos="fade-up" data-aos-delay="100">
                 <div style="background:var(--primary); color:white; padding:5px; font-size:0.8rem; margin-bottom:10px;">MOST POPULAR</div>
-                <h3>Gold</h3>
-                <div class="price">₹2000<span>/mo</span></div>
-                <ul class="features">
-                    <li>Full Day Access</li>
-                    <li>Cardio + Weights</li>
-                    <li>Steam Bath (2x/mo)</li>
-                    <li>Personal Locker</li>
-                </ul>
+                <h3>Gold</h3><div class="price">₹2000<span>/mo</span></div>
+                <ul class="features"><li>Full Access</li><li>Steam Bath</li><li>Personal Locker</li></ul>
                 <button class="join-btn" style="width:100%; margin-top:20px;" onclick="openModal('Gold', '2000')">SELECT</button>
             </div>
             <div class="plan-card" data-aos="fade-up" data-aos-delay="200">
-                <h3>Platinum</h3>
-                <div class="price">₹5000<span>/3mo</span></div>
-                <ul class="features">
-                    <li>All Gold Benefits</li>
-                    <li>Personal Trainer (3 Sessions)</li>
-                    <li>Diet Chart</li>
-                    <li>Free T-Shirt</li>
-                </ul>
+                <h3>Platinum</h3><div class="price">₹5000<span>/3mo</span></div>
+                <ul class="features"><li>All Gold Benefits</li><li>Personal Trainer</li><li>Diet Chart</li></ul>
                 <button class="join-btn" style="width:100%; margin-top:20px;" onclick="openModal('Platinum', '5000')">SELECT</button>
             </div>
         </div>
@@ -292,49 +326,32 @@
 
     <section style="max-width: 800px; margin: auto;">
         <h2 class="section-title">FAQ</h2>
-        <details data-aos="fade-up">
-            <summary>What are the gym timings?</summary>
-            <div class="faq-ans">Mon-Sat: 5AM - 10PM. Sunday: 6AM - 12PM.</div>
-        </details>
-        <details data-aos="fade-up">
-            <summary>Is Parking available?</summary>
-            <div class="faq-ans">Yes, we have dedicated parking for bikes and cars.</div>
-        </details>
-        <details data-aos="fade-up">
-            <summary>Can I freeze my membership?</summary>
-            <div class="faq-ans">Yes, up to 1 month for medical reasons.</div>
-        </details>
+        <details data-aos="fade-up"><summary>What are the gym timings?</summary><div style="padding:10px; color:#aaa;">Mon-Sat: 5AM - 10PM. Sunday: 6AM - 12PM.</div></details>
+        <details data-aos="fade-up"><summary>Is Parking available?</summary><div style="padding:10px; color:#aaa;">Yes, we have dedicated parking.</div></details>
     </section>
 
-    <footer id="contact">
+    <footer id="contact" style="background:black; padding:50px 5%; border-top:1px solid #222;">
         <div class="footer-grid">
             <div>
                 <div class="logo">IRON<span>LIFTERS</span></div>
-                <p style="margin-top:20px; color:#888;">Transforming lives through fitness since 2024.</p>
+                <p style="margin-top:20px; color:#888;">Transforming lives since 2024.</p>
                 <br>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXdxcBWuJkbcy?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" loading="lazy"></iframe>
             </div>
             <div>
                 <h3>CONTACT</h3>
                 <p style="color:#888; margin-top:10px;">123 Fitness St, Mumbai, India</p>
                 <p style="color:#888;">+91 98765 43210</p>
-                <div style="margin-top:15px; font-size:1.5rem;">
-                    <span>📷</span> <span style="margin-left:10px;">📘</span> <span style="margin-left:10px;">▶️</span>
-                </div>
             </div>
             <div>
-                <iframe class="map-frame" src="https://maps.google.com/maps?q=Connaught+Place+New+Delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+                <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.792568779058!2d72.877!3d19.076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA0JzM0LjgiTiA3MsKwNTInNDEuMiJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"></iframe>
             </div>
-        </div>
-        <div style="text-align:center; margin-top:40px; color:#555; font-size:0.8rem;">
-            &copy; 2026 IronLifters Gym. All rights reserved.
         </div>
     </footer>
 
     <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            
+            <span class="close-btn" onclick="closeModal()">×</span>
             <h2 style="color:var(--primary); margin-bottom:10px;">STEP 1: SCAN & PAY</h2>
             <p>Pay <strong>₹<span id="modalPrice"></span></strong> for <span id="modalPlan"></span> Plan</p>
             
@@ -348,79 +365,65 @@
             <h2 style="color:var(--primary); margin-bottom:10px;">STEP 2: REGISTER</h2>
             <p style="font-size:0.9rem; color:#aaa; margin-bottom:15px;">Fill details to activate membership</p>
             
-            <div style="background:#222; height:200px; display:flex; align-items:center; justify-content:center; color:#555; border:1px dashed #444;">
-                [ PASTE GOOGLE FORM EMBED CODE HERE ]
-            </div>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd8.../viewform?embedded=true" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" style="background:white;">Loading…</iframe>
         </div>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 1. Initialize Animations
         AOS.init({ duration: 1000, once: true });
 
-        // 2. Typewriter Effect
-        const words = ["MUSCLE", "CONFIDENCE", "DISCIPLINE", "ATHLETES"];
-        let i = 0, j = 0; 
-        let currentWord = "";
-        let isDeleting = false;
-        
+        // Typewriter
+        const words = ["MUSCLE", "CONFIDENCE", "DISCIPLINE"];
+        let i = 0, j = 0, isDeleting = false; 
         function type() {
-            currentWord = words[i];
-            if (isDeleting) {
-                document.querySelector(".typewriter").innerText = currentWord.substring(0, j-1);
-                j--;
-                if (j == 0) { isDeleting = false; i++; if (i == words.length) i = 0; }
-            } else {
-                document.querySelector(".typewriter").innerText = currentWord.substring(0, j+1);
-                j++;
-                if (j == currentWord.length) { isDeleting = true; }
-            }
+            let current = words[i];
+            let text = isDeleting ? current.substring(0, j-1) : current.substring(0, j+1);
+            document.querySelector(".typewriter").innerText = text;
+            j = isDeleting ? j-1 : j+1;
+            if(!isDeleting && j === current.length) isDeleting = true;
+            else if(isDeleting && j === 0) { isDeleting = false; i = (i+1)%words.length; }
             setTimeout(type, isDeleting ? 100 : 200);
         }
         type();
 
-        // 3. Dynamic Workout of the Day
-        const workouts = [
-            "Sunday: Active Recovery (Yoga/Walk)",
-            "Monday: International Chest Day",
-            "Tuesday: Back Width & Thickness",
-            "Wednesday: Shoulders & Traps",
-            "Thursday: Leg Day (Squats Focus)",
-            "Friday: Arm Blaster (Bi/Tri)",
-            "Saturday: High Intensity Cardio & Abs"
-        ];
-        const today = new Date().getDay();
-        document.getElementById("wod-day").innerText = workouts[today].split(":")[0];
-        document.getElementById("wod-routine").innerText = workouts[today].split(":")[1];
+        // Interactive Schedule
+        function openDay(evt, dayName) {
+            let content = document.getElementsByClassName("workout-content");
+            for (let k = 0; k < content.length; k++) {
+                content[k].style.display = "none";
+                content[k].classList.remove("active");
+            }
+            let tabs = document.getElementsByClassName("day-btn");
+            for (let k = 0; k < tabs.length; k++) tabs[k].classList.remove("active");
+            
+            let target = document.getElementById(dayName);
+            target.style.display = "block";
+            setTimeout(() => target.classList.add("active"), 10);
+            evt.currentTarget.classList.add("active");
+        }
 
-        // 4. Calculators
+        // Tools
         function calcBMI() {
             let w = document.getElementById('bmi-weight').value;
             let h = document.getElementById('bmi-height').value;
             if(w && h) {
                 let bmi = (w / ((h/100)**2)).toFixed(1);
-                let msg = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Healthy" : "Overweight";
                 let color = bmi < 25 && bmi > 18.5 ? "#00ff00" : "#ff3b3b";
-                document.getElementById('bmi-result').innerHTML = `BMI: <span style="color:${color}">${bmi}</span> (${msg})`;
+                document.getElementById('bmi-result').innerHTML = `BMI: <span style="color:${color}">${bmi}</span>`;
             }
         }
 
         function calcCalories() {
             let age = document.getElementById('cal-age').value;
-            let gender = document.getElementById('cal-gender').value;
             let act = document.getElementById('cal-activity').value;
-            // Standard generic BMR estimate if weight not provided in this specific pod
-            let base = 2000; 
             if(age) {
-                // Using very rough estimate for demo since weight input is in other pod
-                // Ideally, duplicate weight input or use global variable
-                let tdee = Math.round(base * act); 
-                document.getElementById('cal-result').innerText = `Approx. ${tdee} Calories/Day`;
+                let tdee = Math.round(2000 * act); // Simplified logic
+                document.getElementById('cal-result').innerText = `Approx. ${tdee} Cal/Day`;
             }
         }
 
-        // 5. Modal Logic
+        // Modal
         function openModal(plan, price) {
             document.getElementById('paymentModal').style.display = 'block';
             document.getElementById('modalPlan').innerText = plan;
