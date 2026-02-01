@@ -420,18 +420,18 @@
             .social-icons { justify-content: center; }
             .contact-row { justify-content: center; }
         }
-/* --- 9. FAQ REDESIGN (Industrial Tech Style) --- */
+/* --- 9. FAQ REDESIGN (Industrial Tech Style - Fixed Spacing) --- */
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Space between cards */
+            gap: 15px;
         }
 
         details {
-            background: #111; /* Solid dark grey */
-            border: 1px solid #222; /* Subtle border */
+            background: #111;
+            border: 1px solid #222;
             border-radius: 8px;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -446,20 +446,20 @@
 
         /* Active/Open State */
         details[open] {
-            background: #000; /* Turns pitch black when open */
-            border-color: var(--primary); /* Red Border activates */
-            box-shadow: 0 10px 30px rgba(255, 59, 59, 0.15); /* Red Glow */
+            background: #000;
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(255, 59, 59, 0.15);
         }
 
         summary {
-            padding: 22px 30px; /* Comfortable padding */
+            padding: 22px 30px;
             cursor: pointer;
             font-family: 'Oswald', sans-serif;
             font-size: 1.15rem;
             letter-spacing: 1px;
             color: #fff;
             
-            /* FLEXBOX ALIGNMENT (Keeps text centered) */
+            /* Alignment */
             display: flex;
             justify-content: space-between;
             align-items: center; 
@@ -470,32 +470,33 @@
 
         summary::-webkit-details-marker { display: none; }
 
-        /* Custom Arrow Icon */
+        /* Arrow Icon */
         summary::after {
             content: '';
             width: 10px;
             height: 10px;
             border-right: 2px solid #666;
             border-bottom: 2px solid #666;
-            transform: rotate(45deg); /* Arrow points down */
+            transform: rotate(45deg);
             transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
             margin-left: 20px;
         }
 
         /* Active State Changes */
         details[open] summary {
-            color: var(--primary); /* Title turns Red */
-            border-bottom: 1px solid rgba(255, 59, 59, 0.1); /* Divider line */
+            color: var(--primary);
+            border-bottom: 1px solid rgba(255, 59, 59, 0.15); /* The Divider Line */
         }
 
         details[open] summary::after {
-            transform: rotate(225deg); /* Arrow points up */
-            border-color: var(--primary); /* Arrow turns Red */
+            transform: rotate(225deg);
+            border-color: var(--primary);
         }
 
-        /* Answer Text */
+        /* --- FIXED PADDING HERE --- */
         .faq-answer {
-            padding: 25px 30px; /* Spacious padding */
+            /* Top: 25px | Sides: 30px | Bottom: 40px (Prevents touching border) */
+            padding: 25px 30px 40px 30px; 
             color: #ccc;
             line-height: 1.7;
             font-size: 0.95rem;
