@@ -304,6 +304,81 @@
         .features li i { color: var(--primary); margin-right: 10px; }
 
        /* --- 8. ENGAGING FOOTER --- */
+        /* --- 9. FAQ REDESIGN (Interactive) --- */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        details {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details:hover {
+            border-color: var(--primary);
+            transform: translateX(10px); /* Slides right on hover */
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Active State */
+        details[open] {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(255, 59, 59, 0.15);
+        }
+
+        summary {
+            padding: 20px;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        /* Remove default arrow */
+        summary::-webkit-details-marker { display: none; }
+
+        /* Custom Animated Icon */
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 300;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Rotate icon when open */
+        details[open] summary::after {
+            content: '+'; /* Keeps plus but rotates it */
+            transform: rotate(45deg); /* Turns into X */
+            color: white;
+        }
+
+        /* The Answer Text Animation */
+        .faq-answer {
+            padding: 0 20px 25px;
+            color: #b3b3b3;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         footer {
             background: #050505;
             padding: 80px 5% 30px;
@@ -620,10 +695,22 @@
 
 <section id="faq" style="max-width: 800px; margin: auto;">
     <h2 class="section-title">COMMON <span>QUESTIONS</span></h2>
-    <details data-aos="fade-up"><summary>What are the operating hours?</summary><p style="padding-top:15px; color:#ccc;">We are open Mon-Sat from 5:00 AM to 10:00 PM.</p></details>
-    <details data-aos="fade-up"><summary>Is there parking available?</summary><p style="padding-top:15px; color:#ccc;">Yes, we have a dedicated free parking lot.</p></details>
-</section>
+    
+    <details data-aos="fade-up">
+        <summary>What are the operating hours?</summary>
+        <p style="padding-top:15px; color:#ccc;">We are open Mon-Sat from 5:00 AM to 10:00 PM.</p>
+    </details>
 
+    <details data-aos="fade-up">
+        <summary>Is there parking available?</summary>
+        <p style="padding-top:15px; color:#ccc;">Yes, we have a dedicated free parking lot.</p>
+    </details>
+
+    <details data-aos="fade-up">
+        <summary>Can I freeze my membership?</summary>
+        <p style="padding-top:15px; color:#ccc;">Yes, memberships can be frozen for up to 1 month.</p>
+    </details>
+</section>
 <footer>
     <div class="footer-content">
         
