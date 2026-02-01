@@ -1,325 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IronLifters Gym | Build Your Legacy</title>
-    
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        :root {
-            --primary: #ff3b3b;
-            --dark: #0a0a0a;
-            --gray: #1f1f1f;
-            --text: #ffffff;
-            --text-muted: #aaaaaa;
-        }
+<title>IronLifters Gym | Build Your Legacy</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--dark); color: var(--text); font-family: 'Roboto', sans-serif; overflow-x: hidden; }
-        h1, h2, h3, .btn, .nav-link, .day-btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
-        html { scroll-behavior: smooth; }
+<meta name="description" content="IronLifters Gym Mumbai – Personal training, bodybuilding, yoga & world-class equipment. Join today.">
+<meta name="keywords" content="Gym in Mumbai, Fitness Center, Bodybuilding, Personal Trainer">
+<meta name="author" content="IronLifters Gym">
 
-        /* --- HEADER --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: rgba(10, 10, 10, 0.95);
-            position: fixed; width: 100%; top: 0; z-index: 1000;
-            border-bottom: 2px solid var(--primary); backdrop-filter: blur(10px);
-        }
-        .logo { font-size: 1.8rem; font-weight: bold; color: white; letter-spacing: 1px; }
-        .logo span { color: var(--primary); }
-        .menu-toggle { display: none; font-size: 1.8rem; color: white; cursor: pointer; }
-        nav ul { display: flex; gap: 30px; align-items: center; }
-        .join-btn {
-            background: var(--primary); padding: 8px 25px; color: white;
-            border-radius: 4px; font-weight: bold; cursor: pointer; border: none; transition: 0.3s;
-        }
-        .join-btn:hover { background: white; color: black; }
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            nav ul {
-                display: none; flex-direction: column; position: absolute;
-                top: 70px; left: 0; width: 100%; background: rgba(10, 10, 10, 0.98);
-                padding: 20px 0; text-align: center; border-bottom: 2px solid var(--primary);
-            }
-            nav ul.active { display: flex; }
-            nav ul li { margin: 15px 0; }
-        }
+<style>
+:root{
+--primary:#ff3b3b;
+--dark:#0a0a0a;
+--gray:#1f1f1f;
+--text:#ffffff;
+--muted:#aaaaaa;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--dark);color:var(--text);font-family:Roboto,sans-serif}
+h1,h2,h3,.btn,.day-btn{font-family:Oswald,sans-serif;text-transform:uppercase}
+a{text-decoration:none;color:inherit}
+html{scroll-behavior:smooth}
 
-        /* --- HERO --- */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px;
-        }
-        .hero h1 { font-size: 4rem; margin-bottom: 15px; }
-        .typewriter { color: var(--primary); border-right: 3px solid white; animation: blink 0.75s step-end infinite; min-height: 1.2em; }
-        @keyframes blink { 50% { border-color: transparent; } }
-        .cta-btn {
-            padding: 15px 40px; background: transparent; border: 2px solid var(--primary);
-            color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 30px;
-        }
-        .cta-btn:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
+/* HEADER */
+header{
+position:fixed;top:0;width:100%;z-index:1000;
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 5%;background:rgba(0,0,0,.95);
+border-bottom:2px solid var(--primary)
+}
+.logo{font-size:1.8rem;font-weight:bold}
+.logo span{color:var(--primary)}
+.menu-toggle{display:none;font-size:1.8rem;cursor:pointer}
+nav ul{display:flex;gap:30px;list-style:none}
+.join-btn{background:var(--primary);border:none;padding:8px 25px;font-weight:bold;cursor:pointer}
 
-        /* --- SECTIONS --- */
-        section { padding: 80px 5%; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
-        .section-title span { color: var(--primary); }
+@media(max-width:768px){
+.menu-toggle{display:block}
+nav ul{display:none;flex-direction:column;position:absolute;top:70px;left:0;width:100%;background:black}
+nav ul.active{display:flex}
+nav ul li{padding:15px 0;text-align:center}
+}
 
-        /* --- SCHEDULE --- */
-        .days-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
-        .day-btn { background: #222; border: 1px solid #333; color: #888; padding: 12px 25px; cursor: pointer; border-radius: 30px; transition: 0.3s; }
-        .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
-        .workout-content { display: none; background: #151515; max-width: 800px; margin: auto; padding: 30px; border-radius: 15px; border: 1px solid #333; animation: fadeIn 0.5s ease; }
-        .workout-content.active { display: block; }
-        .exercise-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #222; }
-        .ex-sets { color: #888; font-size: 0.9rem; background: #222; padding: 5px 10px; border-radius: 5px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* HERO */
+.hero{
+height:100vh;
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48");
+background-size:cover;background-position:center;
+display:flex;flex-direction:column;justify-content:center;align-items:center;
+text-align:center;padding:20px
+}
+.hero h1{font-size:4rem}
+.typewriter{color:var(--primary);border-right:3px solid white}
+.cta-btn{margin-top:30px;padding:15px 40px;border:2px solid var(--primary);background:transparent;color:white;font-size:1.2rem;cursor:pointer}
+.cta-btn:hover{background:var(--primary)}
 
-        /* --- CARDS & TOOLS --- */
-        .tools-container, .grid-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
-        .tool-card, .trainer-card, .plan-card { background: var(--gray); padding: 30px; border-radius: 10px; border-top: 3px solid var(--primary); }
-        .tool-card { width: 100%; max-width: 450px; }
-        .input-group { display: flex; gap: 10px; margin: 15px 0; }
-        input, select { width: 100%; padding: 12px; background: #333; border: 1px solid #444; color: white; border-radius: 4px; }
-        .calc-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;}
-        .result-box { margin-top: 15px; font-weight: bold; color: var(--primary); min-height: 25px; line-height: 1.5; }
+/* SECTIONS */
+section{padding:90px 5%}
+.section-title{text-align:center;font-size:2.5rem;margin-bottom:50px}
+.section-title span{color:var(--primary)}
 
-        /* --- TRAINERS --- */
-        .trainer-card { text-align: center; width: 300px; background: #151515; border-top: none; border-bottom: 3px solid var(--primary); }
-        .trainer-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 15px; }
+/* SCHEDULE */
+.days-wrapper{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.day-btn{padding:12px 25px;border-radius:30px;background:#222;border:1px solid #333;color:#888;cursor:pointer}
+.day-btn.active{background:var(--primary);color:white}
+.workout-content{display:none;max-width:800px;margin:30px auto;background:#151515;padding:25px;border-radius:15px}
+.workout-content.active{display:block}
+.exercise-item{display:flex;justify-content:space-between;padding:15px;border-bottom:1px solid #222}
 
-        /* --- PRICING --- */
-        .plan-card { width: 320px; text-align: center; transition: 0.3s; }
-        .plan-card:hover { border-color: var(--primary); transform: scale(1.05); }
-        .plan-card.popular { border: 2px solid var(--primary); background: #181818; transform: scale(1.05); }
-        .price { font-size: 3rem; font-weight: bold; margin: 20px 0; }
-        .price span { font-size: 1rem; color: #888; }
-        .features li { padding: 10px 0; color: #ccc; border-bottom: 1px solid #333; }
+/* TOOLS */
+.tools-container{display:flex;flex-wrap:wrap;gap:30px;justify-content:center}
+.tool-card{background:#1f1f1f;padding:30px;border-radius:10px;max-width:450px;width:100%}
+input,select{width:100%;padding:12px;margin:10px 0;background:#333;border:1px solid #444;color:white}
+.calc-btn{background:var(--primary);border:none;padding:12px;width:100%;cursor:pointer;font-weight:bold}
+.result-box{margin-top:15px;color:var(--primary)}
 
-        /* --- FAQ --- */
-        details { background: #151515; margin-bottom: 10px; padding: 15px; border-radius: 5px; cursor: pointer; }
-        summary { font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
-        summary::after { content: '▼'; font-size: 0.8rem; color: var(--primary); }
+/* TRAINERS */
+.grid-container{display:flex;flex-wrap:wrap;gap:30px;justify-content:center}
+.trainer-card{text-align:center;background:#151515;padding:25px;border-radius:10px;width:280px}
+.trainer-img{width:150px;height:150px;border-radius:50%;border:3px solid var(--primary)}
 
-        /* --- FOOTER --- */
-        footer { background: black; padding: 50px 5%; border-top: 1px solid #222; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-        .map-frame { width: 100%; height: 200px; border: 0; filter: grayscale(100%) invert(92%); border-radius: 10px; }
+/* PLANS */
+.pricing-container{display:flex;flex-wrap:wrap;gap:30px;justify-content:center}
+.plan-card{background:#1f1f1f;padding:30px;text-align:center;width:300px;border-radius:10px}
+.plan-card.popular{border:2px solid var(--primary)}
+.price{font-size:3rem;margin:20px 0}
 
-        /* --- MODAL --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
-        .modal-content { background: #111; margin: 5% auto; padding: 30px; width: 95%; max-width: 500px; border-radius: 10px; border: 1px solid #333; position: relative; text-align: center; }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; }
-    </style>
+/* FOOTER */
+footer{background:black;padding:50px 5%}
+
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9)}
+.modal-content{background:#111;padding:30px;margin:8% auto;width:95%;max-width:500px;text-align:center;border-radius:10px}
+.close-btn{position:absolute;right:20px;top:15px;font-size:30px;cursor:pointer}
+</style>
 </head>
+
 <body>
 
 <header>
-    <div class="logo">IRON<span>LIFTERS</span></div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <nav>
-        <ul id="nav-list"> 
-            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
-            <li><a href="#schedule" onclick="toggleMenu()">Schedule</a></li>
-            <li><a href="#tools" onclick="toggleMenu()">Tools</a></li>
-            <li><a href="#plans" onclick="toggleMenu()">Plans</a></li>
-            <li><button class="join-btn" onclick="toggleMenu(); document.getElementById('plans').scrollIntoView()">JOIN</button></li>
-        </ul>
-    </nav>
+<div class="logo">IRON<span>LIFTERS</span></div>
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<nav>
+<ul id="nav-list">
+<li><a href="#home" onclick="toggleMenu()">Home</a></li>
+<li><a href="#schedule" onclick="toggleMenu()">Schedule</a></li>
+<li><a href="#tools" onclick="toggleMenu()">Tools</a></li>
+<li><a href="#plans" onclick="toggleMenu()">Plans</a></li>
+<li><button class="join-btn" onclick="document.getElementById('plans').scrollIntoView()">JOIN</button></li>
+</ul>
+</nav>
 </header>
 
 <div class="hero" id="home">
-    <h1 data-aos="fade-down">WE BUILD <span class="typewriter"></span></h1>
-    <p data-aos="fade-up">State-of-the-art equipment. Expert trainers. A community that pushes you.</p>
-    <button class="cta-btn" data-aos="zoom-in" onclick="document.getElementById('plans').scrollIntoView()">START MEMBERSHIP</button>
+<h1>WE BUILD <span class="typewriter"></span></h1>
+<p>Certified trainers • Premium equipment • Real results</p>
+<button class="cta-btn" onclick="document.getElementById('plans').scrollIntoView()">START MEMBERSHIP</button>
 </div>
 
-<section id="schedule" class="schedule-section">
-    <h2 class="section-title">WEEKLY <span>ROUTINE</span></h2>
-    <div class="days-wrapper" data-aos="fade-up">
-        <button class="day-btn active" onclick="openDay(event, 'mon')">Mon</button>
-        <button class="day-btn" onclick="openDay(event, 'tue')">Tue</button>
-        <button class="day-btn" onclick="openDay(event, 'wed')">Wed</button>
-        <button class="day-btn" onclick="openDay(event, 'thu')">Thu</button>
-        <button class="day-btn" onclick="openDay(event, 'fri')">Fri</button>
-        <button class="day-btn" onclick="openDay(event, 'sat')">Sat</button>
-    </div>
+<section id="schedule">
+<h2 class="section-title">WEEKLY <span>ROUTINE</span></h2>
+<div class="days-wrapper">
+<button class="day-btn active" onclick="openDay(event,'mon')">Mon</button>
+<button class="day-btn" onclick="openDay(event,'tue')">Tue</button>
+<button class="day-btn" onclick="openDay(event,'wed')">Wed</button>
+<button class="day-btn" onclick="openDay(event,'thu')">Thu</button>
+<button class="day-btn" onclick="openDay(event,'fri')">Fri</button>
+<button class="day-btn" onclick="openDay(event,'sat')">Sat</button>
+</div>
 
-    <div id="mon" class="workout-content active">
-        <div class="exercise-item"><span>Flat Bench Press</span><span class="ex-sets">4x8</span></div>
-        <div class="exercise-item"><span>Incline DB Press</span><span class="ex-sets">3x12</span></div>
-        <div class="exercise-item"><span>Tricep Pushdown</span><span class="ex-sets">4x12</span></div>
-    </div>
-    <div id="tue" class="workout-content">
-        <div class="exercise-item"><span>Deadlifts</span><span class="ex-sets">4x6</span></div>
-        <div class="exercise-item"><span>Lat Pulldowns</span><span class="ex-sets">4x12</span></div>
-        <div class="exercise-item"><span>Barbell Curls</span><span class="ex-sets">4x10</span></div>
-    </div>
-    </section>
-
-<section id="tools">
-    <h2 class="section-title">FITNESS <span>TOOLS</span></h2>
-    <div class="tools-container">
-        <div class="tool-card" data-aos="fade-right">
-            <h3>BMI Calculator</h3>
-            <div class="input-group">
-                <input type="number" id="bmi-weight" placeholder="Weight (kg)">
-                <input type="number" id="bmi-height" placeholder="Height (cm)">
-            </div>
-            <button class="calc-btn" onclick="calcBMI()">Check Status</button>
-            <div id="bmi-result" class="result-box"></div>
-        </div>
-        <div class="tool-card" data-aos="fade-left">
-            <h3>TDEE Calculator</h3>
-            <div class="input-group">
-                <input type="number" id="cal-weight" placeholder="Weight (kg)">
-                <input type="number" id="cal-height" placeholder="Height (cm)">
-            </div>
-            <div class="input-group">
-                <input type="number" id="cal-age" placeholder="Age">
-                <select id="cal-gender"><option value="male">Male</option><option value="female">Female</option></select>
-            </div>
-            <select id="cal-activity">
-                <option value="1.2">Sedentary</option>
-                <option value="1.55">Moderate (3-5 days/week)</option>
-                <option value="1.9">Athlete</option>
-            </select>
-            <button class="calc-btn" onclick="calcCalories()">Calculate Calories</button>
-            <div id="cal-result" class="result-box"></div>
-        </div>
-    </div>
+<div id="mon" class="workout-content active">
+<div class="exercise-item"><span>Chest & Triceps</span><span>4x8</span></div>
+</div>
+<div id="tue" class="workout-content">
+<div class="exercise-item"><span>Back & Biceps</span><span>4x10</span></div>
+</div>
+<div id="wed" class="workout-content">
+<div class="exercise-item"><span>Legs</span><span>5x8</span></div>
+</div>
+<div id="thu" class="workout-content">
+<div class="exercise-item"><span>Shoulders</span><span>4x12</span></div>
+</div>
+<div id="fri" class="workout-content">
+<div class="exercise-item"><span>Full Body</span><span>3x15</span></div>
+</div>
+<div id="sat" class="workout-content">
+<div class="exercise-item"><span>Cardio & Core</span><span>30 min</span></div>
+</div>
 </section>
 
-<section id="trainers">
-    <h2 class="section-title">EXPERT <span>TRAINERS</span></h2>
-    <div class="grid-container">
-        <div class="trainer-card" data-aos="flip-left">
-            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300" class="trainer-img">
-            <h3>Rahul Sharma</h3><p style="color:var(--primary)">Bodybuilding Coach</p>
-        </div>
-        <div class="trainer-card" data-aos="flip-left" data-aos-delay="200">
-            <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300" class="trainer-img">
-            <h3>Priya Singh</h3><p style="color:var(--primary)">Yoga & Mobility</p>
-        </div>
-    </div>
+<section id="tools">
+<h2 class="section-title">FITNESS <span>TOOLS</span></h2>
+<div class="tools-container">
+<div class="tool-card">
+<h3>BMI Calculator</h3>
+<input type="number" id="bmi-weight" placeholder="Weight (kg)">
+<input type="number" id="bmi-height" placeholder="Height (cm)">
+<button class="calc-btn" onclick="calcBMI()">Check</button>
+<div id="bmi-result" class="result-box"></div>
+</div>
+</div>
 </section>
 
 <section id="plans">
-    <h2 class="section-title">CHOOSE YOUR <span>PLAN</span></h2>
-    <div class="pricing-container">
-        <div class="plan-card" data-aos="fade-up">
-            <h3>Silver</h3><div class="price">₹1000<span>/mo</span></div>
-            <ul class="features"><li>Morning Access</li><li>Cardio Section</li><li>Locker Room</li></ul>
-            <button class="calc-btn" onclick="openModal('Silver', '1000')">SELECT</button>
-        </div>
-        <div class="plan-card popular" data-aos="fade-up" data-aos-delay="100">
-            <h3>Gold</h3><div class="price">₹2000<span>/mo</span></div>
-            <ul class="features"><li>Full Access</li><li>Steam Bath</li><li>Personal Locker</li></ul>
-            <button class="calc-btn" onclick="openModal('Gold', '2000')">SELECT</button>
-        </div>
-    </div>
-</section>
-
-<section id="faq" style="max-width: 800px; margin: auto;">
-    <h2 class="section-title">F.A.Q</h2>
-    <details data-aos="fade-up">
-        <summary>What are the gym timings?</summary>
-        <p style="padding-top:10px; color:#aaa;">Mon-Sat: 5:00 AM - 10:00 PM. Sun: 6:00 AM - 12:00 PM.</p>
-    </details>
-    <details data-aos="fade-up">
-        <summary>Do you provide personal training?</summary>
-        <p style="padding-top:10px; color:#aaa;">Yes, we have certified trainers available for 1-on-1 sessions.</p>
-    </details>
+<h2 class="section-title">MEMBERSHIP <span>PLANS</span></h2>
+<div class="pricing-container">
+<div class="plan-card">
+<h3>Silver</h3>
+<div class="price">₹1000</div>
+<button class="calc-btn" onclick="openModal('Silver','1000')">Select</button>
+</div>
+<div class="plan-card popular">
+<h3>Gold</h3>
+<div class="price">₹2000</div>
+<button class="calc-btn" onclick="openModal('Gold','2000')">Select</button>
+</div>
+</div>
 </section>
 
 <footer>
-    <div class="footer-grid">
-        <div>
-            <div class="logo">IRON<span>LIFTERS</span></div>
-            <p style="margin:20px 0; color:#888;">Transforming lives through fitness since 2024.</p>
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76W9SwwEbm7?utm_source=generator" width="100%" height="80" frameBorder="0" allow="encrypted-media"></iframe>
-        </div>
-        <div>
-            <h3>LOCATION</h3>
-            <p style="color:#888; margin-top:10px;">123 Fitness Street, Mumbai, India</p>
-            <p style="color:#888;">Phone: +91 98765 43210</p>
-            <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.796395368305!2d72.8335!3d18.922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDU1JzE5LjIiTiA3MsKwNTAnMDAuNiJF!5e0!3m2!1sen!2sin!4v1640000000000!5m2!1sen!2sin"></iframe>
-        </div>
-    </div>
+<p>📍 Mumbai • ☎ +91 98765 43210</p>
+<p style="color:#777">© 2026 IronLifters Gym</p>
 </footer>
 
 <div id="paymentModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">×</span>
-        <h2 style="color:var(--primary)">JOIN <span id="modalPlan"></span></h2>
-        <p>Total: ₹<span id="modalPrice"></span></p>
-        <div style="background:white; padding:10px; display:inline-block; margin:20px 0;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" width="150">
-        </div>
-        <p style="font-size:0.8rem; color:#aaa;">Scan to pay via UPI</p>
-    </div>
+<div class="modal-content">
+<span class="close-btn" onclick="closeModal()">×</span>
+<h2>JOIN <span id="modalPlan"></span></h2>
+<p>Total: ₹<span id="modalPrice"></span></p>
+<p style="font-size:.8rem;color:#f39c12">Demo UPI QR only</p>
+</div>
 </div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 1000, once: true });
+AOS.init();
 
-    // Typewriter
-    const words = ["MUSCLE", "CONFIDENCE", "DISCIPLINE"];
-    let wordIndex = 0, charIndex = 0, isDeleting = false;
-    function type() {
-        const current = words[wordIndex];
-        const el = document.querySelector(".typewriter");
-        el.textContent = isDeleting ? current.substring(0, charIndex--) : current.substring(0, charIndex++);
-        if (!isDeleting && charIndex > current.length) { isDeleting = true; setTimeout(type, 1000); }
-        else if (isDeleting && charIndex < 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; charIndex = 0; setTimeout(type, 500); }
-        else setTimeout(type, isDeleting ? 100 : 200);
-    }
-    type();
+const words=["MUSCLE","CONFIDENCE","DISCIPLINE"];
+let i=0,j=0,del=false;
+function type(){
+const el=document.querySelector(".typewriter");
+el.textContent=del?words[i].slice(0,--j):words[i].slice(0,++j);
+if(!del && j===words[i].length){del=true;setTimeout(type,800)}
+else if(del && j===0){del=false;i=(i+1)%words.length}
+setTimeout(type,del?80:150)
+}
+type();
 
-    function toggleMenu() { document.getElementById('nav-list').classList.toggle('active'); }
+function toggleMenu(){document.getElementById("nav-list").classList.toggle("active")}
 
-    function openDay(evt, id) {
-        document.querySelectorAll('.workout-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        evt.currentTarget.classList.add('active');
-    }
+function openDay(e,id){
+document.querySelectorAll(".workout-content").forEach(x=>x.classList.remove("active"));
+document.querySelectorAll(".day-btn").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+e.target.classList.add("active");
+}
 
-    function calcBMI() {
-        const w = document.getElementById('bmi-weight').value, h = document.getElementById('bmi-height').value;
-        if(w && h) {
-            const bmi = (w / ((h/100)**2)).toFixed(1);
-            document.getElementById('bmi-result').innerHTML = `Result: ${bmi}`;
-        }
-    }
+function calcBMI(){
+let w=bmi-weight.value,h=bmi-height.value;
+if(!w||!h)return;
+let bmi=(w/((h/100)**2)).toFixed(1);
+let s=bmi<18.5?"Underweight":bmi<25?"Normal":bmi<30?"Overweight":"Obese";
+bmi-result.innerHTML=`BMI: ${bmi} (${s})`;
+}
 
-    function calcCalories() {
-        const w = parseFloat(document.getElementById('cal-weight').value);
-        const h = parseFloat(document.getElementById('cal-height').value);
-        const a = parseFloat(document.getElementById('cal-age').value);
-        const g = document.getElementById('cal-gender').value;
-        const act = parseFloat(document.getElementById('cal-activity').value);
-        if (w && h && a) {
-            let bmr = (g === 'male') ? (10 * w + 6.25 * h - 5 * a + 5) : (10 * w + 6.25 * h - 5 * a - 161);
-            document.getElementById('cal-result').innerHTML = `Daily Goal: ${Math.round(bmr * act)} kcal`;
-        }
-    }
-
-    function openModal(plan, price) {
-        document.getElementById('modalPlan').innerText = plan;
-        document.getElementById('modalPrice').innerText = price;
-        document.getElementById('paymentModal').style.display = 'block';
-    }
-    function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
+function openModal(p,pr){
+modalPlan.innerText=p;
+modalPrice.innerText=pr;
+paymentModal.style.display="block";
+}
+function closeModal(){paymentModal.style.display="none"}
+window.onclick=e=>{if(e.target==paymentModal)closeModal()}
 </script>
 
 </body>
