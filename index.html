@@ -198,8 +198,7 @@
             <li><a href="#schedule" onclick="toggleMenu()">Schedule</a></li>
             <li><a href="#tools" onclick="toggleMenu()">Tools</a></li>
             <li><a href="#plans" onclick="toggleMenu()">Plans</a></li>
-            <button class="join-btn" onclick="openAdmission()">ADMISSION</button>
-
+            <li><button class="join-btn" onclick="openAdmission()">ADMISSION</button></li>
         </ul>
     </nav>
 </header>
@@ -391,177 +390,162 @@
     </div>
 </div>
 
-    <div id="admissionModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeAdmission()">×</span>
-
-    <h2 style="color:var(--primary);margin-bottom:15px">
-      GYM ADMISSION FORM
-    </h2>
-
-    <input type="text" id="name" placeholder="Full Name">
-    <input type="tel" id="phone" placeholder="Mobile Number">
-    <input type="email" id="email" placeholder="Email (optional)">
-    <input type="number" id="age" placeholder="Age">
-
-    <select id="gender">
-      <option value="">Select Gender</option>
-      <option>Male</option>
-      <option>Female</option>
-      <option>Other</option>
-    </select>
-
-    <select id="plan">
-      <option value="">Select Plan</option>
-      <option>Silver – ₹1000</option>
-      <option>Gold – ₹2000</option>
-    </select>
-
-    <select id="goal">
-      <option value="">Fitness Goal</option>
-      <option>Weight Loss</option>
-      <option>Muscle Gain</option>
-      <option>General Fitness</option>
-      <option>Rehabilitation</option>
-    </select>
-
-    <textarea id="message" rows="3" placeholder="Any medical condition? (optional)"
-      style="width:100%;padding:12px;background:#333;border:1px solid #444;color:white;margin-top:10px"></textarea>
-
-    <button class="calc-btn" onclick="submitAdmission()">
-      SUBMIT ADMISSION
-    </button>
-
-    <p style="font-size:0.8rem;color:#aaa;margin-top:10px">
-      Our team will contact you within 24 hours
-    </p>
-  </div>
+<div id="admissionModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeAdmission()">×</span>
+        <h2 style="color:var(--primary);margin-bottom:15px">GYM ADMISSION FORM</h2>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="tel" id="phone" placeholder="Mobile Number">
+        <input type="email" id="email" placeholder="Email (optional)">
+        <input type="number" id="age" placeholder="Age">
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+        <select id="plan-choice">
+            <option value="">Select Plan</option>
+            <option>Silver – ₹1000</option>
+            <option>Gold – ₹2000</option>
+            <option>Platinum – ₹5000</option>
+        </select>
+        <select id="goal">
+            <option value="">Fitness Goal</option>
+            <option>Weight Loss</option>
+            <option>Muscle Gain</option>
+            <option>General Fitness</option>
+        </select>
+        <textarea id="message" rows="3" placeholder="Any medical condition? (optional)" style="width:100%;padding:12px;background:#333;border:1px solid #444;color:white;margin-top:10px"></textarea>
+        <button class="calc-btn" onclick="submitAdmission()">SUBMIT ADMISSION</button>
+        <p style="font-size:0.8rem;color:#aaa;margin-top:10px">Our team will contact you within 24 hours</p>
+    </div>
 </div>
 
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
 AOS.init({ duration: 1000, once: true });
 
 /* ================= TYPEWRITER ================= */
 const words = ["MUSCLE", "CONFIDENCE", "DISCIPLINE"];
-let i = 0, j = 0, isDeleting = false;
+let wordIdx = 0, charIdx = 0, isDeleting = false;
 
 function type() {
-  const current = words[i];
-  document.querySelector(".typewriter").innerText =
-    isDeleting ? current.substring(0, --j) : current.substring(0, ++j);
+    const current = words[wordIdx];
+    const el = document.querySelector(".typewriter");
+    el.innerText = isDeleting ? current.substring(0, charIdx--) : current.substring(0, charIdx++);
 
-  if (!isDeleting && j === current.length) isDeleting = true;
-  else if (isDeleting && j === 0) {
-    isDeleting = false;
-    i = (i + 1) % words.length;
-  }
-  setTimeout(type, isDeleting ? 100 : 200);
+    if (!isDeleting && charIdx > current.length) {
+        isDeleting = true;
+        setTimeout(type, 1000);
+    } else if (isDeleting && charIdx < 0) {
+        isDeleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+        charIdx = 0;
+        setTimeout(type, 500);
+    } else {
+        setTimeout(type, isDeleting ? 100 : 200);
+    }
 }
 type();
 
 /* ================= MOBILE MENU ================= */
 function toggleMenu() {
-  document.getElementById("nav-list").classList.toggle("active");
+    document.getElementById("nav-list").classList.toggle("active");
 }
 
 /* ================= SCHEDULE ================= */
 function openDay(evt, dayName) {
-  document.querySelectorAll(".workout-content").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
-
-  document.getElementById(dayName).classList.add("active");
-  evt.currentTarget.classList.add("active");
+    document.querySelectorAll(".workout-content").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById(dayName).classList.add("active");
+    evt.currentTarget.classList.add("active");
 }
 
 /* ================= BMI ================= */
 function calcBMI() {
-  const w = bmi-weight.value;
-  const h = bmi-height.value;
-  if (!w || !h) return;
+    const w = document.getElementById('bmi-weight').value;
+    const h = document.getElementById('bmi-height').value;
+    const resultBox = document.getElementById('bmi-result');
+    if (!w || !h) return;
 
-  const bmi = (w / ((h / 100) ** 2)).toFixed(1);
-  const status =
-    bmi < 18.5 ? "Underweight" :
-    bmi < 25 ? "Normal" :
-    bmi < 30 ? "Overweight" : "Obese";
+    const bmiValue = (w / ((h / 100) ** 2)).toFixed(1);
+    let status = "";
+    if(bmiValue < 18.5) status = "Underweight";
+    else if(bmiValue < 25) status = "Normal";
+    else if(bmiValue < 30) status = "Overweight";
+    else status = "Obese";
 
-  bmi-result.innerHTML = `BMI: ${bmi} (${status})`;
+    resultBox.innerHTML = `BMI: ${bmiValue} (${status})`;
 }
 
 /* ================= TDEE ================= */
 function calcCalories() {
-  const age = +cal-age.value;
-  const weight = +cal-weight.value;
-  const height = +cal-height.value;
-  const gender = cal-gender.value;
-  const activity = +cal-activity.value;
+    const age = parseFloat(document.getElementById('cal-age').value);
+    const weight = parseFloat(document.getElementById('cal-weight').value);
+    const height = parseFloat(document.getElementById('cal-height').value);
+    const gender = document.getElementById('cal-gender').value;
+    const activity = parseFloat(document.getElementById('cal-activity').value);
+    const resultBox = document.getElementById('cal-result');
 
-  if (!age || !weight || !height) {
-    cal-result.innerHTML = "<span style='color:red'>Fill all fields</span>";
-    return;
-  }
+    if (!age || !weight || !height) {
+        resultBox.innerHTML = "<span style='color:red'>Fill all fields</span>";
+        return;
+    }
 
-  const bmr =
-    gender === "male"
-      ? 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
-      : 447.593 + (9.247 * weight) + (3.098 * height) - (4.33 * age);
+    const bmr = gender === "male"
+        ? 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age)
+        : 447.593 + (9.247 * weight) + (3.098 * height) - (4.33 * age);
 
-  const tdee = Math.round(bmr * activity);
-  cal-result.innerHTML = `Maintain: ${tdee} kcal<br>Bulk: ${tdee + 300} kcal`;
+    const tdee = Math.round(bmr * activity);
+    resultBox.innerHTML = `Maintain: ${tdee} kcal<br>Bulk: ${tdee + 300} kcal`;
 }
 
-/* ================= PAYMENT MODAL ================= */
+/* ================= MODALS ================= */
+const paymentModal = document.getElementById("paymentModal");
+const admissionModal = document.getElementById("admissionModal");
+
 function openModal(plan, price) {
-  paymentModal.style.display = "block";
-  modalPlan.innerText = plan;
-  modalPrice.innerText = price;
-  document.body.style.overflow = "hidden";
+    paymentModal.style.display = "block";
+    document.getElementById("modalPlan").innerText = plan;
+    document.getElementById("modalPrice").innerText = price;
+    document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
-  paymentModal.style.display = "none";
-  document.body.style.overflow = "auto";
+    paymentModal.style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
-/* ================= ADMISSION MODAL ================= */
 function openAdmission() {
-  admissionModal.style.display = "block";
-  document.body.style.overflow = "hidden";
+    admissionModal.style.display = "block";
+    document.body.style.overflow = "hidden";
 }
 
 function closeAdmission() {
-  admissionModal.style.display = "none";
-  document.body.style.overflow = "auto";
+    admissionModal.style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
 function submitAdmission() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const plan = document.getElementById("plan").value;
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const plan = document.getElementById("plan-choice").value;
 
-  if (!name || !phone || !plan) {
-    alert("Please fill required fields");
-    return;
-  }
+    if (!name || !phone || !plan) {
+        alert("Please fill required fields");
+        return;
+    }
 
-  const msg =
-`New Gym Admission Enquiry
-Name: ${name}
-Phone: ${phone}
-Plan: ${plan}`;
-
-  window.open(
-    `https://wa.me/919876543210?text=${encodeURIComponent(msg)}`,
-    "_blank"
-  );
-
-  closeAdmission();
+    const msg = `New Gym Admission Enquiry\nName: ${name}\nPhone: ${phone}\nPlan: ${plan}`;
+    window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, "_blank");
+    closeAdmission();
 }
 
-/* ================= CLICK OUTSIDE ================= */
-window.addEventListener("click", function (e) {
-  if (e.target === paymentModal) closeModal();
-  if (e.target === admissionModal) closeAdmission();
-});
+window.onclick = function (e) {
+    if (e.target === paymentModal) closeModal();
+    if (e.target === admissionModal) closeAdmission();
+};
 </script>
-
+</body>
+</html>
