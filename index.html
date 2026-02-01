@@ -3,123 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IronLifters Gym | Build Your Legacy</title>
+    <title>IronLifters | Pro Gym Interface</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- 1. GLOBAL VARIABLES & RESET --- */
+        /* --- CORE VARIABLES --- */
         :root {
-            --primary: #ff3b3b;
-            --dark: #0a0a0a;
-            --gray: #1f1f1f;
+            --primary: #e50914; /* Netflix/Gym Red */
+            --dark: #0f0f0f;
+            --card-bg: #1a1a1a;
             --text: #ffffff;
+            --text-muted: #a1a1a1;
         }
 
+        /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--dark); color: var(--text); font-family: 'Roboto', sans-serif; overflow-x: hidden; }
-        h1, h2, h3, .btn, .nav-link { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
-        html { scroll-behavior: smooth; }
+        body { 
+            background-color: var(--dark); 
+            color: var(--text); 
+            font-family: 'Roboto', sans-serif; 
+            overflow-x: hidden; 
+        }
+        h1, h2, h3, .btn, .tab-btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        
+        /* --- UTILITY CLASSES --- */
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .section-pad { padding: 80px 5%; }
+        
+        /* --- ANIMATIONS (CSS Keyframes for Dynamic Content) --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-pop { animation: fadeInUp 0.4s ease-out forwards; }
 
-        /* --- 2. HEADER --- */
+        /* --- HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: rgba(10, 10, 10, 0.95);
+            padding: 15px 5%; background: rgba(15, 15, 15, 0.95);
             position: fixed; width: 100%; top: 0; z-index: 1000;
             border-bottom: 2px solid var(--primary); backdrop-filter: blur(10px);
         }
-        .logo { font-size: 1.8rem; font-weight: bold; color: white; letter-spacing: 1px; }
+        .logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 1px; }
         .logo span { color: var(--primary); }
-        nav ul { display: flex; gap: 30px; }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav a { text-decoration: none; color: white; transition: 0.3s; font-size: 0.9rem; letter-spacing: 1px; }
         nav a:hover { color: var(--primary); }
-        .join-btn { background: var(--primary); padding: 8px 25px; color: white; border-radius: 4px; font-weight: bold; cursor: pointer; border: none; }
-        .join-btn:hover { background: white; color: black; }
 
-        /* --- 3. HERO --- */
+        /* --- HERO --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
             background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 0 20px;
+            text-align: center; display: flex; flex-direction: column; justify-content: center;
         }
-        .hero h1 { font-size: 4rem; margin-bottom: 15px; }
-        .cta-btn { padding: 15px 40px; background: transparent; border: 2px solid var(--primary); color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 30px; }
-        .cta-btn:hover { background: var(--primary); }
-
-        /* --- 4. ADVANCED SCHEDULE SECTION --- */
-        .schedule-section { background: #000; padding: 80px 5%; text-align: center; border-bottom: 1px solid #333; }
-        .section-title { font-size: 2.5rem; margin-bottom: 40px; }
-        .section-title span { color: var(--primary); }
-
-        /* Warmup Box */
-        .warmup-container {
-            background: #1a1a1a; border-left: 5px solid var(--primary);
-            max-width: 800px; margin: 0 auto 40px; padding: 20px; text-align: left;
-            border-radius: 0 8px 8px 0;
+        .hero h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .btn-main {
+            padding: 15px 40px; border: 2px solid var(--primary); color: white; background: transparent;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 20px;
         }
-        .warmup-title { color: var(--primary); font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; display: flex; align-items: center; }
-        .warmup-title::before { content: '🔥'; margin-right: 10px; }
-        .warmup-list { display: flex; flex-wrap: wrap; gap: 15px; color: #ccc; font-size: 0.9rem; }
-        .warmup-item { background: #333; padding: 5px 10px; border-radius: 4px; }
+        .btn-main:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
 
-        /* Level Selector */
-        .level-wrapper { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-        .level-btn {
-            background: transparent; border: 1px solid #444; color: #666;
-            padding: 10px 30px; font-size: 1.1rem; cursor: pointer; font-weight: bold;
-            transform: skew(-10deg); transition: 0.3s;
-        }
-        .level-btn span { display: block; transform: skew(10deg); } /* Un-skew text */
-        .level-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 15px rgba(255,59,59,0.4); }
-
-        /* Day Selector */
-        .days-wrapper { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
-        .day-btn {
-            background: #222; border: none; color: #888; width: 50px; height: 50px;
-            border-radius: 50%; cursor: pointer; font-weight: bold; transition: 0.3s;
-        }
-        .day-btn.active { background: white; color: black; transform: scale(1.1); }
-        .day-btn:hover { color: white; }
-
-        /* Workout Content */
-        .workout-display { max-width: 800px; margin: auto; animation: fadeIn 0.4s ease; min-height: 300px; }
-        .workout-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .workout-focus { font-size: 2rem; color: white; font-family: 'Oswald'; }
-        .workout-level-tag { background: #333; color: var(--primary); padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; text-transform: uppercase; }
-
-        .exercise-item {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #151515; padding: 15px 20px; margin-bottom: 10px; border-radius: 8px;
-            border-left: 3px solid transparent; transition: 0.3s;
-        }
-        .exercise-item:hover { border-left-color: var(--primary); background: #1f1f1f; transform: translateX(5px); }
-        .ex-name { font-weight: 500; font-size: 1.1rem; }
-        .ex-reps { color: #888; font-size: 0.9rem; background: #000; padding: 5px 10px; border-radius: 4px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- 5. OTHER SECTIONS (Calculators, Gallery, Etc - Compressed for length) --- */
-        .tools-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; padding: 80px 5%; }
-        .tool-card { background: var(--gray); padding: 30px; border-radius: 10px; width: 100%; max-width: 450px; border-top: 3px solid var(--primary); }
-        input, select { width: 100%; padding: 12px; background: #333; border: 1px solid #444; color: white; margin: 10px 0; border-radius: 4px; }
-        .calc-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
+        /* --- SCHEDULE SECTION (The Complex Part) --- */
+        .schedule-box { background: #000; border-bottom: 1px solid #333; }
         
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; padding: 80px 5%; }
-        .gallery-item img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; }
+        /* Uniform Warmup */
+        .warmup-strip {
+            background: linear-gradient(90deg, #222, #111);
+            border-left: 4px solid var(--primary);
+            padding: 20px; margin-bottom: 40px; border-radius: 4px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
+        }
+        .warmup-label { color: var(--primary); font-weight: bold; font-size: 1.2rem; margin-right: 10px; }
+        .warmup-tag { background: #333; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; color: #ccc; }
 
-        .pricing-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 80px 5%; }
-        .plan-card { background: var(--gray); padding: 40px; width: 320px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .plan-card.popular { border: 2px solid var(--primary); transform: scale(1.05); }
+        /* Controls */
+        .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 40px; }
+        
+        /* Level Tabs */
+        .level-tabs { display: flex; gap: 10px; background: #222; padding: 5px; border-radius: 5px; }
+        .tab-btn {
+            background: transparent; border: none; color: #888; padding: 10px 25px;
+            cursor: pointer; transition: 0.3s; font-size: 1rem; border-radius: 4px;
+        }
+        .tab-btn.active { background: var(--primary); color: white; }
 
-        /* Footer & Modal */
-        footer { background: black; padding: 50px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
-        .modal-content { background: #111; margin: 5% auto; padding: 30px; width: 95%; max-width: 500px; text-align: center; position: relative; }
-        .close-btn { position: absolute; top: 10px; right: 20px; color: white; font-size: 30px; cursor: pointer; }
+        /* Day Pills */
+        .day-pills { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .day-btn {
+            width: 45px; height: 45px; border-radius: 50%; border: 1px solid #333;
+            background: #111; color: #fff; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        .day-btn:hover { border-color: var(--primary); }
+        .day-btn.active { background: #fff; color: #000; transform: scale(1.1); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+        /* Workout List */
+        .workout-container { max-width: 800px; margin: 0 auto; min-height: 300px; }
+        .workout-header { 
+            display: flex; justify-content: space-between; align-items: flex-end; 
+            border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; 
+        }
+        .focus-text { font-size: 2rem; color: #fff; }
+        .level-badge { background: #222; color: var(--primary); padding: 4px 10px; font-size: 0.8rem; border-radius: 3px; letter-spacing: 1px; }
+
+        .ex-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card-bg); padding: 18px; margin-bottom: 10px; border-radius: 6px;
+            border-left: 3px solid transparent; transition: 0.2s;
+        }
+        .ex-row:hover { border-left-color: var(--primary); transform: translateX(5px); background: #222; }
+        .ex-meta { background: #000; padding: 5px 10px; border-radius: 4px; color: #888; font-size: 0.9rem; }
+
+        /* --- PLANS & PRICING --- */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .plan-card { 
+            background: var(--card-bg); padding: 40px; text-align: center; border-radius: 10px; border: 1px solid #222; position: relative;
+        }
+        .plan-card.pop { border: 1px solid var(--primary); transform: scale(1.05); }
+        .price { font-size: 3rem; font-weight: 700; margin: 20px 0; }
+        
+        /* Mobile Fixes */
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            nav { display: none; }
+            .warmup-strip { flex-direction: column; align-items: flex-start; }
+            .plan-card.pop { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -127,205 +138,165 @@
     <header>
         <div class="logo">IRON<span>LIFTERS</span></div>
         <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#schedule">Routine</a></li>
-                <li><a href="#plans">Plans</a></li>
-                <li><button class="join-btn" onclick="document.getElementById('plans').scrollIntoView()">JOIN</button></li>
-            </ul>
+            <a href="#home">HOME</a>
+            <a href="#schedule">ROUTINE</a>
+            <a href="#pricing">PLANS</a>
         </nav>
     </header>
 
-    <div class="hero" id="home">
-        <h1>BUILD YOUR <span style="color:var(--primary)">LEGACY</span></h1>
-        <p>Expert Plans. Professional Equipment. Zero Excuses.</p>
-        <button class="cta-btn" onclick="document.getElementById('schedule').scrollIntoView()">VIEW ROUTINES</button>
-    </div>
+    <section id="home" class="hero">
+        <h1 data-aos="fade-up">FORGE YOUR<br><span style="color:var(--primary)">LEGACY</span></h1>
+        <p data-aos="fade-up" data-aos-delay="200" style="color:#ccc; font-size:1.2rem;">Advanced Training Protocols for Every Level</p>
+        <div data-aos="fade-up" data-aos-delay="400">
+            <button class="btn-main" onclick="document.getElementById('schedule').scrollIntoView()">START TRAINING</button>
+        </div>
+    </section>
 
-    <section class="schedule-section" id="schedule">
-        <h2 class="section-title">WEEKLY <span>ROUTINE</span></h2>
+    <section id="schedule" class="section-pad schedule-box">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;" data-aos="fade-in">WEEKLY <span style="color:var(--primary)">ROUTINE</span></h2>
 
-        <div class="warmup-container" data-aos="fade-up">
-            <div class="warmup-title">DAILY UNIFORM WARMUP (Do this before every workout)</div>
-            <div class="warmup-list">
-                <div class="warmup-item">5 Mins Fast Walk/Jog</div>
-                <div class="warmup-item">20 Arm Circles (Fwd/Back)</div>
-                <div class="warmup-item">15 Bodyweight Squats</div>
-                <div class="warmup-item">10 Pushups (or Wall Pushups)</div>
-                <div class="warmup-item">1 Min Plank</div>
+        <div class="warmup-strip" data-aos="fade-up">
+            <div class="warmup-label">🔥 DAILY WARMUP:</div>
+            <div class="warmup-tag">5min Jog</div>
+            <div class="warmup-tag">20 Arm Circles</div>
+            <div class="warmup-tag">15 Air Squats</div>
+            <div class="warmup-tag">10 Pushups</div>
+            <div class="warmup-tag">1min Plank</div>
+        </div>
+
+        <div class="controls-wrapper" data-aos="fade-up">
+            <div class="level-tabs">
+                <button class="tab-btn active" onclick="setLevel('beginner')">BEGINNER</button>
+                <button class="tab-btn" onclick="setLevel('intermediate')">INTERMEDIATE</button>
+                <button class="tab-btn" onclick="setLevel('pro')">PRO</button>
+            </div>
+            <div class="day-pills">
+                <button class="day-btn active" onclick="setDay('mon')">M</button>
+                <button class="day-btn" onclick="setDay('tue')">T</button>
+                <button class="day-btn" onclick="setDay('wed')">W</button>
+                <button class="day-btn" onclick="setDay('thu')">T</button>
+                <button class="day-btn" onclick="setDay('fri')">F</button>
+                <button class="day-btn" onclick="setDay('sat')">S</button>
             </div>
         </div>
 
-        <div class="level-wrapper" data-aos="fade-up">
-            <button class="level-btn active" onclick="changeLevel('beginner')"><span>BEGINNER</span></button>
-            <button class="level-btn" onclick="changeLevel('intermediate')"><span>INTERMEDIATE</span></button>
-            <button class="level-btn" onclick="changeLevel('pro')"><span>PRO ATHLETE</span></button>
-        </div>
-
-        <div class="days-wrapper" data-aos="fade-up">
-            <button class="day-btn active" onclick="changeDay('mon')">M</button>
-            <button class="day-btn" onclick="changeDay('tue')">T</button>
-            <button class="day-btn" onclick="changeDay('wed')">W</button>
-            <button class="day-btn" onclick="changeDay('thu')">T</button>
-            <button class="day-btn" onclick="changeDay('fri')">F</button>
-            <button class="day-btn" onclick="changeDay('sat')">S</button>
-        </div>
-
-        <div id="workout-container" class="workout-display">
+        <div id="workout-target" class="workout-container">
             </div>
     </section>
 
-    <section class="tools-container">
-        <div class="tool-card" data-aos="fade-right">
-            <h3>BMI Calculator</h3>
-            <input type="number" id="w" placeholder="Weight (kg)">
-            <input type="number" id="h" placeholder="Height (cm)">
-            <button class="calc-btn" onclick="calcBMI()">Check</button>
-            <div id="bmi-res" style="margin-top:10px; color:var(--primary); font-weight:bold;"></div>
-        </div>
-        <div class="tool-card" data-aos="fade-left">
-            <h3>Calorie Needs</h3>
-            <input type="number" id="age" placeholder="Age">
-            <button class="calc-btn" onclick="alert('Approx 2500 kcal/day for maintenance')">Calculate</button>
-        </div>
-    </section>
-
-    <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1574680096141-9832005263d8?w=600"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600"></div>
-    </div>
-
-    <section class="pricing-container" id="plans">
-        <div class="plan-card">
-            <h3>Silver</h3><h1>₹1000</h1>
-            <p>Morning Access Only</p>
-            <button class="calc-btn" onclick="openModal('Silver', 1000)">Select</button>
-        </div>
-        <div class="plan-card popular">
-            <h3>Gold</h3><h1>₹2000</h1>
-            <p>Full Day + Steam</p>
-            <button class="calc-btn" onclick="openModal('Gold', 2000)">Select</button>
-        </div>
-        <div class="plan-card">
-            <h3>Platinum</h3><h1>₹5000</h1>
-            <p>3 Months + Trainer</p>
-            <button class="calc-btn" onclick="openModal('Platinum', 5000)">Select</button>
+    <section id="pricing" class="section-pad">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">MEMBERSHIP <span style="color:var(--primary)">TIERS</span></h2>
+        <div class="grid-3">
+            <div class="plan-card" data-aos="flip-left">
+                <h3>SILVER</h3>
+                <div class="price">₹1000<span style="font-size:1rem; color:#666">/mo</span></div>
+                <p style="color:#888; margin-bottom:20px;">Morning Access Only</p>
+                <button class="btn-main" style="width:100%; font-size:0.9rem;">SELECT</button>
+            </div>
+            <div class="plan-card pop" data-aos="flip-left" data-aos-delay="100">
+                <div style="position:absolute; top:0; right:0; background:var(--primary); padding:5px 10px; font-size:0.7rem; font-weight:bold;">POPULAR</div>
+                <h3>GOLD</h3>
+                <div class="price">₹2000<span style="font-size:1rem; color:#666">/mo</span></div>
+                <p style="color:#888; margin-bottom:20px;">Full Access + Steam</p>
+                <button class="btn-main" style="background:var(--primary); width:100%; font-size:0.9rem;">SELECT</button>
+            </div>
+            <div class="plan-card" data-aos="flip-left" data-aos-delay="200">
+                <h3>PLATINUM</h3>
+                <div class="price">₹5000<span style="font-size:1rem; color:#666">/3mo</span></div>
+                <p style="color:#888; margin-bottom:20px;">Trainer + Diet Chart</p>
+                <button class="btn-main" style="width:100%; font-size:0.9rem;">SELECT</button>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <div>
-            <div class="logo">IRON<span>LIFTERS</span></div>
-            <p style="color:#888; margin-top:10px;">The best gym in the city.</p>
-        </div>
-        <div>
-            <h3>Contact</h3>
-            <p style="color:#888;">+91 98765 43210<br>Mumbai, India</p>
-        </div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.064223253724!2d77.20902131508246!3d28.62779898241978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd37b741d057%3A0xcdee88e47393c3f1!2sConnaught%20Place%2C%20New%20Delhi%2C%20Delhi%20110001!5e0!3m2!1sen!2sin!4v1628160000000!5m2!1sen!2sin" width="100%" height="200" style="border:0; filter:grayscale(100%);"></iframe>
+    <footer style="background: #000; padding: 40px; text-align: center; border-top: 1px solid #222;">
+        <p style="color:#555">© 2026 IronLifters Gym. All Rights Reserved.</p>
     </footer>
-
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('paymentModal').style.display='none'">×</span>
-            <h2>Scan & Pay</h2>
-            <p>Pay ₹<span id="mPrice"></span> for <span id="mPlan"></span></p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" width="150" style="margin:20px;">
-            <p>Send screenshot to WhatsApp after payment.</p>
-        </div>
-    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+        // 1. Initialize Scroll Animations (Only runs once on load)
+        AOS.init({ duration: 800, offset: 50 });
 
-        // --- THE WORKOUT DATABASE ---
-        const workouts = {
+        // 2. Data Structure (Clean & Efficient)
+        const db = {
             beginner: {
-                mon: { focus: "Full Body A", exercises: [ ["Goblet Squats", "3x12"], ["Push Ups", "3x10"], ["Lat Pulldown", "3x12"], ["Plank", "3x 45s"] ] },
-                tue: { focus: "Active Rest", exercises: [ ["Light Jogging", "20 Mins"], ["Stretching", "15 Mins"] ] },
-                wed: { focus: "Full Body B", exercises: [ ["Lunges", "3x10/leg"], ["Dumbbell Press", "3x12"], ["Seated Row", "3x12"], ["Crunches", "3x15"] ] },
-                thu: { focus: "Active Rest", exercises: [ ["Cycling", "20 Mins"], ["Yoga", "15 Mins"] ] },
-                fri: { focus: "Full Body Mix", exercises: [ ["Leg Press", "3x15"], ["Shoulder Press", "3x10"], ["Bicep Curls", "3x12"], ["Tricep Dips", "3x10"] ] },
-                sat: { focus: "Cardio", exercises: [ ["Treadmill", "20 Mins"], ["Cross Trainer", "10 Mins"] ] }
+                mon: { f:"Full Body A", ex:[["Goblet Squat","3x12"],["Pushups","3x10"],["Lat Pulldown","3x12"],["Plank","3x30s"]] },
+                tue: { f:"Active Rest", ex:[["Light Jog","20 min"],["Stretching","Full Body"]] },
+                wed: { f:"Full Body B", ex:[["Lunges","3x10/leg"],["DB Shoulder Press","3x10"],["Seated Row","3x12"],["Crunches","3x15"]] },
+                thu: { f:"Active Rest", ex:[["Cycling","20 min"],["Yoga","15 min"]] },
+                fri: { f:"Full Body Mix", ex:[["Leg Press","3x15"],["Chest Press","3x12"],["Face Pulls","3x15"],["Glute Bridge","3x12"]] },
+                sat: { f:"Cardio", ex:[["Treadmill Walk","30 min (Incline)"]] }
             },
             intermediate: {
-                mon: { focus: "Chest & Triceps", exercises: [ ["Bench Press", "4x8"], ["Incline DB Press", "3x10"], ["Cable Flys", "3x15"], ["Skullcrushers", "3x10"] ] },
-                tue: { focus: "Back & Biceps", exercises: [ ["Deadlift", "3x6"], ["Pull Ups", "3xFailure"], ["Barbell Row", "3x10"], ["Hammer Curls", "3x12"] ] },
-                wed: { focus: "Legs & Abs", exercises: [ ["Squats", "4x8"], ["Leg Press", "3x12"], ["Leg Curls", "3x15"], ["Hanging Leg Raises", "3x15"] ] },
-                thu: { focus: "Shoulders", exercises: [ ["Overhead Press", "4x8"], ["Lateral Raises", "4x15"], ["Face Pulls", "3x15"], ["Shrugs", "3x12"] ] },
-                fri: { focus: "Upper Body Pump", exercises: [ ["Dips", "3xFailure"], ["Chin Ups", "3xFailure"], ["Incline Bench", "3x10"], ["Preacher Curls", "3x12"] ] },
-                sat: { focus: "Cardio & Core", exercises: [ ["HIIT Sprint", "15 Mins"], ["Russian Twists", "3x20"], ["Plank", "3x 1 Min"] ] }
+                mon: { f:"Chest & Tris", ex:[["Bench Press","4x8"],["Incline DB Press","3x10"],["Cable Fly","3x15"],["Skullcrushers","3x10"]] },
+                tue: { f:"Back & Bis", ex:[["Deadlift","3x6"],["Pullups","3xFailure"],["BB Row","3x10"],["Hammer Curls","3x12"]] },
+                wed: { f:"Legs & Abs", ex:[["Squat","4x8"],["Leg Extension","3x15"],["RDL","3x10"],["Leg Raise","3x15"]] },
+                thu: { f:"Shoulders", ex:[["OHP","4x8"],["Lat Raise","4x15"],["Rear Delt Fly","3x15"],["Shrugs","3x12"]] },
+                fri: { f:"Upper Pump", ex:[["Dips","3xFailure"],["Chin Ups","3xFailure"],["Incline Bench","3x10"],["Preacher Curl","3x12"]] },
+                sat: { f:"Conditioning", ex:[["HIIT Sprints","15 min"],["Plank","3x1 min"]] }
             },
             pro: {
-                mon: { focus: "Chest (Heavy)", exercises: [ ["Bench Press", "5x5"], ["Weighted Dips", "4x8"], ["Incline Flys", "4x12 (Superset)"], ["Pushups", "100 Reps"] ] },
-                tue: { focus: "Back (Width)", exercises: [ ["Weighted Pullups", "4x6"], ["T-Bar Row", "4x8"], ["Lat Pulldown (Single Arm)", "3x12"], ["Dead Hang", "3x 1 Min"] ] },
-                wed: { focus: "Legs (Quads)", exercises: [ ["Front Squats", "4x8"], ["Bulgarian Split Squat", "3x10"], ["Leg Extensions", "4x20 (Dropset)"], ["Calf Raises", "5x15"] ] },
-                thu: { focus: "Shoulders", exercises: [ ["Arnold Press", "4x8"], ["Lateral Raise", "5x15"], ["Rear Delt Fly", "4x15"], ["Upright Row", "3x10"] ] },
-                fri: { focus: "Arms (Supersets)", exercises: [ ["Barbell Curl + Skullcrusher", "4x10"], ["Hammer Curl + Tri Pushdown", "4x12"], ["Conc. Curl + Kickbacks", "3x15"] ] },
-                sat: { focus: "Legs (Hams/Glutes)", exercises: [ ["RDLs", "4x8"], ["Hip Thrusts", "4x10"], ["Lunge Walk", "3 Rounds"], ["Glute Bridge", "3x15"] ] }
+                mon: { f:"Push (Heavy)", ex:[["Bench Press","5x5"],["Weighted Dips","4x8"],["OHP","4x6"],["Incline Fly","3x15"]] },
+                tue: { f:"Pull (Heavy)", ex:[["Weighted Pullup","4x6"],["Pendlay Row","4x8"],["Rack Pulls","3x6"],["Face Pulls","4x15"]] },
+                wed: { f:"Legs (Quad)", ex:[["Front Squat","4x8"],["Hack Squat","3x10"],["Lunges","3x12"],["Leg Ext","4x20"]] },
+                thu: { f:"Push (Hypertrophy)", ex:[["Incline DB Press","4x10"],["Lateral Raise","5x15"],["Tricep Pushdown","4x12"],["Dips","3xFailure"]] },
+                fri: { f:"Pull (Hypertrophy)", ex:[["Lat Pulldown","4x10"],["Cable Row","3x12"],["Barbell Curl","4x10"],["Rear Delt Fly","4x15"]] },
+                sat: { f:"Legs (Hams/Glute)", ex:[["RDL","4x8"],["Hip Thrust","4x10"],["Leg Curl","4x15"],["Calf Raise","5x15"]] }
             }
         };
 
-        // --- STATE MANAGEMENT ---
-        let currentLevel = 'beginner';
-        let currentDay = 'mon';
+        // 3. State Management
+        let state = { level: 'beginner', day: 'mon' };
 
-        function renderWorkout() {
-            const data = workouts[currentLevel][currentDay];
-            const container = document.getElementById('workout-container');
+        // 4. Render Function (The Engine)
+        function render() {
+            const data = db[state.level][state.day];
+            const container = document.getElementById('workout-target');
             
-            // Generate HTML for exercises
-            let exercisesHTML = data.exercises.map(ex => `
-                <div class="exercise-item">
-                    <span class="ex-name">${ex[0]}</span>
-                    <span class="ex-reps">${ex[1]}</span>
+            // Generate List HTML efficiently
+            const listHTML = data.ex.map(item => `
+                <div class="ex-row">
+                    <span style="font-weight:500; font-size:1.1rem;">${item[0]}</span>
+                    <span class="ex-meta">${item[1]}</span>
                 </div>
             `).join('');
 
-            // Inject Content
+            // Inject & Animate
+            // Note: We remove the animation class and re-add it to trigger the CSS keyframe replay
+            container.classList.remove('animate-pop');
+            void container.offsetWidth; // Trigger Reflow (Magic trick to restart animation)
+            container.classList.add('animate-pop');
+
             container.innerHTML = `
                 <div class="workout-header">
-                    <div class="workout-focus">${data.focus}</div>
-                    <div class="workout-level-tag">${currentLevel}</div>
+                    <div class="focus-text">${data.f}</div>
+                    <div class="level-badge">${state.level.toUpperCase()}</div>
                 </div>
-                <div>${exercisesHTML}</div>
+                <div>${listHTML}</div>
             `;
         }
 
-        function changeLevel(level) {
-            currentLevel = level;
-            // Update Buttons UI
-            document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            renderWorkout();
+        // 5. Interactivity Handlers
+        function setLevel(lvl) {
+            state.level = lvl;
+            // Update UI
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            render();
         }
 
-        function changeDay(day) {
-            currentDay = day;
-            // Update Buttons UI
-            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            renderWorkout();
+        function setDay(d) {
+            state.day = d;
+            // Update UI
+            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            render();
         }
 
-        // Initial Render
-        renderWorkout();
+        // Initial Load
+        render();
 
-        // --- OTHER FUNCTIONS ---
-        function calcBMI() {
-            let w = document.getElementById('w').value;
-            let h = document.getElementById('h').value;
-            if(w && h) document.getElementById('bmi-res').innerText = "BMI: " + (w/((h/100)**2)).toFixed(1);
-        }
-
-        function openModal(plan, price) {
-            document.getElementById('paymentModal').style.display='block';
-            document.getElementById('mPlan').innerText = plan;
-            document.getElementById('mPrice').innerText = price;
-        }
     </script>
 </body>
 </html>
