@@ -10,21 +10,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- PLATINUM LIGHT THEME VARIABLES --- */
+        /* --- ORIGINAL DARK THEME VARIABLES --- */
         :root {
             --primary: #ff3b3b;
-            --primary-dark: #d32f2f;
-            --primary-glow: rgba(255, 59, 59, 0.3);
-            --bg-body: #f4f6f8;
-            --bg-card: #ffffff;
-            --text: #1a1a1a;
-            --border-light: #e0e0e0;
+            --primary-glow: rgba(255, 59, 59, 0.5);
+            --dark: #050505;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text: #ffffff;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--bg-body); 
+            background-color: var(--dark); 
+            background-image: radial-gradient(circle at 50% 50%, #1a0505 0%, #000000 100%);
             color: var(--text); 
             font-family: 'Montserrat', sans-serif; 
             min-height: 100vh;
@@ -35,11 +35,11 @@
         /* --- HEADER --- */
         header { 
             padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; 
-            background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .logo { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: #000; text-decoration: none; }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: white; text-decoration: none; }
         .logo span { color: var(--primary); }
-        .back-link { color: #666; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .back-link { color: #888; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
         .back-link:hover { color: var(--primary); }
 
         /* --- MAIN LAYOUT --- */
@@ -55,56 +55,63 @@
             display: grid;
             grid-template-columns: 1fr 1.2fr; /* Wider right side for form */
             background: var(--bg-card);
+            backdrop-filter: blur(15px);
+            border: var(--glass-border);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
             max-width: 1000px;
             width: 100%;
             position: relative;
-            border: 1px solid var(--border-light);
         }
 
         /* Top Red Line */
         .split-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-            background: var(--primary);
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
 
         /* --- LEFT SIDE: PAYMENT (QR) --- */
         .pay-section {
             padding: 40px;
-            background: #fafafa;
-            border-right: 1px solid var(--border-light);
+            border-right: 1px solid rgba(255,255,255,0.1);
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: rgba(0,0,0,0.2);
         }
 
         .qr-box {
             background: white;
             padding: 10px;
-            border-radius: 15px;
-            border: 2px solid var(--primary);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-radius: 10px;
             margin-bottom: 20px;
             width: 220px; height: 220px;
+            position: relative;
         }
         .qr-box img { width: 100%; height: 100%; object-fit: contain; }
+        
+        /* Spin effect around QR */
+        .qr-box::after {
+            content: ''; position: absolute; inset: -5px; 
+            border: 2px dashed var(--primary); border-radius: 15px;
+            animation: spin 10s linear infinite;
+        }
 
         .price-tag {
-            font-size: 2.5rem; font-weight: 800; color: #000; margin: 10px 0;
-            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem; font-weight: 800; color: white; margin: 10px 0;
+            font-family: 'Oswald', sans-serif; text-shadow: 0 0 15px var(--primary);
         }
         
         .tap-btn {
-            background: #000; color: white; text-decoration: none;
-            padding: 12px 30px; border-radius: 50px; font-weight: 600;
+            background: transparent; border: 1px solid var(--primary); color: var(--primary);
+            padding: 12px 30px; border-radius: 5px; font-weight: 600;
             display: inline-block; width: 100%; max-width: 250px;
-            margin-top: 10px; transition: 0.3s;
+            margin-top: 10px; transition: 0.3s; text-decoration: none;
         }
-        .tap-btn:hover { background: var(--primary); transform: translateY(-2px); }
+        .tap-btn:hover { background: var(--primary); color: white; box-shadow: 0 0 20px var(--primary-glow); }
 
         /* --- RIGHT SIDE: FORM --- */
         .verify-section {
@@ -112,36 +119,43 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #fff;
         }
 
-        h2 { font-family: 'Oswald', sans-serif; font-size: 2rem; margin-bottom: 5px; color: #000; }
-        p { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
+        h2 { font-family: 'Oswald', sans-serif; font-size: 2rem; margin-bottom: 5px; color: white; }
+        p { color: #aaa; margin-bottom: 25px; font-size: 0.95rem; }
 
-        label { font-size: 0.85rem; font-weight: 700; color: #444; display: block; margin-bottom: 8px; margin-top: 15px; }
+        label { font-size: 0.85rem; font-weight: 600; color: var(--primary); display: block; margin-bottom: 8px; margin-top: 15px; letter-spacing: 1px; }
         
         input, select { 
             width: 100%; padding: 12px 15px; 
-            background: #f8f9fa; border: 2px solid #eee; 
-            border-radius: 8px; font-size: 1rem; color: #333;
+            background: rgba(0,0,0,0.3); border: 1px solid #333; 
+            border-radius: 5px; font-size: 1rem; color: white;
             transition: 0.3s; font-family: 'Montserrat', sans-serif;
         }
-        input:focus, select:focus { outline: none; border-color: var(--primary); background: #fff; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); background: rgba(0,0,0,0.5); }
+
+        /* Custom Date Picker Icon Color Fix */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
 
         .submit-btn {
             background: var(--primary); color: white;
-            padding: 15px; text-align: center; border-radius: 8px;
+            padding: 15px; text-align: center; border-radius: 5px;
             font-family: 'Oswald', sans-serif; font-size: 1.2rem; letter-spacing: 1px;
             transition: 0.3s; border: none; cursor: pointer; width: 100%; margin-top: 30px;
         }
-        .submit-btn:hover { background: var(--primary-dark); box-shadow: 0 10px 20px var(--primary-glow); transform: translateY(-2px); }
+        .submit-btn:hover { background: white; color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             .split-card { grid-template-columns: 1fr; }
-            .pay-section { border-right: none; border-bottom: 1px solid #eee; padding: 30px 20px; }
+            .pay-section { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; }
             .verify-section { padding: 30px 20px; }
         }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -155,7 +169,7 @@
         <div class="split-card" data-aos="fade-up">
             
             <div class="pay-section">
-                <h3 style="font-family:'Oswald',sans-serif; margin-bottom:10px; color:#888;">SCAN TO PAY</h3>
+                <h3 style="font-family:'Oswald',sans-serif; margin-bottom:10px; color:#aaa;">SCAN TO PAY</h3>
                 
                 <div class="price-tag">₹<span id="displayPrice">0</span></div>
                 
@@ -167,14 +181,14 @@
                     <i class="fas fa-mobile-alt"></i> TAP TO PAY
                 </a>
                 
-                <p style="font-size:0.8rem; color:#888; margin-top:15px;">
+                <p style="font-size:0.8rem; color:#666; margin-top:15px;">
                     Secure UPI Payment via GPay / PhonePe
                 </p>
             </div>
 
             <div class="verify-section">
-                <h2>COMPLETE REGISTRATION</h2>
-                <p>Fill in your details to activate your membership instantly via WhatsApp.</p>
+                <h2>REGISTRATION</h2>
+                <p>Fill in your details to activate membership via WhatsApp.</p>
 
                 <form onsubmit="submitToWhatsApp(event)">
                     
@@ -184,13 +198,22 @@
                         <option value="SILVER" data-price="699">SILVER PLAN - ₹699</option>
                         <option value="GOLD" data-price="799">GOLD PLAN - ₹799</option>
                         <option value="PLATINUM" data-price="4999">PLATINUM (6 Months) - ₹4999</option>
+                        <option value="CUSTOM" data-price="0">CUSTOM AMOUNT (Partial/PT)</option>
                     </select>
 
-                    <label>FULL NAME</label>
-                    <input type="text" id="userName" required placeholder="Ex. Rahul Kumar">
+                    <div id="customAmountBox" style="display: none;">
+                        <label>ENTER AMOUNT (₹)</label>
+                        <input type="number" id="customPriceInput" placeholder="Enter amount" oninput="updateCustomPrice()">
+                    </div>
 
-                    <label>PHONE NUMBER</label>
-                    <input type="tel" id="userPhone" required placeholder="Ex. 9876543210">
+                    <label>JOINING DATE</label>
+                    <input type="date" id="joinDate" required>
+
+                    <label>FULL NAME (Alphabets Only)</label>
+                    <input type="text" id="userName" required placeholder="Ex. Rahul Kumar" oninput="validateName(this)">
+
+                    <label>PHONE NUMBER (Digits Only)</label>
+                    <input type="tel" id="userPhone" required placeholder="Ex. 9876543210" maxlength="10" oninput="validatePhone(this)">
 
                     <label>PAYMENT ID (UTR)</label>
                     <input type="text" id="userTxn" required placeholder="Paste from Payment App">
@@ -213,17 +236,49 @@
         const myName = "Chandhu Fitness";
         const ownerNumber = "919535690976"; // Your WhatsApp Number
 
+        // --- VALIDATION LOGIC ---
+        function validateName(input) {
+            // Replaces anything that is NOT a letter or space
+            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+        }
+
+        function validatePhone(input) {
+            // Replaces anything that is NOT a number
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        // --- PAYMENT LOGIC ---
         function updatePaymentDetails() {
             const select = document.getElementById('planSelect');
-            const selectedOption = select.options[select.selectedIndex];
-            const price = selectedOption.getAttribute('data-price');
+            const customBox = document.getElementById('customAmountBox');
+            
+            if (select.value === "CUSTOM") {
+                customBox.style.display = "block";
+                document.getElementById('displayPrice').innerText = "0";
+                document.getElementById('dynamicQR').src = ""; // Clear QR until amount entered
+                return;
+            } else {
+                customBox.style.display = "none";
+            }
 
             if(select.value === "none") {
                 document.getElementById('displayPrice').innerText = "0";
-                document.getElementById('dynamicQR').src = ""; // Clear QR
+                document.getElementById('dynamicQR').src = "";
                 return;
             }
 
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            
+            generateQR(price);
+        }
+
+        function updateCustomPrice() {
+            const price = document.getElementById('customPriceInput').value;
+            generateQR(price);
+        }
+
+        function generateQR(price) {
             // Update Price Display
             document.getElementById('displayPrice').innerText = price;
 
@@ -232,26 +287,34 @@
             document.getElementById('upiLink').href = upiString;
 
             // Generate Smart QR
-            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
-            document.getElementById('dynamicQR').src = qrUrl;
+            if(price > 0) {
+                let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+                document.getElementById('dynamicQR').src = qrUrl;
+            }
         }
 
         function submitToWhatsApp(e) {
             e.preventDefault();
 
-            const plan = document.getElementById('planSelect').value;
+            const select = document.getElementById('planSelect');
+            let plan = select.value;
+            let price = document.getElementById('displayPrice').innerText;
+            
+            const date = document.getElementById('joinDate').value;
             const name = document.getElementById('userName').value;
             const phone = document.getElementById('userPhone').value;
             const txn = document.getElementById('userTxn').value;
 
-            if(plan === "none") {
-                alert("Please select a membership plan.");
+            if(plan === "none" || price == "0") {
+                alert("Please select a valid plan or enter an amount.");
                 return;
             }
 
             // Create Message
             const message = `*NEW MEMBERSHIP REQUEST*%0A%0A` +
                             `🏋️ *Plan:* ${plan}%0A` +
+                            `💰 *Amount:* ₹${price}%0A` +
+                            `📅 *Join Date:* ${date}%0A` +
                             `👤 *Name:* ${name}%0A` +
                             `📞 *Phone:* ${phone}%0A` +
                             `🧾 *Txn ID:* ${txn}%0A%0A` +
