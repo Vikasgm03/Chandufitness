@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment & Verification | Chandhu-Fitness</title>
+    <title>Secure Checkout | Chandhu-Fitness</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- THEME VARIABLES --- */
+        /* --- PLATINUM LIGHT THEME VARIABLES --- */
         :root {
             --primary: #ff3b3b;
-            --primary-glow: rgba(255, 59, 59, 0.5);
-            --dark: #050505;
-            --text: #ffffff;
-            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --primary-dark: #d32f2f;
+            --primary-glow: rgba(255, 59, 59, 0.3);
+            --bg-body: #f4f6f8;
+            --bg-card: #ffffff;
+            --text: #1a1a1a;
+            --border-light: #e0e0e0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--dark); 
-            background-image: radial-gradient(circle at 50% 0%, #1a0505 0%, #000000 100%);
+            background-color: var(--bg-body); 
             color: var(--text); 
             font-family: 'Montserrat', sans-serif; 
             min-height: 100vh;
@@ -32,10 +33,13 @@
         }
 
         /* --- HEADER --- */
-        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: white; text-decoration: none; }
+        header { 
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; 
+            background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: #000; text-decoration: none; }
         .logo span { color: var(--primary); }
-        .back-link { color: #888; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .back-link { color: #666; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
         .back-link:hover { color: var(--primary); }
 
         /* --- MAIN LAYOUT --- */
@@ -44,174 +48,157 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .split-card {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border: var(--glass-border);
+            grid-template-columns: 1fr 1.2fr; /* Wider right side for form */
+            background: var(--bg-card);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            max-width: 900px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            max-width: 1000px;
             width: 100%;
             position: relative;
+            border: 1px solid var(--border-light);
         }
 
         /* Top Red Line */
         .split-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--primary);
         }
 
-        /* --- LEFT SIDE: PAYMENT --- */
+        /* --- LEFT SIDE: PAYMENT (QR) --- */
         .pay-section {
             padding: 40px;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            background: #fafafa;
+            border-right: 1px solid var(--border-light);
             text-align: center;
-        }
-
-        .qr-box {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-bottom: 20px;
-    position: relative;
-    /* FIX: Force the container to stay small */
-    width: 220px; 
-    height: 220px;
-}
-
-.qr-box img {
-    /* FIX: Force the image to fit the container */
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-        
-        .qr-box::after {
-            content: ''; position: absolute; inset: -5px; 
-            border: 2px dashed var(--primary); border-radius: 15px;
-            animation: spin 10s linear infinite;
-        }
-
-        .upi-details {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border: 1px solid #333;
-            text-align: left;
-        }
-
-        .upi-row {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 10px; font-size: 0.9rem;
-        }
-        .upi-row:last-child { margin-bottom: 0; }
-        .copy-btn { color: var(--primary); cursor: pointer; font-size: 0.9rem; }
-        .copy-btn:hover { color: white; }
-
-        /* --- RIGHT SIDE: VERIFY --- */
-        .verify-section {
-            padding: 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: rgba(255, 59, 59, 0.05);
+            align-items: center;
         }
 
-        h2 { font-family: 'Oswald', sans-serif; font-size: 2rem; margin-bottom: 10px; }
-        p { color: #aaa; margin-bottom: 25px; line-height: 1.5; font-size: 0.9rem; }
-
-        .steps { margin-bottom: 30px; }
-        .step { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-start; }
-        .step-num { 
-            background: var(--primary); color: white; width: 25px; height: 25px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 0.8rem; flex-shrink: 0;
+        .qr-box {
+            background: white;
+            padding: 10px;
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            width: 220px; height: 220px;
         }
+        .qr-box img { width: 100%; height: 100%; object-fit: contain; }
+
+        .price-tag {
+            font-size: 2.5rem; font-weight: 800; color: #000; margin: 10px 0;
+            font-family: 'Oswald', sans-serif;
+        }
+        
+        .tap-btn {
+            background: #000; color: white; text-decoration: none;
+            padding: 12px 30px; border-radius: 50px; font-weight: 600;
+            display: inline-block; width: 100%; max-width: 250px;
+            margin-top: 10px; transition: 0.3s;
+        }
+        .tap-btn:hover { background: var(--primary); transform: translateY(-2px); }
+
+        /* --- RIGHT SIDE: FORM --- */
+        .verify-section {
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+        }
+
+        h2 { font-family: 'Oswald', sans-serif; font-size: 2rem; margin-bottom: 5px; color: #000; }
+        p { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
+
+        label { font-size: 0.85rem; font-weight: 700; color: #444; display: block; margin-bottom: 8px; margin-top: 15px; }
+        
+        input, select { 
+            width: 100%; padding: 12px 15px; 
+            background: #f8f9fa; border: 2px solid #eee; 
+            border-radius: 8px; font-size: 1rem; color: #333;
+            transition: 0.3s; font-family: 'Montserrat', sans-serif;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--primary); background: #fff; }
 
         .submit-btn {
-            background: var(--primary); color: white; text-decoration: none;
+            background: var(--primary); color: white;
             padding: 15px; text-align: center; border-radius: 8px;
-            font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 1px;
-            transition: 0.3s; border: none; cursor: pointer; width: 100%; display: block;
+            font-family: 'Oswald', sans-serif; font-size: 1.2rem; letter-spacing: 1px;
+            transition: 0.3s; border: none; cursor: pointer; width: 100%; margin-top: 30px;
         }
-        .submit-btn:hover {
-            background: white; color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-
-        .payment-icons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; font-size: 1.5rem; color: #888; }
+        .submit-btn:hover { background: var(--primary-dark); box-shadow: 0 10px 20px var(--primary-glow); transform: translateY(-2px); }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             .split-card { grid-template-columns: 1fr; }
-            .pay-section { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .pay-section { border-right: none; border-bottom: 1px solid #eee; padding: 30px 20px; }
+            .verify-section { padding: 30px 20px; }
         }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <header>
         <a href="index.html" class="logo">CHANDHU<span>FITNESS</span></a>
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> BACK</a>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> HOME</a>
     </header>
 
     <div class="container">
-        <div class="split-card" data-aos="zoom-in">
+        <div class="split-card" data-aos="fade-up">
             
             <div class="pay-section">
-                <h3 style="font-family:'Oswald',sans-serif; margin-bottom:20px; letter-spacing:1px;">STEP 1: SCAN TO PAY</h3>
+                <h3 style="font-family:'Oswald',sans-serif; margin-bottom:10px; color:#888;">SCAN TO PAY</h3>
+                
+                <div class="price-tag">₹<span id="displayPrice">0</span></div>
                 
                 <div class="qr-box">
-                    <img src="images/qr.png" alt="Payment QR">
+                    <img id="dynamicQR" src="" alt="Select a plan to generate QR">
                 </div>
 
-                <div class="upi-details">
-                    <div class="upi-row">
-                        <span style="color:#888;">UPI ID:</span>
-                        <strong id="upi-id">chandhufitness@upi</strong>
-                        <i class="fas fa-copy copy-btn" onclick="copyText('upi-id')"></i>
-                    </div>
-                    <div class="upi-row">
-                        <span style="color:#888;">GPay/PhonePe:</span>
-                        <strong id="upi-num">98765 43210</strong>
-                        <i class="fas fa-copy copy-btn" onclick="copyText('upi-num')"></i>
-                    </div>
-                </div>
-
-                <div class="payment-icons">
-                    <i class="fab fa-google-pay"></i>
-                    <i class="fas fa-mobile-alt"></i> <i class="fas fa-wallet"></i> </div>
+                <a id="upiLink" href="#" class="tap-btn">
+                    <i class="fas fa-mobile-alt"></i> TAP TO PAY
+                </a>
+                
+                <p style="font-size:0.8rem; color:#888; margin-top:15px;">
+                    Secure UPI Payment via GPay / PhonePe
+                </p>
             </div>
 
             <div class="verify-section">
-                <h2>STEP 2: VERIFY</h2>
-                <p>Payment completed? Great! To activate your membership, we need the transaction screenshot and your ID proof.</p>
+                <h2>COMPLETE REGISTRATION</h2>
+                <p>Fill in your details to activate your membership instantly via WhatsApp.</p>
 
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-num">1</div>
-                        <div>Take a screenshot of the <strong>Payment Success</strong> screen.</div>
-                    </div>
+                <form onsubmit="submitToWhatsApp(event)">
+                    
+                    <label>SELECT PLAN</label>
+                    <select id="planSelect" onchange="updatePaymentDetails()">
+                        <option value="none">-- Choose Membership --</option>
+                        <option value="SILVER" data-price="699">SILVER PLAN - ₹699</option>
+                        <option value="GOLD" data-price="799">GOLD PLAN - ₹799</option>
+                        <option value="PLATINUM" data-price="4999">PLATINUM (6 Months) - ₹4999</option>
+                    </select>
 
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div>Click the button below to upload details securely.</div>
-                    </div>
-                </div>
+                    <label>FULL NAME</label>
+                    <input type="text" id="userName" required placeholder="Ex. Rahul Kumar">
 
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHB-MhWyPd-MKO6nOt1vlMwSvc1LWoFXHuVzzSFQ7gdq14Sw/viewform?usp=dialog" target="_blank" class="submit-btn">
-                    UPLOAD PROOF & REGISTER <i class="fas fa-upload" style="margin-left:10px"></i>
-                </a>
+                    <label>PHONE NUMBER</label>
+                    <input type="tel" id="userPhone" required placeholder="Ex. 9876543210">
+
+                    <label>PAYMENT ID (UTR)</label>
+                    <input type="text" id="userTxn" required placeholder="Paste from Payment App">
+
+                    <button type="submit" class="submit-btn">
+                        CONFIRM & SEND <i class="fab fa-whatsapp" style="margin-left:8px"></i>
+                    </button>
+                </form>
             </div>
 
         </div>
@@ -221,11 +208,57 @@
     <script>
         AOS.init({ duration: 800 });
 
-        function copyText(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Copied: " + text);
-            });
+        // --- CONFIGURATION ---
+        const myUPI = "chandhufitness@upi"; 
+        const myName = "Chandhu Fitness";
+        const ownerNumber = "919535690976"; // Your WhatsApp Number
+
+        function updatePaymentDetails() {
+            const select = document.getElementById('planSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+
+            if(select.value === "none") {
+                document.getElementById('displayPrice').innerText = "0";
+                document.getElementById('dynamicQR').src = ""; // Clear QR
+                return;
+            }
+
+            // Update Price Display
+            document.getElementById('displayPrice').innerText = price;
+
+            // Generate UPI Link
+            let upiString = `upi://pay?pa=${myUPI}&pn=${myName}&am=${price}&cu=INR`;
+            document.getElementById('upiLink').href = upiString;
+
+            // Generate Smart QR
+            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+            document.getElementById('dynamicQR').src = qrUrl;
+        }
+
+        function submitToWhatsApp(e) {
+            e.preventDefault();
+
+            const plan = document.getElementById('planSelect').value;
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            const txn = document.getElementById('userTxn').value;
+
+            if(plan === "none") {
+                alert("Please select a membership plan.");
+                return;
+            }
+
+            // Create Message
+            const message = `*NEW MEMBERSHIP REQUEST*%0A%0A` +
+                            `🏋️ *Plan:* ${plan}%0A` +
+                            `👤 *Name:* ${name}%0A` +
+                            `📞 *Phone:* ${phone}%0A` +
+                            `🧾 *Txn ID:* ${txn}%0A%0A` +
+                            `_Please verify my payment and activate account._`;
+
+            // Open WhatsApp
+            window.open(`https://wa.me/${ownerNumber}?text=${message}`, '_blank');
         }
     </script>
 </body>
