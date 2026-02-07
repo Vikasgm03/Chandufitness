@@ -270,11 +270,51 @@
             const price = selectedOption.getAttribute('data-price');
             
             generateQR(price);
+        // --- PAYMENT LOGIC ---
+        function updatePaymentDetails() {
+            const select = document.getElementById('planSelect');
+            const customBox = document.getElementById('customAmountBox');
+            const qrImage = document.getElementById('dynamicQR');
+            
+            // 1. Handle Custom Plan
+            if (select.value === "CUSTOM") {
+                customBox.style.display = "block";
+                document.getElementById('displayPrice').innerText = "0";
+                
+                // SHOW PREVIEW IMAGE (Replace URL with your local image: 'images/enter_amount.png')
+                qrImage.src = "https://via.placeholder.com/250x250.png?text=Enter+Amount"; 
+                return;
+            } else {
+                customBox.style.display = "none";
+            }
+
+            // 2. Handle "No Selection"
+            if (select.value === "none") {
+                document.getElementById('displayPrice').innerText = "0";
+                // Show default "Select Plan" image
+                qrImage.src = "https://via.placeholder.com/250x250.png?text=Select+Plan";
+                return;
+            }
+
+            // 3. Handle Standard Plans (Silver/Gold)
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            
+            generateQR(price);
         }
 
         function updateCustomPrice() {
             const price = document.getElementById('customPriceInput').value;
-            generateQR(price);
+            const qrImage = document.getElementById('dynamicQR');
+
+            if (price && price > 0) {
+                // If user typed a number, generate real QR
+                generateQR(price);
+            } else {
+                // If input is empty, switch back to PREVIEW IMAGE
+                document.getElementById('displayPrice').innerText = "0";
+                qrImage.src = "https://via.placeholder.com/250x250.png?text=Enter+Amount";
+            }
         }
 
         function generateQR(price) {
