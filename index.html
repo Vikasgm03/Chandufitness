@@ -2,741 +2,231 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chandhu-Fitness | Elite Training Facility</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment & Verification | Chandhu-Fitness</title>
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 0. THEME CONFIGURATION: PLATINUM LIGHT --- */
+        /* --- THEME VARIABLES --- */
         :root {
-            --primary: #ff3b3b; /* Energetic Red */
-            --primary-dark: #d32f2f;
-            --primary-glow: rgba(255, 59, 59, 0.25);
-            --bg-body: #ffffff;
-            --bg-card: #f8f9fa; /* Very Light Grey */
-            --text-main: #1a1a1a; /* Almost Black for readability */
-            --text-muted: #666666;
-            --border-light: #e5e5e5;
-            --shadow-card: 0 15px 40px rgba(0, 0, 0, 0.08); /* Soft shadow */
+            --primary: #ff3b3b;
+            --primary-glow: rgba(255, 59, 59, 0.5);
+            --dark: #050505;
+            --text: #ffffff;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
+            background-color: var(--dark); 
+            background-image: radial-gradient(circle at 50% 0%, #1a0505 0%, #000000 100%);
+            color: var(--text); 
             font-family: 'Montserrat', sans-serif; 
-            overflow-x: hidden; 
-            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        h1, h2, h3, .btn-nav, .level-btn, .price { 
-            font-family: 'Oswald', sans-serif; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
-        
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
-        html { scroll-behavior: smooth; }
-
-        /* Prevent auto-zoom on iOS */
-        @media screen and (max-width: 768px) {
-            input, select, textarea { font-size: 16px !important; }
-        }
-
-        /* --- 1. CLEAN MODERN HEADER --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; 
-            position: fixed; width: 100%; top: 0; z-index: 1000;
-            transition: 0.4s ease;
-            background: rgba(255,255,255,0.9); /* Semi-transparent white */
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid transparent;
-        }
-
-        header.scrolled {
-            background: #ffffff;
-            padding: 15px 5%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .logo { font-size: 2rem; font-weight: 700; color: #000; }
+        /* --- HEADER --- */
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: white; text-decoration: none; }
         .logo span { color: var(--primary); }
+        .back-link { color: #888; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .back-link:hover { color: var(--primary); }
 
-        nav ul { display: flex; gap: 30px; align-items: center; }
-        nav a { font-weight: 600; font-size: 0.9rem; position: relative; color: #333; }
-        nav a:hover { color: var(--primary); }
-        nav a::after {
-            content: ''; position: absolute; width: 0; height: 3px;
-            bottom: -5px; left: 0; background: var(--primary); transition: 0.3s;
-        }
-        nav a:hover::after { width: 100%; }
-
-        .join-btn {
-            background: var(--primary); 
-            border: 2px solid var(--primary); 
-            color: white;
-            padding: 10px 30px; 
-            font-weight: bold; 
-            font-size: 0.9rem;
-            cursor: pointer; 
-            transition: 0.3s;
-            border-radius: 50px; /* Modern pill shape */
-        }
-        .join-btn:hover { 
-            background: transparent; 
-            color: var(--primary); 
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-card);
+        /* --- MAIN LAYOUT --- */
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* --- 2. HIGH CONTRAST HERO --- */
-        .hero {
-            height: 100vh;
-            width: 100%;
-            /* Gradient fades to white at bottom to blend with content */
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6), #ffffff), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 0 20px;
-            overflow: hidden;
-        }
-
-        .hero h1 { 
-            font-size: 5rem; 
-            line-height: 1.1; 
-            margin-bottom: 20px; 
-            color: white; /* Keep white on hero image for readability */
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-        }
-        .typewriter { 
-            color: var(--primary); 
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            padding: 0 15px;
-        }
-        
-        .cta-btn {
-            padding: 15px 50px; 
-            background: var(--primary); 
-            border: none;
-            color: white; 
-            font-size: 1.2rem; 
-            font-weight: bold; 
-            cursor: pointer;
-            transition: 0.3s; 
-            margin-top: 30px; 
-            border-radius: 5px;
-            box-shadow: 0 10px 20px rgba(255, 59, 59, 0.4);
-        }
-        .cta-btn:hover { 
-            transform: translateY(-3px); 
-            background: var(--primary-dark);
-            box-shadow: 0 15px 30px rgba(255, 59, 59, 0.6); 
-        }
-
-        /* --- 3. SECTIONS --- */
-        section { 
-            padding: 100px 5%; 
-            position: relative; 
-            overflow: hidden; 
-            background: var(--bg-body);
-        }
-        
-        .section-title { 
-            text-align: center; font-size: 3rem; margin-bottom: 60px; 
-            width: 100%; color: #000; position: relative;
-        }
-        .section-title span { 
-            color: var(--primary); 
-        }
-        .section-title::after {
-            content: ''; display: block; width: 60px; height: 5px; 
-            background: var(--primary);
-            margin: 15px auto 0; 
-            border-radius: 50px;
-        }
-
-        /* --- 4. SERVICES SLIDER (Light Cards) --- */
-        .slider-container {
-            height: 320px; margin: auto; position: relative; width: 100%;
-            display: grid; place-items: center; overflow: hidden;
-        }
-        /* White fade on sides */
-        .slider-container::before, .slider-container::after {
-            background: linear-gradient(to right, var(--bg-body) 0%, transparent 100%);
-            content: ""; height: 100%; position: absolute; width: 100px; z-index: 2; pointer-events: none;
-        }
-        .slider-container::before { left: 0; top: 0; }
-        .slider-container::after { right: 0; top: 0; transform: rotateZ(180deg); }
-
-        .slide-track {
-            display: flex; width: calc(250px * 12);
-            animation: scroll 30s linear infinite;
-        }
-        .slide-track:hover { animation-play-state: paused; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-250px * 6)); } }
-
-        .slide { height: 280px; width: 250px; display: flex; align-items: center; padding: 10px; perspective: 100px; }
-        
-        /* Light Card Design */
-        .service-card-small {
-            width: 100%; height: 100%; border-radius: 15px; overflow: hidden;
-            position: relative; transition: 0.4s ease; background: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .service-card-small img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; opacity: 0.9; }
-        
-        .service-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.7); /* Light overlay */
-            transition: 0.4s; opacity: 0; /* Hidden by default for clean look */
-        }
-        .service-overlay i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; transition: 0.3s; transform: translateY(20px); }
-        .service-overlay h4 { font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: #000; letter-spacing: 1px; margin: 0; text-transform: uppercase; transition: 0.3s; transform: translateY(20px); }
-
-        .service-card-small:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-        .service-card-small:hover .service-overlay { opacity: 1; }
-        .service-card-small:hover .service-overlay i, .service-card-small:hover .service-overlay h4 { transform: translateY(0); }
-
-        /* --- 5. SCHEDULE GRID (Clean Cards) --- */
-        .level-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
-        
-        .level-btn {
-            padding: 12px 35px; font-size: 1.1rem; background: #fff; 
-            border: 2px solid #eee; color: #555; cursor: pointer; border-radius: 50px;
-            transition: 0.3s; font-weight: 600;
-        }
-        .level-btn:hover { border-color: var(--primary); color: var(--primary); }
-        
-        .level-btn.active { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; box-shadow: 0 5px 15px var(--primary-glow); }
-
-        .schedule-grid { display: none; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; animation: fadeIn 0.6s ease; }
-        .schedule-grid.active { display: grid; }
-
-        .day-card {
-            background: #fff; 
-            border: 1px solid var(--border-light);
-            padding: 30px; border-radius: 15px; transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-        }
-        .day-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-        .day-title { font-size: 1.4rem; color: #000; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; display:flex; justify-content:space-between; align-items: center;}
-        .day-title span { font-size: 0.9rem; color: var(--primary); font-weight: 700; background: rgba(255, 59, 59, 0.1); padding: 5px 15px; border-radius: 20px; }
-        .workout-list li { padding: 12px 0; border-bottom: 1px solid #f5f5f5; color: #555; font-size: 0.95rem; display: flex; justify-content: space-between; font-weight: 500; }
-        .workout-list li span { color: #000; font-weight: 700; }
-
-        /* --- 6. TOOLS & FORMS (Light Inputs) --- */
-        .tools-container, .pricing-container, .grid-container { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
-        .tool-card { width: 100%; max-width: 450px; background: #fff; padding: 40px; border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light); }
-        .tool-card h3 { margin-bottom: 20px; color: #000; font-size: 1.5rem; }
-        
-        input, select { 
-            width: 100%; padding: 15px; 
-            background: #f8f9fa; border: 2px solid #eee; 
-            color: #333; border-radius: 8px; margin-bottom: 15px; 
-            font-family: 'Montserrat', sans-serif; font-weight: 600;
-        }
-        input:focus, select:focus { outline: none; border-color: var(--primary); background: #fff; }
-        .result-box { background: rgba(255, 59, 59, 0.1); padding: 15px; text-align: center; border-radius: 8px; color: var(--primary); font-weight: 700; }
-
-        /* --- 7. TRAINERS & PRICING --- */
-        .trainer-card { background: #fff; padding: 25px; border-radius: 20px; text-align: center; transition: 0.3s; box-shadow: var(--shadow-card); border: 1px solid transparent;}
-        .trainer-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .trainer-img { 
-            width: 180px; height: 180px; border-radius: 50%; object-fit: cover; 
-            border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; transition: 0.3s;
-        }
-        .trainer-card h3 { color: #000; margin-bottom: 5px; }
-        
-        .plan-card { 
-            width: 100%; max-width: 360px; 
-            background: #fff; 
-            padding: 50px 30px; 
+        .split-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: var(--glass-border);
             border-radius: 20px;
-            border: 1px solid var(--border-light); 
-            text-align: center; position: relative; overflow: hidden; 
-            transition: 0.3s;
-            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            max-width: 900px;
+            width: 100%;
+            position: relative;
         }
-        .plan-card:hover { transform: translateY(-10px); border-color: var(--primary); }
-        .plan-card.popular { background: #000; color: white; transform: scale(1.05); }
-        .plan-card.popular h3 { color: white; }
-        .plan-card.popular .price { color: white; }
-        .plan-card.popular .price span { color: #aaa; }
-        .plan-card.popular .features li { border-bottom-color: #333; color: #ccc; }
-        .plan-card.popular::before { content: 'BEST VALUE'; position: absolute; top: 15px; right: -30px; background: var(--primary); width: 120px; font-size: 0.7rem; font-weight: bold; transform: rotate(45deg); padding: 5px 0; color: white; }
-        
-        .plan-card h3 { color: #000; }
-        .price { font-size: 3.5rem; font-weight: 700; margin: 20px 0; color: #000; }
-        .price span { font-size: 1rem; color: #777; font-weight: 400; }
-        .features li { padding: 15px 0; color: #555; border-bottom: 1px solid #eee; }
-        .features li i { color: var(--primary); margin-right: 10px; }
 
-        /* --- 8. FAQ (Light Style) --- */
-        .faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        
-        details { 
-            background: #fff; 
-            border-radius: 10px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            overflow: hidden; 
-            transition: 0.3s ease; 
-            border: 1px solid #eee;
+        /* Top Red Line */
+        .split-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
-        
-        summary { 
-            padding: 25px; cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 1.1rem; 
-            letter-spacing: 1px; color: #000; display: flex; justify-content: space-between; align-items: center; list-style: none; transition: 0.3s; 
+
+        /* --- LEFT SIDE: PAYMENT --- */
+        .pay-section {
+            padding: 40px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
         }
-        summary::-webkit-details-marker { display: none; }
+
+        .qr-box {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+    position: relative;
+    /* FIX: Force the container to stay small */
+    width: 220px; 
+    height: 220px;
+}
+
+.qr-box img {
+    /* FIX: Force the image to fit the container */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
         
-        summary::after { 
-            content: '+'; font-size: 1.5rem; color: var(--primary); font-weight: 300; transition: 0.3s; 
-            background: rgba(255, 59, 59, 0.1); width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
+        .qr-box::after {
+            content: ''; position: absolute; inset: -5px; 
+            border: 2px dashed var(--primary); border-radius: 15px;
+            animation: spin 10s linear infinite;
         }
-        
-        details[open] { border-color: var(--primary); box-shadow: 0 10px 20px rgba(255, 59, 59, 0.1); }
-        details[open] summary { background: #fff; color: var(--primary); }
-        details[open] summary::after { transform: rotate(45deg); background: var(--primary); color: white; }
-        
-        .faq-answer { padding: 0 25px 25px 25px; color: #555; line-height: 1.7; font-size: 0.95rem; border-top: 1px solid #f5f5f5; margin-top:0; padding-top:15px; animation: fadeIn 0.5s forwards; }
 
-        /* --- 9. FOOTER (Dark Contrast) --- */
-        footer { background: #111; padding: 80px 5% 30px; position: relative; color: #bbb; }
-        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
-        
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
-        .footer-col h3 { font-size: 1.2rem; margin-bottom: 25px; color: white; letter-spacing: 1px; }
-        .footer-bio { color: #888; line-height: 1.8; margin: 20px 0; font-size: 0.9rem; }
-        
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: #888; font-size: 0.9rem; transition: 0.3s; display: inline-block; }
-        .footer-links a:hover { color: white; transform: translateX(5px); }
-        
-        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
-        .social-icons a { width: 45px; height: 45px; background: #222; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: white; transition: 0.3s; border: none; }
-        .social-icons a:hover { background: var(--primary); color: white; transform: translateY(-3px); }
-        
-        .contact-row { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; color: #888; font-size: 0.9rem; }
-        .contact-row i { color: var(--primary); font-size: 1rem; }
-        
-        .footer-bottom { border-top: 1px solid #222; padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .copyright { color: #555; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .dev-btn { display: flex; align-items: center; gap: 10px; padding: 10px 25px; background: #222; border: none; border-radius: 50px; color: #ccc; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: 0.4s; }
-        .dev-btn i { color: #0077b5; }
-        .dev-btn:hover { background: #fff; color: #000; }
+        .upi-details {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #333;
+            text-align: left;
+        }
 
-        /* --- 10. MODALS --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; }
-        .modal-content { background: #fff; margin: 5% auto; padding: 40px; width: 90%; max-width: 500px; border-radius: 15px; border: none; text-align: center; position: relative; box-shadow: 0 10px 50px rgba(0,0,0,0.3); color: #333; }
-        .modal-content h2 { color: #000 !important; }
-        .modal-content p { color: #666 !important; }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #000; font-size: 30px; cursor: pointer; transition: 0.3s; }
-        .close-btn:hover { color: var(--primary); }
-        
-        .qr-wrapper { background: #f8f9fa; padding: 10px; display: inline-block; margin: 20px 0; border: 1px solid #eee; border-radius: 10px; width: 200px; height: 200px; }
-        .qr-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+        .upi-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; font-size: 0.9rem;
+        }
+        .upi-row:last-child { margin-bottom: 0; }
+        .copy-btn { color: var(--primary); cursor: pointer; font-size: 0.9rem; }
+        .copy-btn:hover { color: white; }
 
-        /* --- 11. MOBILE OPTIMIZATIONS --- */
-        .menu-toggle { display: none; font-size: 1.8rem; color: #000; cursor: pointer; }
-        
+        /* --- RIGHT SIDE: VERIFY --- */
+        .verify-section {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(255, 59, 59, 0.05);
+        }
+
+        h2 { font-family: 'Oswald', sans-serif; font-size: 2rem; margin-bottom: 10px; }
+        p { color: #aaa; margin-bottom: 25px; line-height: 1.5; font-size: 0.9rem; }
+
+        .steps { margin-bottom: 30px; }
+        .step { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-start; }
+        .step-num { 
+            background: var(--primary); color: white; width: 25px; height: 25px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.8rem; flex-shrink: 0;
+        }
+
+        .submit-btn {
+            background: var(--primary); color: white; text-decoration: none;
+            padding: 15px; text-align: center; border-radius: 8px;
+            font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 1px;
+            transition: 0.3s; border: none; cursor: pointer; width: 100%; display: block;
+        }
+        .submit-btn:hover {
+            background: white; color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .payment-icons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; font-size: 1.5rem; color: #888; }
+
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            section { padding: 60px 5%; }
-            .hero h1 { font-size: 3rem; }
-            .section-title { font-size: 2.2rem; }
-            
-            .menu-toggle { display: block; }
-            nav ul {
-                display: flex; flex-direction: column; position: absolute;
-                top: 70px; left: 0; width: 100%; background: #ffffff;
-                padding: 30px 0; border-bottom: 2px solid var(--primary);
-                opacity: 0; visibility: hidden; transform: translateY(-20px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            }
-            nav ul.active { opacity: 1; visibility: visible; transform: translateY(0); z-index: 999; }
-            nav ul li { margin: 15px 0; }
-            
-            .footer-bottom { justify-content: center; text-align: center; }
-            .footer-col { text-align: center; }
-            .social-icons { justify-content: center; }
-            .contact-row { justify-content: center; }
+            .split-card { grid-template-columns: 1fr; }
+            .pay-section { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
         }
 
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 2.5rem; }
-            .cta-btn { padding: 15px 40px; font-size: 1rem; width: 100%; }
-            .section-title { font-size: 2rem; }
-            .price { font-size: 2.8rem; }
-            .tools-container, .pricing-container, .grid-container { gap: 20px; }
-            .modal-content { padding: 30px 20px; width: 95%; }
-        }
-
-        @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">CHANDHU<span>FITNESS</span></div>
-    <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-    <nav>
-        <ul id="nav-list"> 
-            <li><a href="#home" onclick="toggleMenu()">HOME</a></li>
-            <li><a href="#schedule" onclick="toggleMenu()">TRAINING</a></li>
-            <li><a href="#tools" onclick="toggleMenu()">TOOLS</a></li>
-            <li><a href="#plans" onclick="toggleMenu()">MEMBERSHIP</a></li>
-            <li><a href="join.html" class="join-btn" style="text-decoration:none; display:inline-block;">JOIN NOW</a></li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <a href="index.html" class="logo">CHANDHU<span>FITNESS</span></a>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> BACK</a>
+    </header>
 
-<div class="hero" id="home">
-    <h1 data-aos="fade-down">BUILD YOUR <br><span class="typewriter"></span></h1>
-    <p data-aos="fade-up" style="font-size: 1.2rem; color: #f0f0f0; max-width: 600px; margin-bottom: 10px; font-weight: 500;">
-        Premium Gear. Expert Coaching. Unstoppable Results.
-    </p>
-    <button class="cta-btn" data-aos="zoom-in" onclick="document.getElementById('plans').scrollIntoView()">START YOUR JOURNEY</button>
-</div>
-
-<section id="services" style="padding: 50px 0;">
-    <h2 class="section-title" data-aos="fade-up">OUR <span>EXPERTISE</span></h2>
-    <div class="slider-container">
-        <div class="slide-track">
-            <div class="slide"><div class="service-card-small"><img src="/images/weight-lifting.png"><div class="service-overlay"><i class="fas fa-dumbbell"></i><h4>WEIGHTLIFTING</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/cardio.png"><div class="service-overlay"><i class="fas fa-running"></i><h4>CARDIO</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/crossfit.png"><div class="service-overlay"><i class="fas fa-burn"></i><h4>CROSSFIT</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/yoga.png"><div class="service-overlay"><i class="fas fa-spa"></i><h4>YOGA</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/training.png"><div class="service-overlay"><i class="fas fa-user-friends"></i><h4>TRAINING</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/zumba.png"><div class="service-overlay"><i class="fas fa-heartbeat"></i><h4>ZUMBA</h4></div></div></div>
+    <div class="container">
+        <div class="split-card" data-aos="zoom-in">
             
-            <div class="slide"><div class="service-card-small"><img src="/images/weight-lifting.png"><div class="service-overlay"><i class="fas fa-dumbbell"></i><h4>WEIGHTLIFTING</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/cardio.png"><div class="service-overlay"><i class="fas fa-running"></i><h4>CARDIO</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/crossfit.png"><div class="service-overlay"><i class="fas fa-burn"></i><h4>CROSSFIT</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/yoga.png"><div class="service-overlay"><i class="fas fa-spa"></i><h4>YOGA</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/training.png"><div class="service-overlay"><i class="fas fa-user-friends"></i><h4>TRAINING</h4></div></div></div>
-            <div class="slide"><div class="service-card-small"><img src="/images/zumba.png"><div class="service-overlay"><i class="fas fa-heartbeat"></i><h4>ZUMBA</h4></div></div></div>
-        </div>
-    </div>
-</section>
+            <div class="pay-section">
+                <h3 style="font-family:'Oswald',sans-serif; margin-bottom:20px; letter-spacing:1px;">STEP 1: SCAN TO PAY</h3>
+                
+                <div class="qr-box">
+                    <img src="images/qr.png" alt="Payment QR">
+                </div>
 
-<section id="schedule">
-    <h2 class="section-title">CHOOSE YOUR <span>LEVEL</span></h2>
-    <div class="level-controls" data-aos="fade-up">
-        <button class="level-btn active" data-level="beginner" onclick="switchLevel('beginner')">BEGINNER</button>
-        <button class="level-btn" data-level="intermediate" onclick="switchLevel('intermediate')">INTERMEDIATE</button>
-        <button class="level-btn" data-level="pro" onclick="switchLevel('pro')">PRO ATHLETE</button>
-    </div>
+                <div class="upi-details">
+                    <div class="upi-row">
+                        <span style="color:#888;">UPI ID:</span>
+                        <strong id="upi-id">chandhufitness@upi</strong>
+                        <i class="fas fa-copy copy-btn" onclick="copyText('upi-id')"></i>
+                    </div>
+                    <div class="upi-row">
+                        <span style="color:#888;">GPay/PhonePe:</span>
+                        <strong id="upi-num">98765 43210</strong>
+                        <i class="fas fa-copy copy-btn" onclick="copyText('upi-num')"></i>
+                    </div>
+                </div>
 
-    <div id="beginner" class="schedule-grid active">
-        <div class="day-card" data-aos="zoom-in"><div class="day-title">MONDAY <span>Full Body A</span></div><ul class="workout-list"><li>Squats <span>3x10</span></li><li>Bench Press <span>3x10</span></li><li>Rows <span>3x12</span></li><li>Plank <span>3x30s</span></li></ul></div>
-        <div class="day-card" data-aos="zoom-in" data-aos-delay="100"><div class="day-title">WEDNESDAY <span>Full Body B</span></div><ul class="workout-list"><li>Deadlift <span>3x8</span></li><li>OH Press <span>3x10</span></li><li>Lat Pulldown <span>3x12</span></li><li>Lunges <span>3x12</span></li></ul></div>
-        <div class="day-card" data-aos="zoom-in" data-aos-delay="200"><div class="day-title">FRIDAY <span>Full Body A</span></div><ul class="workout-list"><li>Leg Press <span>3x12</span></li><li>Incline Press <span>3x10</span></li><li>Bicep Curls <span>3x15</span></li><li>Tricep Dips <span>3x15</span></li></ul></div>
-    </div>
-
-    <div id="intermediate" class="schedule-grid">
-        <div class="day-card"><div class="day-title">MON <span>Upper Power</span></div><ul class="workout-list"><li>Bench Press <span>4x6</span></li><li>Barbell Row <span>4x8</span></li><li>OH Press <span>3x8</span></li></ul></div>
-        <div class="day-card"><div class="day-title">TUE <span>Lower Power</span></div><ul class="workout-list"><li>Squat <span>4x6</span></li><li>RDL <span>3x8</span></li><li>Calf Raise <span>4x15</span></li></ul></div>
-        <div class="day-card"><div class="day-title">THU <span>Upper Hyper</span></div><ul class="workout-list"><li>Incline DB <span>3x10</span></li><li>Pull Ups <span>3xMax</span></li><li>Lateral Raise <span>3x15</span></li></ul></div>
-        <div class="day-card"><div class="day-title">FRI <span>Lower Hyper</span></div><ul class="workout-list"><li>Leg Press <span>3x12</span></li><li>Leg Curl <span>3x15</span></li><li>Abs <span>4x20</span></li></ul></div>
-    </div>
-
-    <div id="pro" class="schedule-grid">
-        <div class="day-card"><div class="day-title">MON <span>Push</span></div><ul class="workout-list"><li>Bench <span>5x5</span></li><li>OH Press <span>4x8</span></li><li>Dips <span>4x12</span></li></ul></div>
-        <div class="day-card"><div class="day-title">TUE <span>Pull</span></div><ul class="workout-list"><li>Deadlift <span>5x5</span></li><li>Pull Ups <span>4x10</span></li><li>Barbell Curl <span>4x12</span></li></ul></div>
-        <div class="day-card"><div class="day-title">WED <span>Legs</span></div><ul class="workout-list"><li>Squat <span>5x5</span></li><li>Lunges <span>4x12</span></li><li>Calves <span>5x20</span></li></ul></div>
-        <div class="day-card"><div class="day-title">THU <span>Chest/Back</span></div><ul class="workout-list"><li>Incline <span>4x10</span></li><li>T-Bar Row <span>4x10</span></li><li>Flys <span>4x15</span></li></ul></div>
-        <div class="day-card"><div class="day-title">FRI <span>Shoulder/Arm</span></div><ul class="workout-list"><li>Lateral <span>5x15</span></li><li>Skullcrusher <span>4x12</span></li><li>Hammer Curl <span>4x12</span></li></ul></div>
-        <div class="day-card"><div class="day-title">SAT <span>Legs Vol</span></div><ul class="workout-list"><li>Hack Squat <span>4x12</span></li><li>Leg Ext <span>4x20</span></li><li>Abs <span>5x20</span></li></ul></div>
-    </div>
-</section>
-
-<section id="tools">
-    <h2 class="section-title">FITNESS <span>TOOLS</span></h2>
-    <div class="tools-container">
-        <div class="glass-card tool-card" data-aos="fade-right">
-            <h3>BMI Check</h3>
-            <div class="form-group"><input type="number" id="bmi-weight" placeholder="Weight (kg)"></div>
-            <div class="form-group"><input type="number" id="bmi-height" placeholder="Height (cm)"></div>
-            <button class="join-btn" style="width:100%" onclick="calcBMI()">CALCULATE</button>
-            <div id="bmi-result" class="result-box" style="margin-top:15px; font-weight:bold;"></div>
-        </div>
-        <div class="glass-card tool-card" data-aos="fade-left">
-            <h3>Calorie Needs</h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px"><input type="number" id="cal-weight" placeholder="Weight"><input type="number" id="cal-height" placeholder="Height"></div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px"><input type="number" id="cal-age" placeholder="Age"><select id="cal-gender" style="padding:15px"><option value="male">Male</option><option value="female">Female</option></select></div>
-            <select id="cal-activity" style="margin-bottom:15px"><option value="1.2">Sedentary</option><option value="1.55">Moderate</option><option value="1.9">Athlete</option></select>
-            <button class="join-btn" style="width:100%" onclick="calcCalories()">CALCULATE</button>
-            <div id="cal-result" class="result-box" style="margin-top:15px; font-weight:bold;"></div>
-        </div>
-    </div>
-</section>
-
-<section id="trainers" style="background: #f8f9fa;">
-    <h2 class="section-title">MEET THE <span>COACHES</span></h2>
-    <div class="grid-container">
-        <div class="glass-card trainer-card" data-aos="flip-left">
-            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300" class="trainer-img">
-            <h3>CHANDHAN</h3><p style="color:var(--primary); font-size:0.9rem; margin-top:5px">HEAD COACH</p>
-        </div>
-        <div class="glass-card trainer-card" data-aos="flip-left" data-aos-delay="200">
-            <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300" class="trainer-img">
-            <h3>PRIYA SINGH</h3><p style="color:var(--primary); font-size:0.9rem; margin-top:5px">MOBILITY EXPERT</p>
-        </div>
-    </div>
-</section>
-
-<section id="plans">
-    <h2 class="section-title">MEMBERSHIP <span>PLANS</span></h2>
-    <div class="pricing-container">
-        <div class="glass-card plan-card" data-aos="fade-up">
-            <h3>SILVER</h3><div class="price">₹699<span>/mo</span></div>
-            <ul class="features"><li><i class="fas fa-check"></i> Morning/Evening Access</li><li><i class="fas fa-check"></i> Weight Training </li></ul>
-            <button class="join-btn" style="width:100%; margin-top:30px" onclick="window.location.href='join.html'">CHOOSE</button>
-        </div>
-        <div class="glass-card plan-card popular" data-aos="fade-up" data-aos-delay="100">
-            <h3>GOLD</h3><div class="price">₹799<span>/mo</span></div>
-            <ul class="features"><li><i class="fas fa-check"></i> Morning/Evening Access</li><li><i class="fas fa-check"></i> Cardio Zone </li><li></ul>
-            <button class="cta-btn" style="width:100%; margin-top:30px; padding:15px" onclick="window.location.href='join.html'">CHOOSE</button>
-        </div>
-        <div class="glass-card plan-card" data-aos="fade-up" data-aos-delay="200">
-            <h3>PLATINUM</h3><div class="price">₹4999<span>/6mo</span></div>
-            <ul class="features"><li><i class="fas fa-check"></i> All Gold Benefits</li><li><i class="fas fa-check"></i> 1-on-1 Training</li></ul>
-            <button class="join-btn" style="width:100%; margin-top:30px" onclick="window.location.href='join.html'">CHOOSE</button>
-        </div>
-    </div>
-</section>
-
-<section id="faq" style="max-width: 800px; margin: auto;">
-    <h2 class="section-title">COMMON <span>QUESTIONS</span></h2>
-    
-    <div class="faq-container">
-        <details data-aos="fade-up">
-            <summary>What are the operating hours?</summary>
-            <div class="faq-answer">We are open Mon-Sat from 5:00 AM to 10:00 PM.</div>
-        </details>
-
-        <details data-aos="fade-up">
-            <summary>Is there parking available?</summary>
-            <div class="faq-answer">Yes, we have a dedicated free parking lot.</div>
-        </details>
-
-        <details data-aos="fade-up">
-            <summary>Can I freeze my membership?</summary>
-            <div class="faq-answer">No, Membership Cannot Be Frozen For Any Reason.</div>
-        </details>
-    </div>
-</section>
-
-<footer>
-    <div class="footer-content">
-        
-        <div class="footer-col">
-            <div class="logo">CHANDHU<span>FITNESS</span></div>
-            <p class="footer-bio">
-                We are more than just a gym. We are a sanctuary for those who refuse to be average. 
-                Forging elite bodies and minds since 2018. Join the revolution.
-            </p>
-            <div class="social-icons">
-                <a href="https://www.instagram.com/gowdru._huduga_chandu/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.instagram.com/gowdru._huduga_chandu/?utm_source=ig_web_button_share_sheet"><i class="fab fa-youtube"></i></a>
-                <a href="https://www.instagram.com/gowdru._huduga_chandu/?utm_source=ig_web_button_share_sheet"><i class="fab fa-facebook-f"></i></a>
+                <div class="payment-icons">
+                    <i class="fab fa-google-pay"></i>
+                    <i class="fas fa-mobile-alt"></i> <i class="fas fa-wallet"></i> </div>
             </div>
-        </div>
 
-        <div class="footer-col">
-            <h3>QUICK LINKS</h3>
-            <ul class="footer-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Our Expertise</a></li>
-                <li><a href="#schedule">Training Schedule</a></li>
-                <li><a href="#plans">Membership Plans</a></li>
-                <li><a href="join.html">Register Now</a></li>
-            </ul>
-        </div>
+            <div class="verify-section">
+                <h2>STEP 2: VERIFY</h2>
+                <p>Payment completed? Great! To activate your membership, we need the transaction screenshot and your ID proof.</p>
 
-        <div class="footer-col">
-            <h3>GET IN TOUCH</h3>
-            <div class="contact-row">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>VF6J+4F3, ShravanaBelagola, Rachenahalli Road, Karnataka 573135</span>
-            </div>
-            <div class="contact-row">
-                <i class="fas fa-phone-alt"></i>
-                <span>+91 9535690976 </span>
-            </div>
-            <div class="contact-row">
-                <i class="fas fa-envelope"></i>
-                <span>chandhufitness@gmail.com</span>
-            </div>
-            <div class="contact-row">
-                <i class="fas fa-clock"></i>
-                <span>Mon - Sat: 5:00 AM - 10:00 PM</span>
-            </div>
-        </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div>Take a screenshot of the <strong>Payment Success</strong> screen.</div>
+                    </div>
 
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div>Click the button below to upload details securely.</div>
+                    </div>
+                </div>
+
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHB-MhWyPd-MKO6nOt1vlMwSvc1LWoFXHuVzzSFQ7gdq14Sw/viewform?usp=dialog" target="_blank" class="submit-btn">
+                    UPLOAD PROOF & REGISTER <i class="fas fa-upload" style="margin-left:10px"></i>
+                </a>
+            </div>
+
+        </div>
     </div>
 
-    <div class="footer-bottom">
-        <p class="copyright">© 2026 Chandhu Fitness. All Rights Reserved.</p>
-        
-        <a href="https://www.linkedin.com/in/vikas-gm-viewprofile/" target="_blank" class="dev-btn">
-            <i class="fab fa-linkedin"></i> Developed by VIKAS G M
-        </a>
-    </div>
-</footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800 });
 
-<div id="paymentModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">×</span>
-        
-        <h2 style="color:var(--primary); margin-bottom:10px">SECURE CHECKOUT</h2>
-        <p>Plan: <span id="modalPlan" style="font-weight:bold"></span></p>
-        <p style="font-size:2.5rem; font-weight:bold; margin:10px 0; color:var(--primary)">
-            ₹<span id="modalPrice"></span>
-        </p>
-
-        <div class="qr-wrapper" style="border: 2px solid var(--primary); padding: 10px; border-radius: 10px; background: white;">
-            <img id="dynamicQR" src="" alt="Loading QR..." style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
-        <p style="font-size:0.8rem; color:#666; margin-bottom: 20px;">Scan to pay exact amount</p>
-
-        <a id="upiLink" href="#" class="join-btn" style="text-decoration:none; display:block; width:100%; margin-bottom:15px; background: #222; color:white; border:none;">
-            <i class="fas fa-mobile-alt"></i> TAP TO PAY (GPay/PhonePe)
-        </a>
-
-        <div style="margin-top:20px; border-top:1px solid #eee; padding-top:20px; text-align: left;">
-            <h3 style="margin-bottom:10px; font-size:1rem; color:#000;">STEP 2: CONFIRM DETAILS</h3>
-            <form id="gymForm" onsubmit="submitToWhatsApp(event)">
-                <input type="text" id="userName" required placeholder="Full Name" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
-                <input type="tel" id="userPhone" required placeholder="Phone Number" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px;">
-                <button type="submit" class="join-btn" style="width:100%">COMPLETE REGISTRATION</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="admissionModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeAdmission()">×</span>
-        <h2 style="color:var(--primary); margin-bottom:20px">JOIN THE CLUB</h2>
-        <p style="color:#666; margin-bottom: 30px;">To ensure secure document submission, our admission form opens in a new secure window.</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfD.../viewform?embedded=true" target="_blank" class="join-btn" style="text-decoration:none; display:inline-block; width:100%; text-align:center; font-size:1.1rem;">OPEN ADMISSION FORM</a>
-    </div>
-</div>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init({ duration: 800 });
-
-    window.addEventListener('scroll', () => {
-        document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    const words = ["LEGACY", "STRENGTH", "DISCIPLINE"];
-    let i = 0, j = 0, isDeleting = false;
-    function type() {
-        let current = words[i];
-        document.querySelector(".typewriter").innerText = isDeleting ? current.substring(0, j--) : current.substring(0, j++);
-        if (!isDeleting && j > current.length) { isDeleting = true; setTimeout(type, 1500); }
-        else if (isDeleting && j < 0) { isDeleting = false; i = (i+1)%words.length; j=0; setTimeout(type, 500); }
-        else setTimeout(type, 50);
-    }
-    type();
-
-    function toggleMenu() { document.getElementById("nav-list").classList.toggle("active"); }
-
-    function switchLevel(levelName) {
-        document.querySelectorAll('.level-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if(btn.dataset.level === levelName) btn.classList.add('active');
-        });
-        document.querySelectorAll('.schedule-grid').forEach(grid => grid.classList.remove('active'));
-        document.getElementById(levelName).classList.add('active');
-    }
-
-    function calcBMI() {
-        const w = document.getElementById('bmi-weight').value, h = document.getElementById('bmi-height').value;
-        if(w && h) document.getElementById('bmi-result').innerText = `BMI: ${(w/((h/100)**2)).toFixed(1)}`;
-    }
-
-    function calcCalories() {
-        const w = document.getElementById('cal-weight').value, h = document.getElementById('cal-height').value, a = document.getElementById('cal-age').value;
-        if(w && h && a) document.getElementById('cal-result').innerText = `Needs: ${Math.round(10*w + 6.25*h - 5*a + 5)} kcal`;
-    }
-
-    /* --- SMART PAYMENT & WHATSAPP LOGIC --- */
-    let currentPlan = "";
-    let currentPrice = "";
-
-    function openModal(plan, price) {
-        document.getElementById('paymentModal').style.display = "block";
-        document.body.style.overflow = "hidden";
-
-        currentPlan = plan;
-        currentPrice = price;
-
-        document.getElementById('modalPlan').innerText = plan;
-        document.getElementById('modalPrice').innerText = price;
-
-        // 1. UPI CONFIGURATION (Change your ID here)
-        const myUPI = "chandhufitness@upi"; 
-        const myName = "Chandhu Fitness";
-
-        // 2. Generate Payment Links
-        let upiString = `upi://pay?pa=${myUPI}&pn=${myName}&am=${price}&cu=INR`;
-        document.getElementById('upiLink').href = upiString;
-
-        // 3. Generate QR Code
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
-        document.getElementById('dynamicQR').src = qrUrl;
-    }
-
-    function submitToWhatsApp(e) {
-        e.preventDefault(); 
-
-        const name = document.getElementById('userName').value;
-        const phone = document.getElementById('userPhone').value;
-
-        if(name === "" || phone === "") {
-            alert("Please fill in all details.");
-            return;
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied: " + text);
+            });
         }
-
-        const message = `*NEW ADMISSION REQUEST*%0A%0A` +
-                        `🏋️ *Plan:* ${currentPlan}%0A` +
-                        `💰 *Amount:* ₹${currentPrice}%0A` +
-                        `👤 *Name:* ${name}%0A` +
-                        `📞 *Phone:* ${phone}%0A%0A` +
-                        `_Please verify payment._`;
-
-        const ownerNumber = "919535690976"; 
-        const whatsappUrl = `https://wa.me/${ownerNumber}?text=${message}`;
-
-        window.open(whatsappUrl, '_blank');
-        closeModal();
-    }
-
-    function closeModal() { document.getElementById('paymentModal').style.display = "none"; document.body.style.overflow = "auto"; }
-    function openAdmission() { document.getElementById('admissionModal').style.display = "block"; document.body.style.overflow = "hidden"; }
-    function closeAdmission() { document.getElementById('admissionModal').style.display = "none"; document.body.style.overflow = "auto"; }
-
-    window.onclick = function(e) {
-        if (e.target.classList.contains('modal')) {
-            e.target.style.display = "none";
-            document.body.style.overflow = "auto";
-        }
-    }
-</script>
-
+    </script>
 </body>
 </html>
