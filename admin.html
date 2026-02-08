@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Chandhu Fitness Admin</title>
-  
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   
@@ -15,126 +14,72 @@
       --card: #121212;
       --border: #222;
       --text: #eee;
-      --whatsapp: #25d366;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-    }
+    /* ── LOGIN ── */
+    #login-overlay { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .login-box { background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--border); text-align: center; width: 85%; max-width: 320px; }
+    .pin-input { width: 100%; padding: 15px; margin: 25px 0; background: #000; border: 1px solid #333; color: #fff; text-align: center; font-size: 1.5rem; letter-spacing: 8px; border-radius: 12px; }
+    .btn-main { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: bold; font-family: 'Oswald', sans-serif; font-size: 1.1rem; }
 
-    /* ── LOGIN OVERLAY ── */
-    #login-overlay {
-      position: fixed; inset: 0; background: #000; z-index: 9999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .login-box {
-      background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
-      text-align: center; width: 85%; max-width: 320px;
-    }
-    .pin-input {
-      width: 100%; padding: 15px; margin: 25px 0; background: #000; border: 1px solid #333;
-      color: #fff; text-align: center; font-size: 1.5rem; letter-spacing: 8px; border-radius: 12px; outline: none;
-    }
-    .btn-main {
-      width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none;
-      border-radius: 12px; font-weight: bold; cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 1.1rem;
-    }
-
-    /* ── HEADER & CONTROLS ── */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(5, 5, 5, 0.95);
-      padding: 15px 20px; border-bottom: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 15px;
-    }
-
-    .search-bar {
-      width: 100%; padding: 12px 16px; border-radius: 12px;
-      border: 1px solid #333; background: #111; color: white; font-size: 1rem; outline: none;
-    }
-
-    /* Filter Chips */
+    /* ── HEADER ── */
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.95); padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
+    .search-bar { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; font-size: 1rem; outline: none; }
     .filters { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-    .filter-chip {
-      padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px;
-      color: #888; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.2s;
-    }
+    .filter-chip { padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; color: #888; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.2s; }
     .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* ── STATS ── */
-    .stats {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px;
-    }
-    .stat-card {
-      background: var(--card); padding: 15px; border-radius: 14px; text-align: center; border: 1px solid var(--border);
-    }
-    .stat-val {
-      font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 4px; color: white;
-    }
+    /* ── CONTENT ── */
+    .content-wrapper { flex: 1; padding: 20px 20px 80px; }
+    
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: var(--card); padding: 15px; border-radius: 14px; text-align: center; border: 1px solid var(--border); }
+    .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: white; }
     .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
 
-    /* ── TABLE / CARD LIST ── */
-    .content-wrapper { flex: 1; padding: 0 20px 80px; } /* Added padding bottom for mobile nav */
-    
+    /* Table/Cards */
     table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-    
-    /* Desktop Headers */
-    thead th {
-      text-align: left; padding: 10px; color: #666; font-size: 0.8rem; text-transform: uppercase;
-    }
-
-    /* Rows */
-    tbody tr {
-      background: var(--card);
-    }
-    tbody td {
-      padding: 15px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      color: #ccc; font-size: 0.95rem;
-    }
+    thead th { text-align: left; padding: 10px; color: #666; font-size: 0.8rem; text-transform: uppercase; }
+    tbody tr { background: var(--card); }
+    tbody td { padding: 15px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: #ccc; font-size: 0.95rem; }
     tbody tr td:first-child { border-left: 1px solid var(--border); border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
     tbody tr td:last-child { border-right: 1px solid var(--border); border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
 
-    /* Badges */
+    /* Delete Button */
+    .btn-delete { color: #555; background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 10px; transition: 0.2s; }
+    .btn-delete:hover { color: #ff3b3b; }
+
+    /* ── MOBILE OPTIMIZATION ── */
+    @media (max-width: 768px) {
+      .stats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 5px; }
+      .stat-card { min-width: 140px; scroll-snap-align: start; }
+      
+      thead { display: none; }
+      tr { display: block; margin-bottom: 15px; border-radius: 16px; position: relative; border: 1px solid var(--border); padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+      td { display: block; padding: 0; border: none !important; }
+      
+      /* Standard View Layout */
+      .standard-view td:nth-child(2) { font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 5px; }
+      .standard-view td:nth-child(3), .standard-view td:nth-child(4) { display: inline-block; margin-right: 10px; font-size: 0.9rem; }
+      .standard-view td:nth-child(4) { color: var(--primary); font-weight: 600; }
+      .standard-view td:nth-child(5) { margin-top: 10px; }
+      .standard-view td:nth-child(1) { position: absolute; top: 18px; right: 15px; font-size: 0.75rem; color: #555; }
+      .standard-view td:nth-child(6) { display: none; } /* Hide action in list view, use tap? No, keep clean. */
+
+      /* History View Layout */
+      .history-view td:nth-child(2) { font-size: 1.1rem; font-weight: 700; color: white; }
+      .history-view td:nth-child(5) { color: var(--primary); font-weight: bold; margin-top: 5px; }
+      .history-view td:nth-child(1) { color: #666; font-size: 0.8rem; margin-bottom: 5px; }
+      .history-view td:nth-child(6) { position: absolute; top: 15px; right: 10px; }
+    }
+
     .badge { padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
     .b-active { background: rgba(0,255,136,0.1); color: #00ff88; }
     .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; }
     .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; }
-
-    /* ── MOBILE OPTIMIZATION ── */
-    @media (max-width: 768px) {
-      /* Scrollable Stats */
-      .stats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding: 15px 20px; }
-      .stat-card { min-width: 140px; scroll-snap-align: start; }
-
-      /* Convert Table to Cards */
-      thead { display: none; }
-      tr { display: block; margin-bottom: 15px; border-radius: 16px; position: relative; border: 1px solid var(--border); padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-      
-      td { display: block; padding: 0; border: none !important; }
-      
-      /* Layout the Card */
-      /* 1. Name */
-      td:nth-child(2) { font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 5px; padding-right: 50px; }
-      /* 2. Plan & Phone */
-      td:nth-child(4) { display: inline-block; color: var(--primary); font-weight: 600; font-size: 0.9rem; margin-right: 10px; }
-      td:nth-child(3) { display: inline-block; color: #666; font-size: 0.9rem; }
-      /* 3. Status Badge */
-      td:nth-child(5) { margin-top: 10px; }
-      /* 4. Date (Small top right) */
-      td:nth-child(1) { position: absolute; top: 18px; right: 70px; font-size: 0.75rem; color: #555; }
-      /* 5. WhatsApp Button (Floating Right) */
-      td:nth-child(6) { position: absolute; top: 15px; right: 15px; }
-      td:nth-child(6) a {
-        display: flex; align-items: center; justify-content: center;
-        width: 45px; height: 45px; background: #1a1a1a; border-radius: 50%;
-        color: #25d366; font-size: 1.5rem; border: 1px solid #333;
-      }
-    }
   </style>
 </head>
 <body>
@@ -150,62 +95,41 @@
 
   <div class="main">
     <header class="header">
-      <input id="search" class="search-bar" placeholder="🔍 Search name or phone..." oninput="App.search()"/>
-      
+      <input id="search" class="search-bar" placeholder="🔍 Search..." oninput="App.search()"/>
       <div class="filters">
-        <div class="filter-chip active" onclick="App.filter('all', this)">All</div>
-        <div class="filter-chip" onclick="App.filter('active', this)">Active</div>
-        <div class="filter-chip" onclick="App.filter('soon', this)">Expiring Soon</div>
-        <div class="filter-chip" onclick="App.filter('expired', this)">Expired</div>
+        <div class="filter-chip active" onclick="App.setView('dashboard', this)">Dashboard</div>
+        <div class="filter-chip" onclick="App.setView('history', this)">Full History & Delete</div>
       </div>
     </header>
 
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div>
-        <div class="stat-label">Revenue</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="stat-total">0</div>
-        <div class="stat-label">Members</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" style="color:#ffb700" id="stat-soon">0</div>
-        <div class="stat-label">Expiring Soon</div>
-      </div>
-    </div>
-
     <div class="content-wrapper">
+      <div id="stats-container" class="stats">
+        <div class="stat-card"><div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div><div class="stat-label">Revenue</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Members</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:#ffb700" id="stat-soon">0</div><div class="stat-label">Expiring</div></div>
+      </div>
+
       <div id="loader" style="text-align:center; padding:40px; color:#666">Loading...</div>
 
       <table id="data-table" style="display:none">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Plan</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+        <thead id="table-head">
+          </thead>
         <tbody id="table-body"></tbody>
       </table>
     </div>
   </div>
 
 <script>
-// ──────────────── CONFIGURATION ────────────────
+// ──────────────── CONFIG ────────────────
 const CONFIG = {
-    // 1. PASTE YOUR GOOGLE SCRIPT URL HERE
+    // PASTE YOUR URL HERE
     API_URL: "https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec",
-    
-    // 2. PIN HASH (Currently '1234')
     PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
 };
 
-let DB = [];
-let currentList = [];
+let RAW_DATA = []; // Full History
+let SMART_DATA = []; // Deduplicated for Dashboard
+let CURRENT_VIEW = 'dashboard';
 
 const Auth = {
     async login() {
@@ -227,115 +151,160 @@ const Auth = {
 
 const App = {
   fetchData() {
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("data-table").style.display = "none";
+    
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
         const rows = data.data.slice(1);
         
-        // 1. Convert to Objects
-        let allRows = rows.filter(r => r[0] && r[1]).map(r => ({
+        // Process Raw Data (Include Row Index for Deletion)
+        // Row Index in Sheet = Array Index + 2 (Because of Header + 0-based array)
+        RAW_DATA = rows.map((r, i) => ({
           date: r[0],
           name: r[1],
-          phone: r[2] ? String(r[2]) : "", // Fixed: Convert phone to String for search
+          phone: r[2] ? String(r[2]) : "",
           plan: r[3],
           amount: parseInt(r[4]) || 0,
-          days: parseInt(r[7]) || 0
+          days: parseInt(r[7]) || 0,
+          rowIndex: i + 2 
         }));
-
-        // 2. Sort by Latest Date First
-        allRows.sort((a,b) => new Date(b.date) - new Date(a.date));
-
-        // 3. SMART DEDUPLICATION (Keep newest only)
-        const uniqueMap = new Map();
-        DB = [];
         
-        allRows.forEach(item => {
-            if(!item.phone) {
-                DB.push(item); 
-            } else if(!uniqueMap.has(item.phone)) {
-                uniqueMap.set(item.phone, true);
-                DB.push(item);
+        // Sort Latest First
+        RAW_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+        // Create Smart Data (Deduplicated)
+        const uniqueMap = new Map();
+        SMART_DATA = [];
+        RAW_DATA.forEach(item => {
+            if(item.name && item.date) { // Valid Check
+                if(!item.phone) {
+                    SMART_DATA.push(item);
+                } else if(!uniqueMap.has(item.phone)) {
+                    uniqueMap.set(item.phone, true);
+                    SMART_DATA.push(item);
+                }
             }
         });
 
-        currentList = DB;
         this.updateStats();
-        this.render(DB);
+        this.render();
 
         document.getElementById("loader").style.display = "none";
         document.getElementById("data-table").style.display = "table";
-      })
-      .catch(err => {
-        document.getElementById("loader").innerHTML = "Error loading data.";
       });
   },
 
   updateStats() {
-    // Total Revenue is calculated from the UNIQUE list in this view.
-    // (If you want total revenue from ALL history, we would need to sum 'allRows' before deduping)
-    document.getElementById("stat-revenue").innerText = DB.reduce((s, i) => s + i.amount, 0).toLocaleString();
-    document.getElementById("stat-total").innerText = DB.length;
-    document.getElementById("stat-soon").innerText = DB.filter(i => i.days >= 0 && i.days <= 7).length;
+    // Stats based on SMART DATA (Active Members)
+    document.getElementById("stat-revenue").innerText = RAW_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
+    document.getElementById("stat-total").innerText = SMART_DATA.length;
+    document.getElementById("stat-soon").innerText = SMART_DATA.filter(i => i.days >= 0 && i.days <= 7).length;
   },
 
-  filter(type, btn) {
+  setView(view, btn) {
     document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
+    CURRENT_VIEW = view;
     
-    if(type === 'active') currentList = DB.filter(i => i.days >= 0);
-    else if(type === 'soon') currentList = DB.filter(i => i.days >= 0 && i.days <= 7);
-    else if(type === 'expired') currentList = DB.filter(i => i.days < 0);
-    else currentList = DB;
+    // Toggle Stats Visibility
+    document.getElementById('stats-container').style.display = (view === 'dashboard') ? 'grid' : 'none';
     
-    document.getElementById("search").value = "";
-    this.render(currentList);
+    this.render();
   },
 
   search() {
-    const term = document.getElementById("search").value.toLowerCase().trim();
-    const filtered = currentList.filter(i =>
-      i.name.toLowerCase().includes(term) ||
-      i.phone.includes(term)
-    );
-    this.render(filtered);
+    this.render();
   },
 
-  render(list) {
+  deleteRow(rowIndex, name) {
+    if(!confirm(`⚠️ Are you sure you want to delete the record for ${name}?\n\nThis cannot be undone.`)) return;
+
+    // Show deleting state
+    const btn = event.target.closest('button');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+    const formData = new URLSearchParams();
+    formData.append('action', 'delete');
+    formData.append('row', rowIndex);
+
+    fetch(CONFIG.API_URL, { method: 'POST', body: formData })
+      .then(r => r.json())
+      .then(res => {
+        if(res.result === 'success') {
+            alert("Deleted Successfully");
+            this.fetchData(); // Reload data
+        } else {
+            alert("Error deleting row");
+        }
+      });
+  },
+
+  render() {
+    const term = document.getElementById("search").value.toLowerCase().trim();
     const tbody = document.getElementById("table-body");
+    const thead = document.getElementById("table-head");
+    
+    let list = (CURRENT_VIEW === 'dashboard') ? SMART_DATA : RAW_DATA;
+    
+    // Search Filter
+    if(term) {
+        list = list.filter(i => 
+            (i.name && i.name.toLowerCase().includes(term)) || 
+            (i.phone && i.phone.includes(term))
+        );
+    }
+
     if(list.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">No records found</td></tr>`;
         return;
     }
 
+    // Render Headers
+    if(CURRENT_VIEW === 'dashboard') {
+        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th></tr>`;
+    } else {
+        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Plan</th><th>Amount</th><th>Ref</th><th>Action</th></tr>`;
+    }
+
+    // Render Body
     tbody.innerHTML = list.map(item => {
-      let badge = "b-active";
-      let status = `${item.days} Days Left`;
-
-      if (item.days < 0) {
-        badge = "b-expired";
-        status = "Expired";
-      } else if (item.days <= 7) {
-        badge = "b-soon";
-      }
-
       let dateStr = "N/A";
       try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
 
-      return `
-      <tr>
-        <td>${dateStr}</td>
-        <td>${item.name}</td>
-        <td>${item.phone || ""}</td>
-        <td>${item.plan}</td>
-        <td><span class="badge ${badge}">${status}</span></td>
-        <td>
-          ${item.phone ? `
-            <a href="https://wa.me/91${item.phone}?text=Hello ${item.name}, your membership status: ${status}" target="_blank">
-              <i class="fab fa-whatsapp"></i>
-            </a>
-          ` : ""}
-        </td>
-      </tr>`;
+      if(CURRENT_VIEW === 'dashboard') {
+          // --- DASHBOARD VIEW (Clean, No Delete) ---
+          let badge = "b-active";
+          let status = `${item.days} Days Left`;
+          if (item.days < 0) { badge = "b-expired"; status = "Expired"; } 
+          else if (item.days <= 7) { badge = "b-soon"; }
+
+          return `
+          <tr class="standard-view">
+            <td>${dateStr}</td>
+            <td>${item.name}</td>
+            <td>${item.phone || ""}</td>
+            <td>${item.plan}</td>
+            <td><span class="badge ${badge}">${status}</span></td>
+            <td></td>
+          </tr>`;
+      } else {
+          // --- HISTORY VIEW (Raw Data + Delete) ---
+          return `
+          <tr class="history-view">
+            <td>${dateStr}</td>
+            <td>${item.name}</td>
+            <td>${item.phone || ""}</td>
+            <td>${item.plan}</td>
+            <td>₹${item.amount}</td>
+            <td>
+              <button class="btn-delete" onclick="App.deleteRow(${item.rowIndex}, '${item.name}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>`;
+      }
     }).join("");
   }
 };
