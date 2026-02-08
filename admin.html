@@ -1,383 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Admin App | Chandhu-Fitness</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        :root { 
-            --primary: #ff3b3b; 
-            --bg: #000000; 
-            --card-bg: #121212; 
-            --border: #222; 
-            --text: #eee; 
-            --text-muted: #888;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background: var(--bg); color: var(--text); 
-            font-family: 'Montserrat', sans-serif; 
-            height: 100vh; display: flex; overflow: hidden; 
-        }
+<title>Chandhu Fitness Admin</title>
 
-        /* --- LOGIN --- */
-        #login-overlay {
-            position: fixed; inset: 0; background: #000; z-index: 9999; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .login-box {
-            background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
-            text-align: center; width: 85%; max-width: 320px;
-        }
-        .pin-input {
-            width: 100%; padding: 15px; margin: 25px 0; background: #000; border: 1px solid #333; 
-            color: #fff; text-align: center; font-size: 1.5rem; letter-spacing: 8px; border-radius: 12px; outline: none;
-        }
-        .btn-main {
-            width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; 
-            border-radius: 12px; font-weight: bold; cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(255, 59, 59, 0.3);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* --- DESKTOP SIDEBAR --- */
-        .sidebar {
-            width: 260px; background: #080808; border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; padding: 30px 20px;
-        }
-        .brand {
-            font-family: 'Oswald', sans-serif; font-size: 1.6rem; color: #fff; 
-            text-align: center; margin-bottom: 50px; letter-spacing: 1px;
-        }
-        .brand span { color: var(--primary); }
+<style>
 
-        .nav-btn {
-            padding: 14px 15px; margin-bottom: 10px; border-radius: 12px; cursor: pointer; 
-            color: var(--text-muted); font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 15px;
-            transition: 0.2s;
-        }
-        .nav-btn:hover, .nav-btn.active { background: var(--primary); color: #fff; }
+:root{
+ --primary:#ff3b3b;
+ --bg:#000;
+ --panel:#121212;
+ --border:#222;
+ --text:#eee;
+}
 
-        /* --- MAIN AREA --- */
-        .main { flex: 1; display: flex; flex-direction: column; background: var(--bg); position: relative; }
+*{margin:0;padding:0;box-sizing:border-box}
 
-        .header {
-            padding: 15px 25px; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.95);
-            display: flex; flex-direction: column; gap: 15px; z-index: 100;
-        }
-        .search-bar {
-            background: var(--card-bg); border: 1px solid #333; padding: 14px 20px; 
-            color: #fff; border-radius: 12px; width: 100%; outline: none; font-size: 1rem;
-        }
+body{
+ background:var(--bg);
+ color:white;
+ font-family:'Montserrat',sans-serif;
+ -webkit-overflow-scrolling:touch;
+}
 
-        /* STATS SCROLL */
-        .stats { 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px;
-        }
-        .stat-card { 
-            background: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid var(--border); 
-            min-width: 140px; display: flex; flex-direction: column; justify-content: center;
-        }
-        .stat-val { font-size: 1.6rem; font-weight: 700; color: #fff; font-family: 'Oswald', sans-serif; }
-        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; font-weight: 600; letter-spacing: 0.5px; }
+.main{
+ animation:fadeIn .4s ease;
+}
 
-        /* CONTENT LIST */
-        .content-wrapper { flex: 1; overflow-y: auto; padding: 0 20px 80px 20px; }
+@keyframes fadeIn{
+ from{opacity:0;transform:translateY(10px)}
+ to{opacity:1;transform:translateY(0)}
+}
 
-        /* BADGES */
-        .badge { padding: 5px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; display: inline-block; letter-spacing: 0.5px; text-transform: uppercase;}
-        .b-active { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.2); }
-        .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; border: 1px solid rgba(255,183,0,0.2); }
-        .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; border: 1px solid rgba(255,59,59,0.2); }
+/* HEADER */
 
-        /* TABLE (Desktop) */
-        table { width: 100%; border-collapse: collapse; }
-        thead th { 
-            position: sticky; top: 0; background: var(--bg); color: var(--text-muted); 
-            text-align: left; padding: 15px; font-size: 0.75rem; text-transform: uppercase; 
-            border-bottom: 2px solid var(--border); z-index: 10;
-        }
-        tbody td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; color: #ccc; }
-        
-        /* BOTTOM NAV (Mobile) */
-        .bottom-nav {
-            display: none; position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: #000; border-top: 1px solid #222; height: 70px;
-            justify-content: space-around; align-items: center; z-index: 999;
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        .b-nav-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #555; font-size: 0.7rem; flex: 1; height: 100%; transition: 0.2s;
-        }
-        .b-nav-item i { font-size: 1.4rem; margin-bottom: 5px; }
-        .b-nav-item.active { color: var(--primary); }
+.header{
+ position:sticky;
+ top:0;
+ backdrop-filter:blur(12px);
+ background:rgba(10,10,10,0.85);
+ padding:15px;
+ z-index:100;
+}
 
-        /* --- MOBILE TRANSFORMATION --- */
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .header { padding: 15px 20px; position: sticky; top: 0; z-index: 50; }
-            .bottom-nav { display: flex; }
-            
-            .stats { 
-                display: flex; overflow-x: auto; padding: 10px 20px; 
-                scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none;
-            }
-            .stats::-webkit-scrollbar { display: none; }
-            .stat-card { scroll-snap-align: start; flex: 0 0 42%; } 
+.search-bar{
+ width:100%;
+ padding:14px;
+ border-radius:10px;
+ border:1px solid #333;
+ background:#111;
+ color:white;
+}
 
-            /* CARD LAYOUT FOR TABLE */
-            table, thead, tbody, th, td, tr { display: block; }
-            thead { display: none; } 
-            
-            tr {
-                background: #111; margin-bottom: 15px; border-radius: 16px; 
-                border: 1px solid #222; padding: 20px; position: relative;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            }
-            
-            /* Name */
-            td:nth-child(2) { 
-                padding: 0 0 5px 0; border: none; font-size: 1.3rem; 
-                font-weight: 700; color: #fff; font-family: 'Oswald', sans-serif;
-            }
-            /* Phone */
-            td:nth-child(3) { 
-                padding: 0 0 15px 0; border: none; color: #666; font-size: 0.9rem; 
-                display: block; 
-            }
-            /* Plan */
-            td:nth-child(4) { 
-                padding: 0; border: none; font-weight: 600; color: var(--primary); 
-                display: inline-block; margin-right: 10px; font-size: 0.9rem;
-            }
-            /* Status Badge */
-            td:nth-child(5) { 
-                padding: 0; border: none; display: inline-block; 
-            }
-            /* Date (Hidden or Small) */
-            td:nth-child(1) { 
-                position: absolute; top: 20px; right: 70px; 
-                padding: 0; border: none; font-size: 0.75rem; color: #444; 
-            }
-            /* WhatsApp Button */
-            td:nth-child(6) { 
-                position: absolute; right: 15px; top: 15px; padding: 0; border: none; 
-            }
-            td:nth-child(6) a {
-                width: 45px; height: 45px; background: #1a1a1a; border-radius: 50%;
-                display: flex; align-items: center; justify-content: center;
-                color: #25d366 !important; font-size: 1.6rem; 
-                border: 1px solid #333; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            }
-            td:nth-child(6) a:active { transform: scale(0.95); background: #222; }
-        }
-    </style>
+/* STATS */
+
+.stats{
+ display:flex;
+ overflow-x:auto;
+ gap:10px;
+ padding:15px;
+}
+
+.stat-card{
+ background:#151515;
+ padding:15px;
+ border-radius:14px;
+ min-width:140px;
+}
+
+.stat-val{
+ font-family:'Oswald';
+ font-size:1.4rem;
+}
+
+/* TABLE */
+
+.content-wrapper{
+ padding:15px;
+}
+
+table,thead,tbody,th,td,tr{
+ display:block;
+}
+
+thead{display:none}
+
+tr{
+
+ background:linear-gradient(145deg,#141414,#101010);
+
+ margin-bottom:16px;
+ border-radius:18px;
+ padding:18px;
+
+ border:1px solid rgba(255,255,255,0.05);
+
+ box-shadow:0 4px 15px rgba(0,0,0,.5);
+
+ transition:.2s;
+
+ position:relative;
+
+}
+
+tr:active{
+ transform:scale(.97);
+ box-shadow:none;
+}
+
+td{
+ display:flex;
+ justify-content:space-between;
+ padding:3px 0;
+}
+
+td:nth-child(2){
+ font-size:1.2rem;
+ font-weight:700;
+}
+
+td:nth-child(6){
+ position:absolute;
+ right:15px;
+ top:15px;
+}
+
+td:nth-child(6) a{
+
+ width:50px;
+ height:50px;
+
+ background:linear-gradient(135deg,#25d366,#128c7e);
+
+ border-radius:50%;
+
+ display:flex;
+ align-items:center;
+ justify-content:center;
+
+ color:white !important;
+
+ box-shadow:0 5px 15px rgba(0,0,0,.5);
+
+}
+
+.badge{
+ padding:5px 10px;
+ border-radius:6px;
+ font-size:.7rem;
+}
+
+.b-active{background:#002a1a;color:#00ff88}
+.b-soon{background:#332400;color:#ffb700}
+.b-expired{background:#2a0000;color:#ff3b3b}
+
+</style>
 </head>
+
 <body>
 
-    <div id="login-overlay">
-        <div class="login-box">
-            <h2 style="font-family:'Oswald',sans-serif; margin-bottom:10px; color:var(--primary); font-size:2rem;">CHANDHU<span style="color:white">FITNESS</span></h2>
-            <p style="color:#666; font-size:0.8rem; letter-spacing:1px; margin-bottom:20px;">ADMIN ACCESS</p>
-            <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" inputmode="numeric">
-            <button class="btn-main" onclick="Auth.login()">UNLOCK DASHBOARD</button>
-            <p id="error-msg" style="color:var(--primary); margin-top:20px; font-size:0.9rem; display:none"><i class="fas fa-exclamation-circle"></i> Incorrect PIN</p>
-        </div>
-    </div>
+<div class="main">
 
-    <nav class="sidebar">
-        <div class="brand">CHANDHU<span>FITNESS</span></div>
-        <div class="nav-btn active" onclick="App.filter('all', this)"><i class="fas fa-th-list"></i> All Records</div>
-        <div class="nav-btn" onclick="App.filter('active', this)"><i class="fas fa-check-circle"></i> Active</div>
-        <div class="nav-btn" onclick="App.filter('soon', this)"><i class="fas fa-clock"></i> Expiring Soon</div>
-        <div class="nav-btn" onclick="App.filter('expired', this)"><i class="fas fa-times-circle"></i> Expired</div>
-        <div class="nav-btn" onclick="location.reload()" style="margin-top:auto; color:#666"><i class="fas fa-sync-alt"></i> Refresh Data</div>
-    </nav>
+<header class="header">
+<input id="search" class="search-bar" placeholder="🔍 Search..." onkeyup="App.search()">
+</header>
 
-    <main class="main">
-        <header class="header">
-            <h2 style="font-family:'Oswald',sans-serif; display:none;" id="page-title">Dashboard</h2>
-            <input type="text" id="search" class="search-bar" placeholder="🔍 Search member..." onkeyup="App.search()">
-        </header>
+<div class="stats">
 
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div>
-                <div class="stat-label">Total Revenue</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="stat-total">0</div>
-                <div class="stat-label">Total Members</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" style="color:#ffb700" id="stat-soon">0</div>
-                <div class="stat-label">Expiring Soon</div>
-            </div>
-        </div>
+<div class="stat-card">
+<div class="stat-val">₹<span id="stat-revenue">0</span></div>
+Revenue
+</div>
 
-        <div class="content-wrapper">
-            <div id="loader" style="text-align:center; padding:60px 20px; color:#666;">
-                <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Syncing Data...
-            </div>
-            
-            <table id="data-table" style="display:none">
-                <thead>
-                    <tr>
-                        <th>Joined</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Plan</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body"></tbody>
-            </table>
-        </div>
-    </main>
+<div class="stat-card">
+<div class="stat-val" id="stat-total">0</div>
+Members
+</div>
 
-    <div class="bottom-nav">
-        <div class="b-nav-item active" onclick="App.filterMobile('all', this)">
-            <i class="fas fa-home"></i> <span>Home</span>
-        </div>
-        <div class="b-nav-item" onclick="App.filterMobile('active', this)">
-            <i class="fas fa-check-circle"></i> <span>Active</span>
-        </div>
-        <div class="b-nav-item" onclick="App.filterMobile('soon', this)">
-            <i class="fas fa-clock"></i> <span>Soon</span>
-        </div>
-        <div class="b-nav-item" onclick="App.filterMobile('expired', this)">
-            <i class="fas fa-user-times"></i> <span>Expired</span>
-        </div>
-    </div>
+<div class="stat-card">
+<div class="stat-val" id="stat-soon">0</div>
+Expiring Soon
+</div>
 
-    <script>
-        const CONFIG = {
-            API_URL: 'https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec',
-            PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
-        };
+</div>
 
-        let DB = []; 
+<div class="content-wrapper">
 
-        const Auth = {
-            async login() {
-                const input = document.getElementById('pin-input').value;
-                const hash = await this.sha256(input);
-                if(hash === CONFIG.PIN_HASH) {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    App.fetchData();
-                } else {
-                    document.getElementById('error-msg').style.display = 'block';
-                }
-            },
-            async sha256(str) {
-                const buf = new TextEncoder().encode(str);
-                const hash = await crypto.subtle.digest('SHA-256', buf);
-                return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-            }
-        };
+<div id="loader">Loading...</div>
 
-        const App = {
-            fetchData() {
-                fetch(CONFIG.API_URL)
-                    .then(res => res.json())
-                    .then(data => {
-                        const rows = data.data.slice(1);
-                        DB = rows.filter(r => r[0] && r[1]).map(r => ({
-                            date: r[0],
-                            name: r[1],
-                            phone: r[2],
-                            plan: r[3],
-                            amount: parseInt(r[4]) || 0,
-                            days: parseInt(r[7]) || 0 
-                        }));
-                        DB.sort((a,b) => new Date(b.date) - new Date(a.date));
-                        this.updateStats();
-                        this.renderTable(DB);
-                        document.getElementById('loader').style.display = 'none';
-                        document.getElementById('data-table').style.display = 'table';
-                    })
-                    .catch(err => alert("Connection Error. Refresh page."));
-            },
+<table id="data-table" style="display:none">
+<tbody id="table-body"></tbody>
+</table>
 
-            updateStats() {
-                const revenue = DB.reduce((sum, item) => sum + item.amount, 0);
-                const soon = DB.filter(i => i.days >= 0 && i.days <= 7).length;
-                document.getElementById('stat-revenue').innerText = revenue.toLocaleString();
-                document.getElementById('stat-total').innerText = DB.length;
-                document.getElementById('stat-soon').innerText = soon;
-            },
+</div>
 
-            filter(type, btn) {
-                document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-                if(btn) btn.classList.add('active');
-                this.applyFilter(type);
-            },
+</div>
 
-            filterMobile(type, btn) {
-                document.querySelectorAll('.b-nav-item').forEach(el => el.classList.remove('active'));
-                if(btn) btn.classList.add('active');
-                this.applyFilter(type);
-                window.scrollTo({top:0, behavior:'smooth'});
-            },
+<script>
 
-            applyFilter(type) {
-                let list = DB;
-                if(type === 'active') list = DB.filter(i => i.days >= 0);
-                else if(type === 'soon') list = DB.filter(i => i.days >= 0 && i.days <= 7);
-                else if(type === 'expired') list = DB.filter(i => i.days < 0);
-                this.renderTable(list);
-            },
+const API_URL="YOUR_SCRIPT_URL";
 
-            search() {
-                const term = document.getElementById('search').value.toLowerCase();
-                const filtered = DB.filter(i => i.name.toLowerCase().includes(term) || (i.phone && i.phone.toString().includes(term)));
-                this.renderTable(filtered);
-            },
+let DB=[];
 
-            renderTable(list) {
-                const tbody = document.getElementById('table-body');
-                if(list.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:#666;">No records found.</td></tr>`;
-                    return;
-                }
+const App={
 
-                const htmlRows = list.map(item => {
-                    let badgeClass = 'b-active';
-                    let statusText = `${item.days} Days Left`;
-                    
-                    if(item.days < 0) { badgeClass = 'b-expired'; statusText = 'Expired'; }
-                    else if(item.days <= 7) { badgeClass = 'b-soon'; }
+fetchData(){
 
-                    let dateStr = "N/A";
-                    try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
-                    
-                    let waLink = "";
-                    if(item.phone) {
-                        const msg = `Hello ${item.name}, your gym membership status: ${statusText}.`;
-                        waLink = `<a href="https://wa.me/91${item.phone}?text=${encodeURIComponent(msg)}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
-                    }
+fetch(API_URL)
+.then(r=>r.json())
+.then(data=>{
 
-                    return `
-                        <tr>
-                            <td>${dateStr}</td>
-                            <td>${item.name}</td>
-                            <td>${item.phone || 'No Phone'}</td>
-                            <td>${item.plan}</td>
-                            <td><span class="badge ${badgeClass}">${statusText}</span></td>
-                            <td>${waLink}</td>
-                        </tr>
-                    `;
-                }).join('');
-                tbody.innerHTML = htmlRows;
-            }
-        };
-    </script>
+const rows=data.data.slice(1);
+
+DB=rows.map(r=>({
+
+date:r[0],
+name:r[1],
+phone:r[2],
+plan:r[3],
+amount:parseInt(r[4])||0,
+days:parseInt(r[7])||0
+
+}));
+
+DB.sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+this.updateStats();
+this.render(DB);
+
+loader.style.display="none";
+data-table.style.display="block";
+
+});
+
+},
+
+updateStats(){
+
+stat-revenue.innerText=DB.reduce((s,i)=>s+i.amount,0).toLocaleString();
+stat-total.innerText=DB.length;
+stat-soon.innerText=DB.filter(i=>i.days>=0 && i.days<=7).length;
+
+},
+
+search(){
+
+const term=search.value.toLowerCase();
+
+this.render(DB.filter(i=>
+i.name.toLowerCase().includes(term) ||
+(i.phone && i.phone.includes(term))
+));
+
+},
+
+render(list){
+
+table-body.innerHTML=list.map(item=>{
+
+let badge="b-active";
+let status=`${item.days} Days Left`;
+
+if(item.days<0){badge="b-expired";status="Expired"}
+else if(item.days<=7){badge="b-soon"}
+
+let msg=`Hello ${item.name}, your gym membership status: ${status}.`;
+
+return`
+
+<tr>
+
+<td>${new Date(item.date).toLocaleDateString()}</td>
+
+<td>${item.name}</td>
+
+<td>${item.phone||"-"}</td>
+
+<td>${item.plan}</td>
+
+<td><span class="badge ${badge}">${status}</span></td>
+
+<td>${item.phone?`<a href="https://wa.me/91${item.phone}?text=${encodeURIComponent(msg)}" target="_blank"><i class="fab fa-whatsapp"></i></a>`:""}</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+};
+
+App.fetchData();
+
+</script>
+
 </body>
 </html>
