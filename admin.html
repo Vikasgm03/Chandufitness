@@ -119,10 +119,10 @@
 
     <div class="sidebar" id="sidebar" style="display:none;">
         <div class="brand">CHANDHU<span>FITNESS</span></div>
-        <div class="menu-item active" onclick="switchView('all', this)"><i class="fas fa-home"></i> All Members</div>
-        <div class="menu-item" onclick="switchView('active', this)"><i class="fas fa-check-circle"></i> Active</div>
+        <div class="menu-item active" onclick="switchView('all', this)"><i class="fas fa-list"></i> All Records</div>
+        <div class="menu-item" onclick="switchView('active', this)"><i class="fas fa-check-circle"></i> Active Only</div>
         <div class="menu-item" onclick="switchView('soon', this)"><i class="fas fa-clock"></i> Expiring Soon</div>
-        <div class="menu-item" onclick="switchView('expired', this)"><i class="fas fa-times-circle"></i> Expired</div>
+        <div class="menu-item" onclick="switchView('expired', this)"><i class="fas fa-times-circle"></i> Expired Only</div>
     </div>
 
     <div class="main-content" id="main-content" style="display:none;">
@@ -133,8 +133,8 @@
                 <div class="stat-num" style="color:var(--primary);">₹<span id="stat-revenue">0</span></div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Active Members</div>
-                <div class="stat-num" style="color:#00ff88;" id="stat-active">0</div>
+                <div class="stat-label">Total Records</div>
+                <div class="stat-num" style="color:#fff;" id="stat-total">0</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Expiring Soon</div>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="section-header">
-            <h2 class="page-title" id="page-title">All Members</h2>
+            <h2 class="page-title" id="page-title">All Records (Latest First)</h2>
             <input type="text" class="search-box" id="searchInput" placeholder="Search..." onkeyup="filterTable()">
         </div>
 
@@ -154,10 +154,10 @@
             <table id="dataTable" style="display:none;">
                 <thead>
                     <tr>
+                        <th>Join Date</th>
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Plan</th>
-                        <th>Expiry Date</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -173,8 +173,7 @@
         
         const PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // 1234
 
-        let allMembers = []; 
-        let currentView = 'all'; 
+        let allRecords = []; 
 
         async function checkPin() {
             const input = document.getElementById('pin-input').value;
@@ -210,53 +209,40 @@
             let totalRevenue = 0;
             dataRows.forEach(r => totalRevenue += parseInt(r[4]) || 0);
             document.getElementById('stat-revenue').innerText = totalRevenue.toLocaleString();
+            document.getElementById('stat-total').innerText = dataRows.length;
 
-            // 2. Process Members (FIXED LOGIC)
-            let memberMap = {};
-            
-            dataRows.forEach((r, index) => {
-                const phoneRaw = r[2];
-                // IMPORTANT: If phone is empty, generate a unique ID so it doesn't get merged
-                const phoneKey = (phoneRaw && phoneRaw.toString().trim() !== "") ? phoneRaw : "NO_PHONE_" + index;
-                const joinDate = new Date(r[0]);
+            // 2. Map Data Directly (NO MERGING/DEDUPLICATION)
+            allRecords = dataRows.map(r => {
+                let days = parseInt(r[7]);
+                if(isNaN(days)) days = 0; // Handle missing formula data
 
-                // If this phone number is new, OR this entry is newer than what we have, update it.
-                if (!memberMap[phoneKey] || joinDate > new Date(memberMap[phoneKey].joinDate)) {
-                    
-                    // Safe Data Extraction
-                    let days = parseInt(r[7]);
-                    if(isNaN(days)) days = 0; // Prevent NaN error if formula hasn't run yet
-
-                    memberMap[phoneKey] = {
-                        joinDate: r[0],
-                        name: r[1],
-                        phone: r[2], // Keep original (might be empty)
-                        plan: r[3],
-                        amount: r[4],
-                        daysLeft: days
-                    };
-                }
+                return {
+                    joinDate: r[0],
+                    name: r[1],
+                    phone: r[2], 
+                    plan: r[3],
+                    amount: r[4],
+                    daysLeft: days
+                };
             });
 
-            allMembers = Object.values(memberMap);
+            // 3. Sort by Latest Date (Newest first)
+            allRecords.sort((a, b) => new Date(b.joinDate) - new Date(a.joinDate));
 
-            // 3. Update Status
-            let active = 0, soon = 0;
-            allMembers.forEach(m => {
-                if (m.daysLeft >= 0) active++;
+            // 4. Count "Soon" stats
+            let soon = 0;
+            allRecords.forEach(m => {
                 if (m.daysLeft >= 0 && m.daysLeft <= 7) soon++;
             });
-            document.getElementById('stat-active').innerText = active;
             document.getElementById('stat-soon').innerText = soon;
 
-            // 4. Render
+            // 5. Render All
             document.getElementById('loader').style.display = 'none';
             document.getElementById('dataTable').style.display = 'table';
-            renderTable(allMembers);
+            renderTable(allRecords);
         }
 
         function switchView(view, btnElement) {
-            currentView = view;
             document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
             btnElement.classList.add('active');
 
@@ -264,17 +250,17 @@
             const titleEl = document.getElementById('page-title');
 
             if (view === 'all') {
-                filteredData = allMembers;
-                titleEl.innerText = "All Members";
+                filteredData = allRecords; // Show Everything
+                titleEl.innerText = "All Records (Latest First)";
             } else if (view === 'active') {
-                filteredData = allMembers.filter(m => m.daysLeft >= 0);
-                titleEl.innerText = "Active Members";
+                filteredData = allRecords.filter(m => m.daysLeft >= 0);
+                titleEl.innerText = "Active Members Only";
             } else if (view === 'expired') {
-                filteredData = allMembers.filter(m => m.daysLeft < 0);
-                titleEl.innerText = "Expired Members";
+                filteredData = allRecords.filter(m => m.daysLeft < 0);
+                titleEl.innerText = "Expired Members Only";
             } else if (view === 'soon') {
-                filteredData = allMembers.filter(m => m.daysLeft >= 0 && m.daysLeft <= 7);
-                titleEl.innerText = "Expiring Soon";
+                filteredData = allRecords.filter(m => m.daysLeft >= 0 && m.daysLeft <= 7);
+                titleEl.innerText = "Expiring Soon (<= 7 Days)";
             }
             renderTable(filteredData);
         }
@@ -282,10 +268,9 @@
         function renderTable(data) {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
-            data.sort((a, b) => a.daysLeft - b.daysLeft); // Expiring soonest first
 
             if(data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No members found in this list.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No records found.</td></tr>';
                 return;
             }
 
@@ -300,23 +285,20 @@
                     badgeClass = 'bg-soon';
                 }
 
-                // Expiry Date Calculation
-                let joinObj = new Date(m.joinDate);
-                let months = (m.plan === 'PLATINUM') ? 6 : 1;
-                joinObj.setMonth(joinObj.getMonth() + months);
-                let expiryStr = joinObj.toISOString().split('T')[0];
+                // Format Join Date
+                let dateStr = new Date(m.joinDate).toLocaleDateString();
 
-                // WhatsApp Link (Disable if no phone)
+                // WhatsApp Link
                 let waLink = m.phone ? 
-                    `<a href="https://wa.me/91${m.phone}?text=Hello ${m.name}, your membership status is: ${statusText}." target="_blank" style="color:#25D366; font-size:1.2rem;"><i class="fab fa-whatsapp"></i></a>` 
+                    `<a href="https://wa.me/91${m.phone}?text=Hello ${m.name}, status: ${statusText}." target="_blank" style="color:#25D366; font-size:1.2rem;"><i class="fab fa-whatsapp"></i></a>` 
                     : `<span style="color:#444"><i class="fab fa-whatsapp"></i></span>`;
 
                 const tr = `
                     <tr>
+                        <td style="color:#aaa;">${dateStr}</td>
                         <td style="font-weight:600; color:white;">${m.name}</td>
-                        <td>${m.phone || "<span style='color:#444'>No Phone</span>"}</td>
+                        <td>${m.phone || "-"}</td>
                         <td>${m.plan}</td>
-                        <td style="color:#aaa;">${expiryStr}</td>
                         <td><span class="badge ${badgeClass}">${statusText}</span></td>
                         <td>${waLink}</td>
                     </tr>
