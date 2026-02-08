@@ -403,21 +403,91 @@ footer::before {
     margin-top: 3px;
 }
 
-/* --- BOTTOM BAR (Fixed Alignment) --- */
+/* --- BOTTOM BAR (Desktop Layout) --- */
 .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.15);
     padding: 25px 0;
-    width: 100%;
+    margin-top: 20px;
+    position: relative; /* Essential for centering */
     
-    /* This pushes Left and Right items apart */
-    display: flex; 
-    justify-content: space-between; 
+    /* Flexbox to align Dev Button to the Right */
+    display: flex;
+    justify-content: flex-end; 
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
 }
 
-.copyright { color: #666; font-size: 0.85rem; margin: 0; }
+.copyright { 
+    color: #666; 
+    font-size: 0.85rem; 
+    margin: 0;
+    
+    /* STRICT CENTER ALIGNMENT */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content; /* Prevents wrapping */
+}
+
+/* Developer Button Styles */
+.dev-credit-wrapper { display: flex; align-items: center; }
+
+.dev-glow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px; 
+    font-size: 0.75rem; 
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid var(--primary);
+    border-radius: 30px;
+    background: transparent;
+    box-shadow: 0 0 8px rgba(255, 59, 59, 0.2);
+    transition: all 0.3s ease;
+}
+.dev-glow-link i { font-size: 0.9rem; color: var(--primary); }
+.dev-glow-link:hover {
+    background: rgba(255, 59, 59, 0.1);
+    border-color: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px var(--primary), inset 0 0 10px var(--primary);
+}
+
+/* --- MOBILE ALIGNMENT FIXES --- */
+@media (max-width: 768px) {
+    .footer-content { text-align: center; }
+    
+    .footer-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-bio { margin: 0 auto 20px auto; }
+    .social-icons { justify-content: center; }
+    .contact-row { justify-content: center; text-align: center; }
+    
+    /* Stack Bottom Bar on Mobile */
+    .footer-bottom { 
+        flex-direction: column-reverse; /* Copyright at bottom */
+        justify-content: center;
+        gap: 20px;
+    }
+
+    /* Reset Centering for Mobile */
+    .copyright {
+        position: relative; 
+        left: auto;
+        transform: none;
+        text-align: center;
+    }
+    
+    .dev-credit-wrapper { margin: 0 auto; }
+}
 
 /* Developer Button Styles */
 .dev-credit-wrapper { display: flex; align-items: center; }
