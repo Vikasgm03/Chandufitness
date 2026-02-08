@@ -21,11 +21,10 @@
 
         body { 
             background: var(--dark); color: var(--text); font-family: 'Montserrat', sans-serif;
-            height: 100vh; overflow: hidden; /* Prevent body scroll, use inner scroll */
-            display: flex;
+            height: 100vh; overflow: hidden; display: flex;
         }
 
-        /* --- 1. LOGIN SCREEN --- */
+        /* LOGIN */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center;
@@ -40,7 +39,7 @@
             font-family: 'Oswald', sans-serif; cursor: pointer; border-radius: 5px; font-size: 1.1rem;
         }
 
-        /* --- 2. SIDEBAR --- */
+        /* SIDEBAR */
         .sidebar {
             width: 250px; background: var(--sidebar); height: 100%;
             display: flex; flex-direction: column; border-right: 1px solid #222;
@@ -61,24 +60,21 @@
         }
         .menu-item i { width: 20px; text-align: center; }
 
-        /* --- 3. MAIN CONTENT --- */
+        /* CONTENT */
         .main-content {
             flex: 1; padding: 30px; overflow-y: auto; position: relative;
         }
 
-        /* Top Stats Bar */
         .stats-grid { 
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
             gap: 20px; margin-bottom: 30px; 
         }
         .stat-card { 
             background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #222; 
-            display: flex; flex-direction: column; justify-content: center;
         }
         .stat-num { font-size: 2rem; font-weight: 700; color: white; font-family: 'Oswald', sans-serif; }
         .stat-label { font-size: 0.8rem; color: #888; text-transform: uppercase; margin-bottom: 5px; }
 
-        /* Page Title */
         .section-header {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
         }
@@ -89,23 +85,19 @@
             border-radius: 5px; width: 300px;
         }
 
-        /* Table */
         .table-container { 
             background: var(--card); border-radius: 12px; border: 1px solid #222; overflow: hidden; 
         }
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 18px; background: #1a1a1a; color: #888; font-size: 0.8rem; text-transform: uppercase; }
         td { padding: 15px 18px; border-bottom: 1px solid #222; font-size: 0.95rem; }
-        tr:last-child td { border-bottom: none; }
         tr:hover { background: rgba(255,255,255,0.02); }
 
-        /* Status Badges */
         .badge { padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; }
         .bg-active { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
         .bg-expired { background: rgba(255, 59, 59, 0.1); color: #ff3b3b; }
         .bg-soon { background: rgba(255, 183, 0, 0.1); color: #ffb700; }
 
-        /* Mobile */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
             .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 10px; }
@@ -120,26 +112,17 @@
 
     <div id="login-screen">
         <h2 style="margin-bottom:20px; font-family:'Oswald',sans-serif">ADMIN ACCESS</h2>
-        <input type="password" id="pin-input" placeholder="PIN" maxlength="4">
+        <input type="password" id="pin-input" placeholder="PIN (1234)" maxlength="4">
         <button class="login-btn" onclick="checkPin()">UNLOCK</button>
         <p id="error-msg" style="color:red; margin-top:15px; display:none;">Incorrect PIN</p>
     </div>
 
     <div class="sidebar" id="sidebar" style="display:none;">
         <div class="brand">CHANDHU<span>FITNESS</span></div>
-        
-        <div class="menu-item active" onclick="switchView('all', this)">
-            <i class="fas fa-home"></i> Dashboard
-        </div>
-        <div class="menu-item" onclick="switchView('active', this)">
-            <i class="fas fa-check-circle"></i> Active Members
-        </div>
-        <div class="menu-item" onclick="switchView('soon', this)">
-            <i class="fas fa-clock"></i> Expiring Soon
-        </div>
-        <div class="menu-item" onclick="switchView('expired', this)">
-            <i class="fas fa-times-circle"></i> Expired List
-        </div>
+        <div class="menu-item active" onclick="switchView('all', this)"><i class="fas fa-home"></i> All Members</div>
+        <div class="menu-item" onclick="switchView('active', this)"><i class="fas fa-check-circle"></i> Active</div>
+        <div class="menu-item" onclick="switchView('soon', this)"><i class="fas fa-clock"></i> Expiring Soon</div>
+        <div class="menu-item" onclick="switchView('expired', this)"><i class="fas fa-times-circle"></i> Expired</div>
     </div>
 
     <div class="main-content" id="main-content" style="display:none;">
@@ -179,26 +162,20 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
-                    </tbody>
+                <tbody id="table-body"></tbody>
             </table>
         </div>
-
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        // 1. YOUR APPS SCRIPT URL
+        // --- 1. REPLACE THIS URL ---
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec'; 
         
-        // 2. PIN CONFIG (1234)
-        const PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
+        const PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // 1234
 
-        // Global Data Variables
-        let allMembers = []; // Deduplicated list
-        let currentView = 'all'; // Default View
+        let allMembers = []; 
+        let currentView = 'all'; 
 
-        // --- LOGIN LOGIC ---
         async function checkPin() {
             const input = document.getElementById('pin-input').value;
             const hash = await sha256(input);
@@ -211,14 +188,13 @@
                 document.getElementById('error-msg').style.display = 'block';
             }
         }
-
+        
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
             return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // --- FETCH DATA ---
         function fetchData() {
             fetch(SCRIPT_URL)
                 .then(res => res.json())
@@ -226,34 +202,45 @@
                 .catch(err => console.error(err));
         }
 
-        // --- PROCESS DATA (Smart Logic) ---
         function processData(rows) {
-            // 1. Calculate Revenue (From raw history)
+            // Remove headers (Row 1)
+            const dataRows = rows.slice(1);
+
+            // 1. Calculate Revenue
             let totalRevenue = 0;
-            rows.slice(1).forEach(r => totalRevenue += parseInt(r[4]) || 0);
+            dataRows.forEach(r => totalRevenue += parseInt(r[4]) || 0);
             document.getElementById('stat-revenue').innerText = totalRevenue.toLocaleString();
 
-            // 2. Deduplicate (Keep Latest Entry per Phone)
+            // 2. Process Members (FIXED LOGIC)
             let memberMap = {};
-            rows.slice(1).forEach(r => {
-                const phone = r[2];
+            
+            dataRows.forEach((r, index) => {
+                const phoneRaw = r[2];
+                // IMPORTANT: If phone is empty, generate a unique ID so it doesn't get merged
+                const phoneKey = (phoneRaw && phoneRaw.toString().trim() !== "") ? phoneRaw : "NO_PHONE_" + index;
                 const joinDate = new Date(r[0]);
-                if (!memberMap[phone] || joinDate > new Date(memberMap[phone].joinDate)) {
-                    // Normalize Data Object
-                    memberMap[phone] = {
+
+                // If this phone number is new, OR this entry is newer than what we have, update it.
+                if (!memberMap[phoneKey] || joinDate > new Date(memberMap[phoneKey].joinDate)) {
+                    
+                    // Safe Data Extraction
+                    let days = parseInt(r[7]);
+                    if(isNaN(days)) days = 0; // Prevent NaN error if formula hasn't run yet
+
+                    memberMap[phoneKey] = {
                         joinDate: r[0],
                         name: r[1],
-                        phone: r[2],
+                        phone: r[2], // Keep original (might be empty)
                         plan: r[3],
                         amount: r[4],
-                        daysLeft: parseInt(r[7])
+                        daysLeft: days
                     };
                 }
             });
 
             allMembers = Object.values(memberMap);
 
-            // 3. Update Status Counts
+            // 3. Update Status
             let active = 0, soon = 0;
             allMembers.forEach(m => {
                 if (m.daysLeft >= 0) active++;
@@ -262,48 +249,45 @@
             document.getElementById('stat-active').innerText = active;
             document.getElementById('stat-soon').innerText = soon;
 
-            // 4. Show Initial Table
+            // 4. Render
             document.getElementById('loader').style.display = 'none';
             document.getElementById('dataTable').style.display = 'table';
             renderTable(allMembers);
         }
 
-        // --- VIEW SWITCHER ---
         function switchView(view, btnElement) {
             currentView = view;
-            
-            // 1. Update Sidebar UI
             document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
             btnElement.classList.add('active');
 
-            // 2. Filter Data
             let filteredData = [];
             const titleEl = document.getElementById('page-title');
 
             if (view === 'all') {
                 filteredData = allMembers;
-                titleEl.innerText = "Dashboard Overview";
+                titleEl.innerText = "All Members";
             } else if (view === 'active') {
                 filteredData = allMembers.filter(m => m.daysLeft >= 0);
-                titleEl.innerText = "Active Members List";
+                titleEl.innerText = "Active Members";
             } else if (view === 'expired') {
                 filteredData = allMembers.filter(m => m.daysLeft < 0);
-                titleEl.innerText = "Expired Members List";
+                titleEl.innerText = "Expired Members";
             } else if (view === 'soon') {
                 filteredData = allMembers.filter(m => m.daysLeft >= 0 && m.daysLeft <= 7);
                 titleEl.innerText = "Expiring Soon";
             }
-
             renderTable(filteredData);
         }
 
-        // --- RENDER TABLE ---
         function renderTable(data) {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
+            data.sort((a, b) => a.daysLeft - b.daysLeft); // Expiring soonest first
 
-            // Sort by days left (ascending)
-            data.sort((a, b) => a.daysLeft - b.daysLeft);
+            if(data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No members found in this list.</td></tr>';
+                return;
+            }
 
             data.forEach(m => {
                 let badgeClass = 'bg-active';
@@ -316,35 +300,34 @@
                     badgeClass = 'bg-soon';
                 }
 
-                // Calculate Expiry Date string
+                // Expiry Date Calculation
                 let joinObj = new Date(m.joinDate);
                 let months = (m.plan === 'PLATINUM') ? 6 : 1;
                 joinObj.setMonth(joinObj.getMonth() + months);
                 let expiryStr = joinObj.toISOString().split('T')[0];
 
+                // WhatsApp Link (Disable if no phone)
+                let waLink = m.phone ? 
+                    `<a href="https://wa.me/91${m.phone}?text=Hello ${m.name}, your membership status is: ${statusText}." target="_blank" style="color:#25D366; font-size:1.2rem;"><i class="fab fa-whatsapp"></i></a>` 
+                    : `<span style="color:#444"><i class="fab fa-whatsapp"></i></span>`;
+
                 const tr = `
                     <tr>
                         <td style="font-weight:600; color:white;">${m.name}</td>
-                        <td>${m.phone}</td>
+                        <td>${m.phone || "<span style='color:#444'>No Phone</span>"}</td>
                         <td>${m.plan}</td>
                         <td style="color:#aaa;">${expiryStr}</td>
                         <td><span class="badge ${badgeClass}">${statusText}</span></td>
-                        <td>
-                            <a href="https://wa.me/91${m.phone}?text=Hello ${m.name}, your membership status is: ${statusText}. Please renew." target="_blank" style="color:#25D366; font-size:1.2rem;">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                        </td>
+                        <td>${waLink}</td>
                     </tr>
                 `;
                 tbody.innerHTML += tr;
             });
         }
 
-        // --- SEARCH ---
         function filterTable() {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const rows = document.getElementById('table-body').getElementsByTagName('tr');
-
             for(let row of rows) {
                 const text = row.innerText.toLowerCase();
                 row.style.display = text.includes(term) ? '' : 'none';
