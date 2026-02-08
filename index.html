@@ -304,10 +304,13 @@
         .features li { padding: 12px 0; color: #b3b3b3; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .features li i { color: var(--primary); margin-right: 10px; }
 
-/* --- 8. ENGAGING FOOTER --- */
+/* =========================================
+   8. ENGAGING FOOTER (FIXED & COMPLETE)
+   ========================================= */
+
 footer {
     background: #050505;
-    padding: 80px 5% 0; /* Zero bottom padding, handled by bottom bar */
+    padding: 80px 5% 0;
     border-top: 1px solid rgba(255,255,255,0.1);
     position: relative;
     overflow: hidden;
@@ -328,10 +331,10 @@ footer::before {
     margin-bottom: 50px;
 }
 
-/* --- LOGO REDUCTION --- */
+/* --- LOGO STYLES --- */
 .footer-logo {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem !important; /* Smaller size */
+    font-size: 1.5rem !important; /* Smaller than header logo */
     font-weight: 700;
     color: white;
     letter-spacing: 1px;
@@ -355,7 +358,7 @@ footer::before {
     max-width: 320px;
 }
 
-/* Quick Links */
+/* --- LINKS --- */
 .footer-links li { margin-bottom: 12px; }
 .footer-links a {
     color: #bbb;
@@ -369,10 +372,10 @@ footer::before {
     transform: translateX(5px);
 }
 
-/* Social Icons */
+/* --- SOCIAL ICONS --- */
 .social-icons { 
     display: flex; 
-    gap: 20px; /* Better spacing */
+    gap: 20px; 
     margin-top: 25px; 
 }
 .social-icons a {
@@ -391,7 +394,7 @@ footer::before {
     transform: translateY(-3px);
 }
 
-/* Contact Info */
+/* --- CONTACT INFO --- */
 .contact-row {
     display: flex; align-items: flex-start;
     gap: 15px;
@@ -403,35 +406,38 @@ footer::before {
     margin-top: 3px; 
 }
 
+/* =========================================
+   BOTTOM BAR (ALIGNMENT FIX)
+   ========================================= */
 
-/* --- BOTTOM BAR (Desktop Layout) --- */
 .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.15); /* Visible Separator */
+    border-top: 1px solid rgba(255,255,255,0.15);
     padding: 25px 0;
     margin-top: 20px;
-    position: relative; /* Essential for absolute centering */
+    width: 100%;
     
-    /* Flexbox to align Dev Button to the Right */
+    /* Flexbox: Pushes items to Left and Right edges */
     display: flex;
-    justify-content: flex-end; 
+    justify-content: space-between; 
     align-items: center;
 }
 
+/* LEFT SIDE: Copyright */
 .copyright { 
     color: #666; 
     font-size: 0.85rem; 
     margin: 0;
-    
-    /* STRICT CENTER ALIGNMENT */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content; 
+    text-align: left;
 }
 
-/* Developer Badge */
-.dev-credit-wrapper { display: flex; align-items: center; }
+/* RIGHT SIDE: Developer Badge Container */
+.dev-credit-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+}
 
+/* GLOWING BUTTON DESIGN */
 .dev-glow-link {
     display: inline-flex;
     align-items: center;
@@ -459,7 +465,9 @@ footer::before {
 }
 
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
 @media (max-width: 768px) {
     .footer-content { text-align: center; }
     
@@ -473,39 +481,22 @@ footer::before {
     .social-icons { justify-content: center; }
     .contact-row { justify-content: center; text-align: center; }
     
-    /* Stack Bottom Bar */
+    /* Stack Bottom Bar Vertically */
     .footer-bottom { 
-        flex-direction: column-reverse; /* Copyright moves to bottom */
+        flex-direction: column-reverse;
         justify-content: center;
         gap: 20px;
-    }
-
-    /* Reset Centering for Mobile */
-    .copyright {
-        position: relative; 
-        left: auto;
-        transform: none;
         text-align: center;
     }
-    
-    .dev-credit-wrapper { margin: 0 auto; }
+
+    .copyright { text-align: center; }
+    .dev-credit-wrapper { justify-content: center; }
 }
 
 
-/* --- 9. FAQ STYLES (Restored) --- */
-.faq-container { max-width: 800px; margin: 0 auto; }
-details { background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 0; transition: 0.3s ease; }
-details:last-child { border-bottom: none; }
-summary { padding: 25px 10px; cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 1.2rem; letter-spacing: 1px; color: #fff; display: flex; justify-content: space-between; align-items: center; list-style: none; transition: color 0.3s; }
-summary::-webkit-details-marker { display: none; }
-summary::after { content: '+'; font-size: 1.5rem; color: #666; font-weight: 300; transition: 0.3s; }
-details:hover summary { color: var(--primary); }
-details:hover summary::after { color: white; }
-details[open] summary { color: var(--primary); padding-bottom: 15px; }
-details[open] summary::after { content: '-'; color: var(--primary); font-size: 2rem; line-height: 0.5; }
-.faq-answer { padding: 0 10px 30px 10px; color: #b3b3b3; line-height: 1.7; font-size: 1rem; opacity: 0; animation: fadeIn 0.5s forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-/* --- 9. FAQ STYLES (Restored) --- */
+/* =========================================
+   9. FAQ / COMMON QUESTIONS STYLES
+   ========================================= */
 .faq-container { max-width: 800px; margin: 0 auto; }
 
 details { 
@@ -561,11 +552,11 @@ details[open] summary::after {
     opacity: 0; 
     animation: fadeIn 0.5s forwards; 
 }
+
 @keyframes fadeIn { 
     from { opacity: 0; transform: translateY(-5px); } 
     to { opacity: 1; transform: translateY(0); } 
 }
-       
         /* --- 9. MODALS --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-content { background: #111; margin: 5% auto; padding: 40px; width: 90%; max-width: 500px; border-radius: 15px; border: 1px solid #333; text-align: center; position: relative; box-shadow: 0 0 50px rgba(255, 59, 59, 0.1); }
