@@ -305,7 +305,7 @@
         .features li i { color: var(--primary); margin-right: 10px; }
 
 /* =========================================
-   8. ENGAGING FOOTER (FIXED & COMPLETE)
+   8. ENGAGING FOOTER (FINAL FIXED)
    ========================================= */
 
 footer {
@@ -334,7 +334,7 @@ footer::before {
 /* --- LOGO STYLES --- */
 .footer-logo {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem !important; /* Smaller than header logo */
+    font-size: 1.5rem !important;
     font-weight: 700;
     color: white;
     letter-spacing: 1px;
@@ -407,7 +407,7 @@ footer::before {
 }
 
 /* =========================================
-   BOTTOM BAR (ALIGNMENT FIX)
+   BOTTOM BAR (ALIGNMENT FIXED)
    ========================================= */
 
 .footer-bottom {
@@ -416,7 +416,7 @@ footer::before {
     margin-top: 20px;
     width: 100%;
     
-    /* Flexbox: Pushes items to Left and Right edges */
+    /* Pushes Left and Right items to edges */
     display: flex;
     justify-content: space-between; 
     align-items: center;
@@ -428,13 +428,17 @@ footer::before {
     font-size: 0.85rem; 
     margin: 0;
     text-align: left;
+    
+    /* FORCE SINGLE LINE */
+    white-space: nowrap; 
 }
 
 /* RIGHT SIDE: Developer Badge Container */
 .dev-credit-wrapper {
     display: flex;
     align-items: center;
-    justify-content: flex-end; 
+    /* Forces it to the right */
+    margin-left: auto; 
 }
 
 /* GLOWING BUTTON DESIGN */
@@ -489,10 +493,81 @@ footer::before {
         text-align: center;
     }
 
-    .copyright { text-align: center; }
-    .dev-credit-wrapper { justify-content: center; }
+    .copyright { 
+        text-align: center; 
+        white-space: normal; /* Allow wrapping on small mobile screens */
+    }
+    
+    .dev-credit-wrapper { 
+        margin-left: 0; /* Reset margin for centering */
+        justify-content: center; 
+    }
 }
 
+
+/* =========================================
+   9. FAQ / COMMON QUESTIONS STYLES
+   ========================================= */
+.faq-container { max-width: 800px; margin: 0 auto; }
+
+details { 
+    background: transparent; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    margin-bottom: 0; 
+    transition: 0.3s ease; 
+}
+details:last-child { border-bottom: none; }
+
+summary { 
+    padding: 25px 10px; 
+    cursor: pointer; 
+    font-family: 'Oswald', sans-serif; 
+    font-size: 1.2rem; 
+    letter-spacing: 1px; 
+    color: #fff; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    list-style: none; 
+    transition: color 0.3s; 
+}
+summary::-webkit-details-marker { display: none; }
+
+summary::after { 
+    content: '+'; 
+    font-size: 1.5rem; 
+    color: #666; 
+    font-weight: 300; 
+    transition: 0.3s; 
+}
+
+details:hover summary { color: var(--primary); }
+details:hover summary::after { color: white; }
+
+details[open] summary { 
+    color: var(--primary); 
+    padding-bottom: 15px; 
+}
+details[open] summary::after { 
+    content: '-'; 
+    color: var(--primary); 
+    font-size: 2rem; 
+    line-height: 0.5; 
+}
+
+.faq-answer { 
+    padding: 0 10px 30px 10px; 
+    color: #b3b3b3; 
+    line-height: 1.7; 
+    font-size: 1rem; 
+    opacity: 0; 
+    animation: fadeIn 0.5s forwards; 
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(-5px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
 /* =========================================
    9. FAQ / COMMON QUESTIONS STYLES
