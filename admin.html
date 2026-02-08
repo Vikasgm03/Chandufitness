@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Chandhu Fitness Admin</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   
@@ -27,8 +28,15 @@
     /* ── HEADER ── */
     .header { position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.95); padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
     .search-bar { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; font-size: 1rem; outline: none; }
-    .filters { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-    .filter-chip { padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; color: #888; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.2s; }
+    
+    /* TABS (Dashboard vs History) */
+    .tabs { display: flex; gap: 10px; background: #111; padding: 5px; border-radius: 12px; border: 1px solid #333; }
+    .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.9rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.2s; }
+    .tab.active { background: #222; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+    /* FILTERS (Active/Expired) */
+    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+    .filter-chip { padding: 6px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; color: #888; font-size: 0.8rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.2s; }
     .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
     /* ── CONTENT ── */
@@ -43,14 +51,18 @@
     /* Table/Cards */
     table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
     thead th { text-align: left; padding: 10px; color: #666; font-size: 0.8rem; text-transform: uppercase; }
-    tbody tr { background: var(--card); }
+    tbody tr { background: var(--card); transition: 0.2s; }
     tbody td { padding: 15px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: #ccc; font-size: 0.95rem; }
     tbody tr td:first-child { border-left: 1px solid var(--border); border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
     tbody tr td:last-child { border-right: 1px solid var(--border); border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
 
     /* Delete Button */
-    .btn-delete { color: #555; background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 10px; transition: 0.2s; }
-    .btn-delete:hover { color: #ff3b3b; }
+    .btn-delete { color: #555; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; width: 40px; height: 40px; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+    .btn-delete:hover { color: #ff3b3b; border-color: #ff3b3b; background: rgba(255, 59, 59, 0.1); }
+
+    /* Whatsapp Button */
+    .btn-wa { display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; background: #1a1a1a; border-radius: 50%; color: #25d366; font-size: 1.5rem; border: 1px solid #333; transition: 0.2s; }
+    .btn-wa:active { transform: scale(0.9); }
 
     /* ── MOBILE OPTIMIZATION ── */
     @media (max-width: 768px) {
@@ -61,19 +73,20 @@
       tr { display: block; margin-bottom: 15px; border-radius: 16px; position: relative; border: 1px solid var(--border); padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
       td { display: block; padding: 0; border: none !important; }
       
-      /* Standard View Layout */
-      .standard-view td:nth-child(2) { font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 5px; }
-      .standard-view td:nth-child(3), .standard-view td:nth-child(4) { display: inline-block; margin-right: 10px; font-size: 0.9rem; }
-      .standard-view td:nth-child(4) { color: var(--primary); font-weight: 600; }
-      .standard-view td:nth-child(5) { margin-top: 10px; }
-      .standard-view td:nth-child(1) { position: absolute; top: 18px; right: 15px; font-size: 0.75rem; color: #555; }
-      .standard-view td:nth-child(6) { display: none; } /* Hide action in list view, use tap? No, keep clean. */
+      /* Dashboard Card Layout */
+      .dash-view td:nth-child(2) { font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 5px; } /* Name */
+      .dash-view td:nth-child(3), .dash-view td:nth-child(4) { display: inline-block; margin-right: 10px; font-size: 0.9rem; }
+      .dash-view td:nth-child(4) { color: var(--primary); font-weight: 600; } /* Plan */
+      .dash-view td:nth-child(5) { margin-top: 10px; } /* Badge */
+      .dash-view td:nth-child(1) { position: absolute; top: 18px; right: 70px; font-size: 0.75rem; color: #555; } /* Date */
+      .dash-view td:nth-child(6) { position: absolute; top: 15px; right: 15px; } /* WhatsApp */
 
-      /* History View Layout */
-      .history-view td:nth-child(2) { font-size: 1.1rem; font-weight: 700; color: white; }
-      .history-view td:nth-child(5) { color: var(--primary); font-weight: bold; margin-top: 5px; }
-      .history-view td:nth-child(1) { color: #666; font-size: 0.8rem; margin-bottom: 5px; }
-      .history-view td:nth-child(6) { position: absolute; top: 15px; right: 10px; }
+      /* History Card Layout */
+      .hist-view td:nth-child(2) { font-size: 1.1rem; font-weight: 700; color: white; } /* Name */
+      .hist-view td:nth-child(4) { color: #888; font-size: 0.9rem; margin-top: 2px; } /* Plan */
+      .hist-view td:nth-child(1) { color: #555; font-size: 0.8rem; margin-bottom: 5px; } /* Date */
+      .hist-view td:nth-child(5) { display: none; } /* Hide Amount on mobile to save space */
+      .hist-view td:nth-child(6) { position: absolute; top: 20px; right: 15px; } /* Delete */
     }
 
     .badge { padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
@@ -95,10 +108,18 @@
 
   <div class="main">
     <header class="header">
-      <input id="search" class="search-bar" placeholder="🔍 Search..." oninput="App.search()"/>
-      <div class="filters">
-        <div class="filter-chip active" onclick="App.setView('dashboard', this)">Dashboard</div>
-        <div class="filter-chip" onclick="App.setView('history', this)">Full History & Delete</div>
+      <input id="search" class="search-bar" placeholder="🔍 Search name..." oninput="App.search()"/>
+      
+      <div class="tabs">
+        <div class="tab active" onclick="App.setMode('dashboard', this)">Dashboard</div>
+        <div class="tab" onclick="App.setMode('history', this)">History & Edit</div>
+      </div>
+
+      <div id="filters-container" class="filters">
+        <div class="filter-chip active" onclick="App.filter('all', this)">All</div>
+        <div class="filter-chip" onclick="App.filter('active', this)">Active</div>
+        <div class="filter-chip" onclick="App.filter('soon', this)">Expiring Soon</div>
+        <div class="filter-chip" onclick="App.filter('expired', this)">Expired</div>
       </div>
     </header>
 
@@ -112,8 +133,7 @@
       <div id="loader" style="text-align:center; padding:40px; color:#666">Loading...</div>
 
       <table id="data-table" style="display:none">
-        <thead id="table-head">
-          </thead>
+        <thead id="table-head"></thead>
         <tbody id="table-body"></tbody>
       </table>
     </div>
@@ -129,7 +149,8 @@ const CONFIG = {
 
 let RAW_DATA = []; // Full History
 let SMART_DATA = []; // Deduplicated for Dashboard
-let CURRENT_VIEW = 'dashboard';
+let CURRENT_MODE = 'dashboard';
+let CURRENT_FILTER = 'all';
 
 const Auth = {
     async login() {
@@ -159,32 +180,31 @@ const App = {
       .then(data => {
         const rows = data.data.slice(1);
         
-        // Process Raw Data (Include Row Index for Deletion)
-        // Row Index in Sheet = Array Index + 2 (Because of Header + 0-based array)
-        RAW_DATA = rows.map((r, i) => ({
-          date: r[0],
-          name: r[1],
-          phone: r[2] ? String(r[2]) : "",
-          plan: r[3],
-          amount: parseInt(r[4]) || 0,
-          days: parseInt(r[7]) || 0,
-          rowIndex: i + 2 
-        }));
+        // 1. Process Raw Data (Remove Empty Rows)
+        RAW_DATA = rows
+            .map((r, i) => ({
+                date: r[0],
+                name: r[1],
+                phone: r[2] ? String(r[2]) : "",
+                plan: r[3],
+                amount: parseInt(r[4]) || 0,
+                days: parseInt(r[7]) || 0,
+                rowIndex: i + 2 
+            }))
+            .filter(item => item.name && item.date); // REMOVE EMPTY ENTRIES
         
-        // Sort Latest First
+        // 2. Sort Latest First
         RAW_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        // Create Smart Data (Deduplicated)
+        // 3. Create Smart Data (Deduplicated)
         const uniqueMap = new Map();
         SMART_DATA = [];
         RAW_DATA.forEach(item => {
-            if(item.name && item.date) { // Valid Check
-                if(!item.phone) {
-                    SMART_DATA.push(item);
-                } else if(!uniqueMap.has(item.phone)) {
-                    uniqueMap.set(item.phone, true);
-                    SMART_DATA.push(item);
-                }
+            if(!item.phone) {
+                SMART_DATA.push(item);
+            } else if(!uniqueMap.has(item.phone)) {
+                uniqueMap.set(item.phone, true);
+                SMART_DATA.push(item);
             }
         });
 
@@ -203,14 +223,27 @@ const App = {
     document.getElementById("stat-soon").innerText = SMART_DATA.filter(i => i.days >= 0 && i.days <= 7).length;
   },
 
-  setView(view, btn) {
-    document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
+  setMode(mode, btn) {
+    // Toggle Tabs
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
-    CURRENT_VIEW = view;
+    CURRENT_MODE = mode;
     
-    // Toggle Stats Visibility
-    document.getElementById('stats-container').style.display = (view === 'dashboard') ? 'grid' : 'none';
+    // Toggle Visibility
+    const isDash = (mode === 'dashboard');
+    document.getElementById('stats-container').style.display = isDash ? 'grid' : 'none';
+    document.getElementById('filters-container').style.display = isDash ? 'flex' : 'none'; // Hide filters in history mode
     
+    // Reset Filter when switching
+    if(isDash) this.filter('all', document.querySelector('.filter-chip'));
+    else this.render();
+  },
+
+  filter(type, btn) {
+    if(CURRENT_MODE !== 'dashboard') return;
+    document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    CURRENT_FILTER = type;
     this.render();
   },
 
@@ -219,7 +252,7 @@ const App = {
   },
 
   deleteRow(rowIndex, name) {
-    if(!confirm(`⚠️ Are you sure you want to delete the record for ${name}?\n\nThis cannot be undone.`)) return;
+    if(!confirm(`⚠️ Delete ${name}?\n\nThis cannot be undone.`)) return;
 
     // Show deleting state
     const btn = event.target.closest('button');
@@ -234,7 +267,7 @@ const App = {
       .then(res => {
         if(res.result === 'success') {
             alert("Deleted Successfully");
-            this.fetchData(); // Reload data
+            this.fetchData(); 
         } else {
             alert("Error deleting row");
         }
@@ -246,9 +279,17 @@ const App = {
     const tbody = document.getElementById("table-body");
     const thead = document.getElementById("table-head");
     
-    let list = (CURRENT_VIEW === 'dashboard') ? SMART_DATA : RAW_DATA;
+    // Select Data Source
+    let list = (CURRENT_MODE === 'dashboard') ? SMART_DATA : RAW_DATA;
     
-    // Search Filter
+    // Apply Dashboard Filters
+    if(CURRENT_MODE === 'dashboard') {
+        if(CURRENT_FILTER === 'active') list = list.filter(i => i.days >= 0);
+        else if(CURRENT_FILTER === 'soon') list = list.filter(i => i.days >= 0 && i.days <= 7);
+        else if(CURRENT_FILTER === 'expired') list = list.filter(i => i.days < 0);
+    }
+    
+    // Apply Search
     if(term) {
         list = list.filter(i => 
             (i.name && i.name.toLowerCase().includes(term)) || 
@@ -262,10 +303,10 @@ const App = {
     }
 
     // Render Headers
-    if(CURRENT_VIEW === 'dashboard') {
-        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th></tr>`;
+    if(CURRENT_MODE === 'dashboard') {
+        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th><th>Action</th></tr>`;
     } else {
-        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Plan</th><th>Amount</th><th>Ref</th><th>Action</th></tr>`;
+        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Amount</th><th>Action</th></tr>`;
     }
 
     // Render Body
@@ -273,26 +314,28 @@ const App = {
       let dateStr = "N/A";
       try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
 
-      if(CURRENT_VIEW === 'dashboard') {
-          // --- DASHBOARD VIEW (Clean, No Delete) ---
+      if(CURRENT_MODE === 'dashboard') {
+          // --- DASHBOARD VIEW (Clean, WhatsApp) ---
           let badge = "b-active";
           let status = `${item.days} Days Left`;
           if (item.days < 0) { badge = "b-expired"; status = "Expired"; } 
           else if (item.days <= 7) { badge = "b-soon"; }
 
           return `
-          <tr class="standard-view">
+          <tr class="dash-view">
             <td>${dateStr}</td>
             <td>${item.name}</td>
             <td>${item.phone || ""}</td>
             <td>${item.plan}</td>
             <td><span class="badge ${badge}">${status}</span></td>
-            <td></td>
+            <td>
+              ${item.phone ? `<a href="https://wa.me/91${item.phone}?text=Hello ${item.name}, your membership status: ${status}" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i></a>` : ""}
+            </td>
           </tr>`;
       } else {
-          // --- HISTORY VIEW (Raw Data + Delete) ---
+          // --- HISTORY VIEW (Raw Data, Delete) ---
           return `
-          <tr class="history-view">
+          <tr class="hist-view">
             <td>${dateStr}</td>
             <td>${item.name}</td>
             <td>${item.phone || ""}</td>
