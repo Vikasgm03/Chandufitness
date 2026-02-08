@@ -2,23 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Chandhu-Fitness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin App | Chandhu-Fitness</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root { 
             --primary: #ff3b3b; 
-            --bg: #050505; 
-            --panel: #111; 
+            --bg: #000000; 
+            --panel: #121212; 
             --border: #222; 
             --text: #eee; 
             --text-muted: #888;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background: var(--bg); color: var(--text); 
@@ -28,25 +28,25 @@
 
         /* --- LOGIN --- */
         #login-overlay {
-            position: fixed; inset: 0; background: #000; z-index: 999; 
+            position: fixed; inset: 0; background: #000; z-index: 9999; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         .login-box {
-            background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border);
-            text-align: center; width: 300px;
+            background: var(--panel); padding: 40px; border-radius: 16px; border: 1px solid var(--border);
+            text-align: center; width: 90%; max-width: 320px;
         }
         .pin-input {
             width: 100%; padding: 15px; margin: 20px 0; background: #000; border: 1px solid #333; 
             color: #fff; text-align: center; font-size: 1.5rem; letter-spacing: 8px; border-radius: 8px; outline: none;
         }
         .btn-main {
-            width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; 
-            border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Oswald', sans-serif;
+            width: 100%; padding: 14px; background: var(--primary); color: #fff; border: none; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Oswald', sans-serif; font-size: 1.1rem;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- DESKTOP SIDEBAR (Hidden on Mobile) --- */
         .sidebar {
-            width: 250px; background: #080808; border-right: 1px solid var(--border);
+            width: 260px; background: #080808; border-right: 1px solid var(--border);
             display: flex; flex-direction: column; padding: 25px 15px;
         }
         .brand {
@@ -56,60 +56,104 @@
         .brand span { color: var(--primary); }
 
         .nav-btn {
-            padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; 
+            padding: 12px 15px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; 
             color: var(--text-muted); font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 12px;
             transition: 0.2s;
         }
         .nav-btn:hover, .nav-btn.active { background: var(--primary); color: #fff; }
 
         /* --- MAIN AREA --- */
-        .main { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
+        .main { flex: 1; display: flex; flex-direction: column; background: var(--bg); position: relative; }
 
         .header {
-            padding: 20px 30px; border-bottom: 1px solid var(--border); background: rgba(5,5,5,0.95);
-            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.95);
+            display: flex; flex-direction: column; gap: 15px; z-index: 100;
         }
         .search-bar {
-            background: var(--panel); border: 1px solid var(--border); padding: 10px 15px; 
-            color: #fff; border-radius: 6px; width: 250px; outline: none;
+            background: var(--panel); border: 1px solid var(--border); padding: 12px 15px; 
+            color: #fff; border-radius: 8px; width: 100%; outline: none; font-size: 1rem;
         }
 
-        /* STATS */
-        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 30px 30px 0; }
-        .stat-card { background: var(--panel); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
-        .stat-val { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Oswald', sans-serif; }
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; }
+        /* STATS (Scrollable on Mobile) */
+        .stats { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px;
+        }
+        .stat-card { 
+            background: var(--panel); padding: 15px; border-radius: 12px; border: 1px solid var(--border); 
+            min-width: 140px;
+        }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Oswald', sans-serif; }
+        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; }
 
-        /* TABLE */
-        .table-container { flex: 1; overflow: auto; padding: 30px; }
+        /* CONTENT CONTAINER */
+        .content-wrapper { flex: 1; overflow-y: auto; padding: 0 20px 80px 20px; /* Padding bottom for mobile nav */ }
+
+        /* TABLE / CARD STYLES */
         table { width: 100%; border-collapse: collapse; }
+        thead { position: sticky; top: 0; background: var(--bg); z-index: 10; }
+        th { text-align: left; padding: 15px; color: #666; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; color: #ccc; }
         
-        thead th { 
-            position: sticky; top: 0; background: var(--bg); color: var(--text-muted); 
-            text-align: left; padding: 15px; font-size: 0.75rem; text-transform: uppercase; 
-            border-bottom: 2px solid var(--border); z-index: 10;
-        }
-        
-        tbody td { 
-            padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: #ccc; 
-        }
-        tbody tr:hover { background: rgba(255,255,255,0.03); }
-
         /* BADGES */
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
-        .b-active { background: rgba(0,255,136,0.1); color: #00ff88; }
-        .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; }
-        .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; }
+        .badge { padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+        .b-active { background: rgba(0,255,136,0.15); color: #00ff88; }
+        .b-soon { background: rgba(255,183,0,0.15); color: #ffb700; }
+        .b-expired { background: rgba(255,59,59,0.15); color: #ff3b3b; }
 
-        /* MOBILE RESPONSIVE */
+        /* --- MOBILE BOTTOM NAV --- */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: #111; border-top: 1px solid #333; height: 65px;
+            justify-content: space-around; align-items: center; z-index: 999;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .b-nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #666; font-size: 0.7rem; flex: 1; height: 100%;
+        }
+        .b-nav-item i { font-size: 1.2rem; margin-bottom: 4px; }
+        .b-nav-item.active { color: var(--primary); }
+
+        /* --- MOBILE SPECIFIC STYLES --- */
         @media (max-width: 768px) {
-            body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 15px; }
-            .brand { display: none; }
-            .nav-btn { white-space: nowrap; font-size: 0.8rem; padding: 8px 15px; }
-            .stats { grid-template-columns: 1fr; padding: 20px; }
-            .table-container { padding: 0 20px 20px; }
-            .search-bar { width: 150px; }
+            .sidebar { display: none; } /* Hide Sidebar */
+            
+            .header { padding: 15px; }
+            .stats { 
+                display: flex; overflow-x: auto; padding: 10px 15px; 
+                scroll-snap-type: x mandatory; gap: 10px; 
+            }
+            .stat-card { scroll-snap-align: start; flex: 0 0 40%; } /* Cards visible on swipe */
+            
+            /* TRANSFORM TABLE INTO CARDS */
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; } /* Hide Table Header */
+            
+            tr {
+                background: #161616; margin-bottom: 15px; border-radius: 12px; 
+                border: 1px solid #2a2a2a; padding: 15px; position: relative;
+            }
+            td { 
+                padding: 4px 0; border: none; display: flex; align-items: center; justify-content: space-between;
+            }
+            
+            /* Card Layout adjustments */
+            tr td:nth-child(2) { /* NAME */
+                font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 5px;
+            }
+            tr td:nth-child(3) { /* PHONE */
+                color: #888; font-size: 0.9rem;
+            }
+            tr td:nth-child(6) { /* WHATSAPP BTN */
+                position: absolute; right: 15px; top: 15px;
+            }
+            tr td:nth-child(6) a {
+                background: rgba(37, 211, 102, 0.2); width: 45px; height: 45px; 
+                display: flex; align-items: center; justify-content: center; 
+                border-radius: 50%; color: #25d366 !important; font-size: 1.5rem !important;
+            }
+
+            .bottom-nav { display: flex; } /* Show Bottom Nav */
         }
     </style>
 </head>
@@ -117,8 +161,9 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="font-family:'Oswald',sans-serif; margin-bottom:10px">ADMIN ACCESS</h2>
-            <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4">
+            <h2 style="font-family:'Oswald',sans-serif; margin-bottom:10px; color:var(--primary)">CHANDHU<span style="color:white">FITNESS</span></h2>
+            <p style="color:#666; font-size:0.8rem; margin-bottom:20px;">ADMIN LOGIN</p>
+            <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" inputmode="numeric">
             <button class="btn-main" onclick="Auth.login()">UNLOCK</button>
             <p id="error-msg" style="color:var(--primary); margin-top:15px; font-size:0.8rem; display:none">Incorrect PIN</p>
         </div>
@@ -135,29 +180,29 @@
 
     <main class="main">
         <header class="header">
-            <h2 style="font-family:'Oswald',sans-serif" id="page-title">Dashboard</h2>
-            <input type="text" id="search" class="search-bar" placeholder="Search name/phone..." onkeyup="App.search()">
+            <h2 style="font-family:'Oswald',sans-serif; display:none;" id="page-title">Dashboard</h2> <input type="text" id="search" class="search-bar" placeholder="🔍 Search name or phone..." onkeyup="App.search()">
         </header>
 
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div>
-                <div class="stat-label">Total Revenue</div>
+                <div class="stat-label">Revenue</div>
             </div>
             <div class="stat-card">
                 <div class="stat-val" id="stat-total">0</div>
-                <div class="stat-label">Total Entries</div>
+                <div class="stat-label">Total Members</div>
             </div>
             <div class="stat-card">
                 <div class="stat-val" style="color:#ffb700" id="stat-soon">0</div>
-                <div class="stat-label">Expiring (7 Days)</div>
+                <div class="stat-label">Expiring Soon</div>
             </div>
         </div>
 
-        <div class="table-container">
+        <div class="content-wrapper">
             <div id="loader" style="text-align:center; padding:40px; color:#666">
-                <i class="fas fa-circle-notch fa-spin"></i> Loading Data...
+                <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Loading Data...
             </div>
+            
             <table id="data-table" style="display:none">
                 <thead>
                     <tr>
@@ -174,18 +219,29 @@
         </div>
     </main>
 
+    <div class="bottom-nav">
+        <div class="b-nav-item active" onclick="App.filterMobile('all', this)">
+            <i class="fas fa-home"></i> <span>Home</span>
+        </div>
+        <div class="b-nav-item" onclick="App.filterMobile('active', this)">
+            <i class="fas fa-check-circle"></i> <span>Active</span>
+        </div>
+        <div class="b-nav-item" onclick="App.filterMobile('soon', this)">
+            <i class="fas fa-clock"></i> <span>Soon</span>
+        </div>
+        <div class="b-nav-item" onclick="App.filterMobile('expired', this)">
+            <i class="fas fa-user-times"></i> <span>Expired</span>
+        </div>
+    </div>
+
     <script>
-        // --- CONFIGURATION ---
         const CONFIG = {
-            // PASTE YOUR GOOGLE SCRIPT URL HERE
             API_URL: 'https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec',
-            PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" // 1234
+            PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
         };
 
-        // --- GLOBAL STATE ---
-        let DB = []; // Stores all data
+        let DB = []; 
 
-        // --- AUTH SYSTEM ---
         const Auth = {
             async login() {
                 const input = document.getElementById('pin-input').value;
@@ -204,108 +260,98 @@
             }
         };
 
-        // --- MAIN APPLICATION ---
         const App = {
             fetchData() {
                 fetch(CONFIG.API_URL)
                     .then(res => res.json())
                     .then(data => {
-                        // 1. Process Data (Skip Header Row)
                         const rows = data.data.slice(1);
-                        
-                        DB = rows.map(r => ({
+                        DB = rows.filter(r => r[0] && r[1]).map(r => ({
                             date: r[0],
                             name: r[1],
                             phone: r[2],
                             plan: r[3],
                             amount: parseInt(r[4]) || 0,
-                            days: parseInt(r[7]) || 0 // Column H is Index 7
+                            days: parseInt(r[7]) || 0 
                         }));
-
-                        // 2. Sort by Latest Date First
                         DB.sort((a,b) => new Date(b.date) - new Date(a.date));
-
-                        // 3. Initialize
                         this.updateStats();
                         this.renderTable(DB);
-                        
                         document.getElementById('loader').style.display = 'none';
                         document.getElementById('data-table').style.display = 'table';
                     })
-                    .catch(err => alert("Error loading data. Check Script URL."));
+                    .catch(err => alert("Connection Error. Refresh page."));
             },
 
             updateStats() {
                 const revenue = DB.reduce((sum, item) => sum + item.amount, 0);
                 const soon = DB.filter(i => i.days >= 0 && i.days <= 7).length;
-                
                 document.getElementById('stat-revenue').innerText = revenue.toLocaleString();
                 document.getElementById('stat-total').innerText = DB.length;
                 document.getElementById('stat-soon').innerText = soon;
             },
 
+            // Unified Filter for Desktop & Mobile
             filter(type, btn) {
-                // UI Toggle
                 document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-                btn.classList.add('active');
+                if(btn) btn.classList.add('active');
+                this.applyFilter(type);
+            },
 
-                // Filter Logic
+            filterMobile(type, btn) {
+                document.querySelectorAll('.b-nav-item').forEach(el => el.classList.remove('active'));
+                if(btn) btn.classList.add('active');
+                this.applyFilter(type);
+                window.scrollTo({top:0, behavior:'smooth'});
+            },
+
+            applyFilter(type) {
                 let list = DB;
-                const title = document.getElementById('page-title');
-
-                if(type === 'active') { list = DB.filter(i => i.days >= 0); title.innerText = "Active Members"; }
-                else if(type === 'soon') { list = DB.filter(i => i.days >= 0 && i.days <= 7); title.innerText = "Expiring Soon"; }
-                else if(type === 'expired') { list = DB.filter(i => i.days < 0); title.innerText = "Expired Members"; }
-                else { title.innerText = "All Records"; }
-
+                if(type === 'active') list = DB.filter(i => i.days >= 0);
+                else if(type === 'soon') list = DB.filter(i => i.days >= 0 && i.days <= 7);
+                else if(type === 'expired') list = DB.filter(i => i.days < 0);
                 this.renderTable(list);
             },
 
             search() {
                 const term = document.getElementById('search').value.toLowerCase();
-                const filtered = DB.filter(i => 
-                    i.name.toLowerCase().includes(term) || 
-                    (i.phone && i.phone.toString().includes(term))
-                );
+                const filtered = DB.filter(i => i.name.toLowerCase().includes(term) || (i.phone && i.phone.toString().includes(term)));
                 this.renderTable(filtered);
             },
 
             renderTable(list) {
                 const tbody = document.getElementById('table-body');
-                
                 if(list.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">No records found.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:#666;">No records found.</td></tr>`;
                     return;
                 }
 
-                // Fastest way to render: Build one giant string
                 const htmlRows = list.map(item => {
                     let badgeClass = 'b-active';
                     let statusText = `${item.days} Days Left`;
-
                     if(item.days < 0) { badgeClass = 'b-expired'; statusText = 'Expired'; }
                     else if(item.days <= 7) { badgeClass = 'b-soon'; }
 
-                    const dateStr = new Date(item.date).toLocaleDateString('en-IN');
+                    let dateStr = "N/A";
+                    try { dateStr = new Date(item.date).toLocaleDateString('en-IN'); } catch(e){}
                     
-                    let waLink = `<span style="opacity:0.3"><i class="fas fa-whatsapp"></i></span>`;
+                    let waLink = "";
                     if(item.phone) {
                         const msg = `Hello ${item.name}, your gym membership status: ${statusText}.`;
-                        waLink = `<a href="https://wa.me/91${item.phone}?text=${encodeURIComponent(msg)}" target="_blank" style="color:#25d366; font-size:1.2rem"><i class="fab fa-whatsapp"></i></a>`;
+                        waLink = `<a href="https://wa.me/91${item.phone}?text=${encodeURIComponent(msg)}" target="_blank"><i class="fab fa-whatsapp"></i></a>`;
                     }
 
                     return `
                         <tr>
-                            <td style="color:#888">${dateStr}</td>
-                            <td style="font-weight:600; color:#fff">${item.name}</td>
+                            <td><span style="color:#666">${dateStr}</span></td>
+                            <td>${item.name}</td>
                             <td>${item.phone || '-'}</td>
-                            <td>${item.plan}</td>
+                            <td><span style="color:var(--primary)">${item.plan}</span></td>
                             <td><span class="badge ${badgeClass}">${statusText}</span></td>
                             <td>${waLink}</td>
                         </tr>
                     `;
                 }).join('');
-
                 tbody.innerHTML = htmlRows;
             }
         };
