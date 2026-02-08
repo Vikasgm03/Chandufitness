@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Chandhu-Fitness</title>
+    <title>Admin Dashboard | Chandu-Fitness</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -72,7 +72,7 @@
 
     <div id="dashboard" style="display:none;">
         <div class="header">
-            <h1>CHANDHU<span>FITNESS</span> <span style="font-size:1rem; color:#666;">// ADMIN PANEL</span></h1>
+            <h1>CHANDU<span>FITNESS</span> <span style="font-size:1rem; color:#666;">// ADMIN PANEL</span></h1>
             <button onclick="location.reload()" class="login-btn" style="background:#222; font-size:0.9rem;"><i class="fas fa-sync"></i> REFRESH</button>
         </div>
 
@@ -121,7 +121,7 @@
         // --- CONFIGURATION ---
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec'; 
         
-        // SHA-256 HASH FOR "1234"
+        // ENCRYPTION
         const PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
 
         // 1. SECURE LOGIN LOGIC
@@ -130,7 +130,7 @@
             const msg = document.getElementById('error-msg');
             
             try {
-                // Generate SHA-256 Hash of input
+               
                 const hash = await sha256(input);
 
                 // Compare
@@ -149,7 +149,7 @@
             }
         }
 
-        // Helper: Generate SHA-256
+        // Helper:
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
