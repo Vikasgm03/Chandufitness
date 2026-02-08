@@ -307,7 +307,7 @@
 /* --- 8. ENGAGING FOOTER --- */
 footer {
     background: #050505;
-    padding: 80px 5% 0; /* No bottom padding, handled by footer-bottom */
+    padding: 80px 5% 0;
     border-top: 1px solid rgba(255,255,255,0.1);
     position: relative;
     overflow: hidden;
@@ -324,18 +324,20 @@ footer::before {
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 60px; /* Better gap between columns */
+    gap: 60px;
     margin-bottom: 50px;
 }
 
-/* --- LOGO (Reduced Size) --- */
+/* --- LOGO REDUCTION --- */
+/* Forces the footer logo to be smaller than the header logo */
 .footer-logo {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem; /* SMALLER SIZE */
+    font-size: 1.5rem !important; /* Smaller size */
     font-weight: 700;
     color: white;
     letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    display: inline-block;
 }
 .footer-logo span { color: var(--primary); }
 
@@ -354,7 +356,7 @@ footer::before {
     max-width: 320px;
 }
 
-/* Links */
+/* Quick Links */
 .footer-links li { margin-bottom: 12px; }
 .footer-links a {
     color: #bbb;
@@ -368,10 +370,10 @@ footer::before {
     transform: translateX(5px);
 }
 
-/* --- SOCIAL ICONS (Fixed Spacing) --- */
+/* --- SOCIAL ICONS --- */
 .social-icons { 
     display: flex; 
-    gap: 20px; /* INCREASED GAP */
+    gap: 20px; /* Better spacing */
     margin-top: 25px; 
 }
 .social-icons a {
@@ -392,380 +394,78 @@ footer::before {
 
 /* Contact Info */
 .contact-row {
-    display: flex; align-items: center; gap: 15px;
+    display: flex; align-items: flex-start; /* Aligns icon with top of text */
+    gap: 15px;
     margin-bottom: 20px; color: #bbb; font-size: 0.95rem;
 }
-.contact-row i { color: var(--primary); font-size: 1.1rem; }
+.contact-row i { 
+    color: var(--primary); 
+    font-size: 1.1rem; 
+    margin-top: 3px; /* Visual adjustment for text alignment */
+}
 
 
-/* --- BOTTOM BAR (Visible Line) --- */
+/* --- BOTTOM BAR --- */
 .footer-bottom {
-    /* Brighter line visibility */
-    border-top: 1px solid rgba(255,255,255,0.15); 
+    border-top: 1px solid rgba(255,255,255,0.15); /* Visible line */
     padding: 25px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.copyright { color: #666; font-size: 0.85rem; }
-
-/* --- COMPACT GLOWING DEV BUTTON --- */
-.dev-credit-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.dev-glow-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 18px; 
-    font-size: 0.75rem; 
-    text-decoration: none;
-    color: rgba(255,255,255,0.7);
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border: 1px solid var(--primary);
-    border-radius: 30px;
-    background: transparent;
-    box-shadow: 0 0 8px rgba(255, 59, 59, 0.2);
-    transition: all 0.3s ease;
-}
-
-.dev-glow-link i { font-size: 0.9rem; color: var(--primary); }
-
-.dev-glow-link:hover {
-    background: rgba(255, 59, 59, 0.1);
-    border-color: transparent;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px var(--primary), inset 0 0 10px var(--primary);
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .footer-bottom { justify-content: center; text-align: center; flex-direction: column-reverse; }
-    .footer-col { text-align: center; }
-    .social-icons { justify-content: center; }
-    .contact-row { justify-content: center; }
-    .footer-bio { margin: 0 auto 20px auto; }
-}/* --- 8. ENGAGING FOOTER --- */
-footer {
-    background: #050505;
-    padding: 80px 5% 0; /* No bottom padding, handled by footer-bottom */
-    border-top: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Top Red Gradient Line */
-footer::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 3px;
-    background: linear-gradient(90deg, transparent, var(--primary), transparent);
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 60px; /* Better gap between columns */
-    margin-bottom: 50px;
-}
-
-/* --- LOGO (Reduced Size) --- */
-.footer-logo {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem; /* SMALLER SIZE */
-    font-weight: 700;
-    color: white;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-}
-.footer-logo span { color: var(--primary); }
-
-.footer-col h3 {
-    font-size: 1.2rem;
-    margin-bottom: 25px;
-    color: white;
-    letter-spacing: 1px;
-}
-
-.footer-bio {
-    color: #888;
-    line-height: 1.8;
-    margin: 20px 0;
-    font-size: 0.95rem;
-    max-width: 320px;
-}
-
-/* Links */
-.footer-links li { margin-bottom: 12px; }
-.footer-links a {
-    color: #bbb;
-    font-size: 0.95rem;
-    transition: 0.3s;
-    display: inline-block;
-    text-decoration: none;
-}
-.footer-links a:hover {
-    color: var(--primary);
-    transform: translateX(5px);
-}
-
-/* --- SOCIAL ICONS (Fixed Spacing) --- */
-.social-icons { 
-    display: flex; 
-    gap: 20px; /* INCREASED GAP */
-    margin-top: 25px; 
-}
-.social-icons a {
-    width: 42px; height: 42px;
-    background: rgba(255,255,255,0.05);
-    display: flex; justify-content: center; align-items: center;
-    border-radius: 50%;
-    color: white;
-    transition: 0.3s;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-.social-icons a:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    box-shadow: 0 0 15px var(--primary-glow);
-    transform: translateY(-3px);
-}
-
-/* Contact Info */
-.contact-row {
-    display: flex; align-items: center; gap: 15px;
-    margin-bottom: 20px; color: #bbb; font-size: 0.95rem;
-}
-.contact-row i { color: var(--primary); font-size: 1.1rem; }
-
-
-/* --- BOTTOM BAR (Visible Line) --- */
-.footer-bottom {
-    /* Brighter line visibility */
-    border-top: 1px solid rgba(255,255,255,0.15); 
-    padding: 25px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.copyright { color: #666; font-size: 0.85rem; }
-
-/* --- COMPACT GLOWING DEV BUTTON --- */
-.dev-credit-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.dev-glow-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 18px; 
-    font-size: 0.75rem; 
-    text-decoration: none;
-    color: rgba(255,255,255,0.7);
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border: 1px solid var(--primary);
-    border-radius: 30px;
-    background: transparent;
-    box-shadow: 0 0 8px rgba(255, 59, 59, 0.2);
-    transition: all 0.3s ease;
-}
-
-.dev-glow-link i { font-size: 0.9rem; color: var(--primary); }
-
-.dev-glow-link:hover {
-    background: rgba(255, 59, 59, 0.1);
-    border-color: transparent;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px var(--primary), inset 0 0 10px var(--primary);
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .footer-bottom { justify-content: center; text-align: center; flex-direction: column-reverse; }
-    .footer-col { text-align: center; }
-    .social-icons { justify-content: center; }
-    .contact-row { justify-content: center; }
-    .footer-bio { margin: 0 auto 20px auto; }
-}
-
-/* --- 9. FAQ REDESIGN (Minimalist & Clean) --- */
-.faq-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-details {
-    /* Transparent background for a clean look */
-    background: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider line */
-    margin-bottom: 0;
-    transition: 0.3s ease;
-}
-
-/* Remove border from last item */
-details:last-child {
-    border-bottom: none;
-}
-
-summary {
-    padding: 25px 10px; /* Spacious click area */
-    cursor: pointer;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-    color: #fff;
     
-    /* Flexbox Alignment */
+    /* This aligns items to opposite sides (Left vs Right) */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
     align-items: center;
-    list-style: none;
-    transition: color 0.3s;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-summary::-webkit-details-marker { display: none; }
+.copyright { color: #666; font-size: 0.85rem; margin: 0; }
 
-/* Simple Plus Icon */
-summary::after {
-    content: '+';
-    font-size: 1.5rem;
-    color: #666; /* Grey by default */
-    font-weight: 300;
-    transition: 0.3s;
+/* --- GLOWING DEVELOPER BADGE --- */
+.dev-credit-wrapper {
+    display: flex;
+    align-items: center;
 }
 
-/* Hover Effect */
-details:hover summary {
-    color: var(--primary); /* Text turns red on hover */
-}
-details:hover summary::after {
-    color: white;
-}
-
-/* Active/Open State */
-details[open] summary {
-    color: var(--primary);
-    padding-bottom: 15px; /* Adjust spacing when open */
-}
-
-details[open] summary::after {
-    content: '-'; /* Changes to Minus */
-    color: var(--primary);
-    font-size: 2rem; /* Make minus slightly larger */
-    line-height: 0.5; /* Fix alignment */
+.dev-glow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px; 
+    font-size: 0.75rem; 
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid var(--primary);
+    border-radius: 30px;
+    background: transparent;
+    box-shadow: 0 0 8px rgba(255, 59, 59, 0.2);
+    transition: all 0.3s ease;
 }
 
-/* Answer Text */
-.faq-answer {
-    padding: 0 10px 30px 10px; /* Clean spacing, no box */
-    color: #b3b3b3;
-    line-height: 1.7;
-    font-size: 1rem;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
+.dev-glow-link i { font-size: 0.9rem; color: var(--primary); }
+
+.dev-glow-link:hover {
+    background: rgba(255, 59, 59, 0.1);
+    border-color: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px var(--primary), inset 0 0 10px var(--primary);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    /* Stacks them vertically on mobile */
+    .footer-bottom { 
+        justify-content: center; 
+        text-align: center; 
+        flex-direction: column-reverse; /* Copyright at bottom */
+    }
+    .footer-col { text-align: center; }
+    .social-icons { justify-content: center; }
+    .contact-row { justify-content: center; text-align: center; }
 }
-/* --- 9. FAQ REDESIGN (Minimalist & Clean) --- */
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        details {
-            /* Transparent background for a clean look */
-            background: transparent;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider line */
-            margin-bottom: 0;
-            transition: 0.3s ease;
-        }
-
-        /* Remove border from last item */
-        details:last-child {
-            border-bottom: none;
-        }
-
-        summary {
-            padding: 25px 10px; /* Spacious click area */
-            cursor: pointer;
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            color: #fff;
-            
-            /* Flexbox Alignment */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            list-style: none;
-            transition: color 0.3s;
-        }
-
-        summary::-webkit-details-marker { display: none; }
-
-        /* Simple Plus Icon */
-        summary::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: #666; /* Grey by default */
-            font-weight: 300;
-            transition: 0.3s;
-        }
-
-        /* Hover Effect */
-        details:hover summary {
-            color: var(--primary); /* Text turns red on hover */
-        }
-        details:hover summary::after {
-            color: white;
-        }
-
-        /* Active/Open State */
-        details[open] summary {
-            color: var(--primary);
-            padding-bottom: 15px; /* Adjust spacing when open */
-        }
-
-        details[open] summary::after {
-            content: '-'; /* Changes to Minus */
-            color: var(--primary);
-            font-size: 2rem; /* Make minus slightly larger */
-            line-height: 0.5; /* Fix alignment */
-        }
-
-        /* Answer Text */
-        .faq-answer {
-            padding: 0 10px 30px 10px; /* Clean spacing, no box */
-            color: #b3b3b3;
-            line-height: 1.7;
-            font-size: 1rem;
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
        
         /* --- 9. MODALS --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(5px); overflow-y: auto; }
