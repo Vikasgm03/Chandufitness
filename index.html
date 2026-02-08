@@ -407,7 +407,7 @@ footer::before {
 }
 
 /* =========================================
-   BOTTOM BAR (ALIGNMENT FIXED)
+   BOTTOM BAR (GRID FIX)
    ========================================= */
 
 .footer-bottom {
@@ -416,32 +416,34 @@ footer::before {
     margin-top: 20px;
     width: 100%;
     
-    /* Pushes Left and Right items to edges */
-    display: flex;
-    justify-content: space-between; 
+    /* GRID LAYOUT: Left (Auto width) - Space - Right (Auto width) */
+    display: grid;
+    grid-template-columns: auto 1fr auto; 
     align-items: center;
 }
 
-/* LEFT SIDE: Copyright */
+/* 1. LEFT SIDE: Copyright */
 .copyright { 
     color: #666; 
     font-size: 0.85rem; 
     margin: 0;
     text-align: left;
-    
-    /* FORCE SINGLE LINE */
-    white-space: nowrap; 
+    white-space: nowrap; /* Forces single line */
+    grid-column: 1; /* First column */
 }
 
-/* RIGHT SIDE: Developer Badge Container */
+/* 2. MIDDLE SPACER (Invisible) */
+/* This empty column naturally pushes the next item to the end */
+
+/* 3. RIGHT SIDE: Developer Badge */
 .dev-credit-wrapper {
+    grid-column: 3; /* Last column */
     display: flex;
-    align-items: center;
-    /* Forces it to the right */
-    margin-left: auto; 
+    justify-content: flex-end; /* Align content to right */
+    width: 100%;
 }
 
-/* GLOWING BUTTON DESIGN */
+/* GLOWING BUTTON DESIGN (Kept same) */
 .dev-glow-link {
     display: inline-flex;
     align-items: center;
@@ -470,36 +472,23 @@ footer::before {
 
 
 /* =========================================
-   MOBILE RESPONSIVENESS
+   MOBILE RESPONSIVENESS (STACKING)
    ========================================= */
 @media (max-width: 768px) {
-    .footer-content { text-align: center; }
-    
-    .footer-col {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .footer-bio { margin: 0 auto 20px auto; }
-    .social-icons { justify-content: center; }
-    .contact-row { justify-content: center; text-align: center; }
-    
-    /* Stack Bottom Bar Vertically */
     .footer-bottom { 
+        /* Switch from Grid to Flex for simple stacking */
+        display: flex;
         flex-direction: column-reverse;
-        justify-content: center;
         gap: 20px;
         text-align: center;
     }
 
     .copyright { 
         text-align: center; 
-        white-space: normal; /* Allow wrapping on small mobile screens */
+        white-space: normal; /* Allow wrapping on small screens */
     }
     
     .dev-credit-wrapper { 
-        margin-left: 0; /* Reset margin for centering */
         justify-content: center; 
     }
 }
