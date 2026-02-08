@@ -5,338 +5,310 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | Chandhu-Fitness</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root { 
             --primary: #ff3b3b; 
-            --dark: #090909; 
-            --panel: #121212;
-            --border: #222;
-            --text: #e0e0e0;
+            --bg: #050505; 
+            --panel: #111; 
+            --border: #222; 
+            --text: #eee; 
+            --text-muted: #888;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background: var(--dark); color: var(--text); 
-            font-family: 'Montserrat', sans-serif;
-            height: 100vh; display: flex; overflow: hidden;
+            background: var(--bg); color: var(--text); 
+            font-family: 'Montserrat', sans-serif; 
+            height: 100vh; display: flex; overflow: hidden; 
         }
 
-        /* --- LOGIN SCREEN --- */
-        #login-screen {
+        /* --- LOGIN --- */
+        #login-overlay {
             position: fixed; inset: 0; background: #000; z-index: 999; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .pin-box {
-            background: #1a1a1a; padding: 30px; border-radius: 12px; border: 1px solid var(--border);
+        .login-box {
+            background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border);
             text-align: center; width: 300px;
         }
-        input[type="password"] {
-            width: 100%; padding: 12px; margin: 15px 0; background: #000; 
-            border: 1px solid #333; color: white; text-align: center; font-size: 1.2rem; letter-spacing: 5px;
-            border-radius: 6px;
+        .pin-input {
+            width: 100%; padding: 15px; margin: 20px 0; background: #000; border: 1px solid #333; 
+            color: #fff; text-align: center; font-size: 1.5rem; letter-spacing: 8px; border-radius: 8px; outline: none;
         }
-        .btn {
-            width: 100%; padding: 12px; background: var(--primary); color: white; border: none; 
-            font-weight: bold; cursor: pointer; border-radius: 6px; font-family: 'Oswald', sans-serif;
-            transition: 0.2s;
+        .btn-main {
+            width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Oswald', sans-serif;
         }
-        .btn:hover { opacity: 0.9; }
-        .error-text { color: #ff3b3b; margin-top: 10px; font-size: 0.8rem; display: none; }
 
         /* --- SIDEBAR --- */
         .sidebar {
-            width: 260px; background: #050505; border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; padding: 20px;
+            width: 250px; background: #080808; border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; padding: 25px 15px;
         }
         .brand {
-            font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: white; margin-bottom: 40px;
-            text-align: center; letter-spacing: 1px;
+            font-family: 'Oswald', sans-serif; font-size: 1.4rem; color: #fff; 
+            text-align: center; margin-bottom: 40px; letter-spacing: 1px;
         }
         .brand span { color: var(--primary); }
-        
-        .nav-item {
-            padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer;
-            color: #888; transition: 0.2s; font-size: 0.9rem; font-weight: 500;
-            display: flex; align-items: center; gap: 12px;
-        }
-        .nav-item:hover, .nav-item.active {
-            background: var(--primary); color: white;
-        }
 
-        /* --- MAIN CONTENT --- */
-        .main { flex: 1; display: flex; flex-direction: column; background: var(--panel); }
-        
-        .top-bar {
-            padding: 20px 30px; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center; background: rgba(18,18,18,0.95);
+        .nav-btn {
+            padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; 
+            color: var(--text-muted); font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 12px;
+            transition: 0.2s;
         }
-        .search-box {
-            background: #000; border: 1px solid #333; padding: 10px 15px; 
-            color: white; border-radius: 6px; width: 300px; font-family: inherit;
+        .nav-btn:hover, .nav-btn.active { background: var(--primary); color: #fff; }
+
+        /* --- MAIN AREA --- */
+        .main { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
+
+        .header {
+            padding: 20px 30px; border-bottom: 1px solid var(--border); background: rgba(5,5,5,0.95);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .search-bar {
+            background: var(--panel); border: 1px solid var(--border); padding: 10px 15px; 
+            color: #fff; border-radius: 6px; width: 250px; outline: none;
         }
 
         /* STATS */
-        .stats-row {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 30px;
-        }
-        .stat-card {
-            background: #1a1a1a; padding: 20px; border-radius: 10px; border: 1px solid var(--border);
-        }
-        .stat-val { font-size: 1.8rem; font-weight: 700; color: white; font-family: 'Oswald', sans-serif; }
-        .stat-label { font-size: 0.75rem; color: #888; text-transform: uppercase; margin-top: 5px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 30px 30px 0; }
+        .stat-card { background: var(--panel); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
+        .stat-val { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Oswald', sans-serif; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; }
 
         /* TABLE */
-        .table-wrapper {
-            flex: 1; overflow: auto; padding: 0 30px 30px 30px;
-        }
+        .table-container { flex: 1; overflow: auto; padding: 30px; }
         table { width: 100%; border-collapse: collapse; }
-        thead { position: sticky; top: 0; background: var(--panel); z-index: 10; }
-        th { text-align: left; padding: 15px; color: #666; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid var(--border); }
-        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: #ccc; }
-        tr:hover { background: rgba(255,255,255,0.02); }
+        
+        thead th { 
+            position: sticky; top: 0; background: var(--bg); color: var(--text-muted); 
+            text-align: left; padding: 15px; font-size: 0.75rem; text-transform: uppercase; 
+            border-bottom: 2px solid var(--border); z-index: 10;
+        }
+        
+        tbody td { 
+            padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: #ccc; 
+        }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
 
         /* BADGES */
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
-        .b-active { background: rgba(0,255,136,0.15); color: #00ff88; }
-        .b-expiring { background: rgba(255,183,0,0.15); color: #ffb700; }
-        .b-expired { background: rgba(255,59,59,0.15); color: #ff3b3b; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .b-active { background: rgba(0,255,136,0.1); color: #00ff88; }
+        .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; }
+        .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; }
 
-        /* MOBILE */
-        @media(max-width: 768px) {
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 10px; height: auto; }
-            .nav-item { white-space: nowrap; font-size: 0.8rem; padding: 8px 12px; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 15px; }
             .brand { display: none; }
-            .stats-row { grid-template-columns: 1fr; padding: 20px; }
-            .search-box { width: 100%; }
-            .table-wrapper { padding: 0 20px 20px; }
+            .nav-btn { white-space: nowrap; font-size: 0.8rem; padding: 8px 15px; }
+            .stats { grid-template-columns: 1fr; padding: 20px; }
+            .table-container { padding: 0 20px 20px; }
+            .search-bar { width: 150px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="login-screen">
-        <div class="pin-box">
-            <h2 style="font-family:'Oswald',sans-serif; margin-bottom:10px;">ADMIN ACCESS</h2>
-            <input type="password" id="pin" placeholder="PIN" maxlength="4">
-            <button class="btn" onclick="login()">UNLOCK</button>
-            <p id="error" class="error-text">Incorrect PIN</p>
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2 style="font-family:'Oswald',sans-serif; margin-bottom:10px">ADMIN ACCESS</h2>
+            <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4">
+            <button class="btn-main" onclick="Auth.login()">UNLOCK</button>
+            <p id="error-msg" style="color:var(--primary); margin-top:15px; font-size:0.8rem; display:none">Incorrect PIN</p>
         </div>
     </div>
 
-    <div class="sidebar">
+    <nav class="sidebar">
         <div class="brand">CHANDHU<span>FITNESS</span></div>
-        <div class="nav-item active" onclick="filter('all', this)"><i class="fas fa-list"></i> All Records</div>
-        <div class="nav-item" onclick="filter('active', this)"><i class="fas fa-check"></i> Active Members</div>
-        <div class="nav-item" onclick="filter('soon', this)"><i class="fas fa-exclamation-triangle"></i> Expiring Soon</div>
-        <div class="nav-item" onclick="filter('expired', this)"><i class="fas fa-times"></i> Expired</div>
-        <div class="nav-item" onclick="location.reload()" style="margin-top:auto; color:#666;"><i class="fas fa-sync"></i> Refresh Data</div>
-    </div>
+        <div class="nav-btn active" onclick="App.filter('all', this)"><i class="fas fa-list"></i> All Records</div>
+        <div class="nav-btn" onclick="App.filter('active', this)"><i class="fas fa-check-circle"></i> Active</div>
+        <div class="nav-btn" onclick="App.filter('soon', this)"><i class="fas fa-clock"></i> Expiring Soon</div>
+        <div class="nav-btn" onclick="App.filter('expired', this)"><i class="fas fa-times-circle"></i> Expired</div>
+        <div class="nav-btn" onclick="location.reload()" style="margin-top:auto; color:#666"><i class="fas fa-sync"></i> Refresh Data</div>
+    </nav>
 
-    <div class="main">
-        <div class="top-bar">
+    <main class="main">
+        <header class="header">
             <h2 style="font-family:'Oswald',sans-serif" id="page-title">Dashboard</h2>
-            <input type="text" class="search-box" id="search" placeholder="Search name or phone...">
-        </div>
+            <input type="text" id="search" class="search-bar" placeholder="Search name/phone..." onkeyup="App.search()">
+        </header>
 
-        <div class="stats-row">
+        <div class="stats">
             <div class="stat-card">
-                <div class="stat-val" style="color:var(--primary)">₹<span id="revenue">0</span></div>
+                <div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div>
                 <div class="stat-label">Total Revenue</div>
             </div>
             <div class="stat-card">
-                <div class="stat-val" id="total-count">0</div>
-                <div class="stat-label">Total Records</div>
+                <div class="stat-val" id="stat-total">0</div>
+                <div class="stat-label">Total Entries</div>
             </div>
             <div class="stat-card">
-                <div class="stat-val" style="color:#ffb700" id="soon-count">0</div>
-                <div class="stat-label">Expiring Soon</div>
+                <div class="stat-val" style="color:#ffb700" id="stat-soon">0</div>
+                <div class="stat-label">Expiring (7 Days)</div>
             </div>
         </div>
 
-        <div class="table-wrapper">
-            <div id="loader" style="text-align:center; padding:40px; color:#666;">
+        <div class="table-container">
+            <div id="loader" style="text-align:center; padding:40px; color:#666">
                 <i class="fas fa-circle-notch fa-spin"></i> Loading Data...
             </div>
-            <table id="data-table" style="display:none;">
+            <table id="data-table" style="display:none">
                 <thead>
                     <tr>
-                        <th>Joined</th>
+                        <th>Date</th>
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Plan</th>
                         <th>Status</th>
-                        <th>Notify</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="table-body"></tbody>
             </table>
         </div>
-    </div>
+    </main>
 
     <script>
-        // --- SETTINGS ---
-        // PASTE YOUR URL BELOW
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec'; 
-        const PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // PIN: 1234
+        // --- CONFIGURATION ---
+        const CONFIG = {
+            // PASTE YOUR GOOGLE SCRIPT URL HERE
+            API_URL: 'https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec',
+            PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" // 1234
+        };
 
-        // --- STATE ---
-        let DB = [];
+        // --- GLOBAL STATE ---
+        let DB = []; // Stores all data
 
-        // --- DOM ELEMENTS ---
-        const loginScreen = document.getElementById('login-screen');
-        const errorBox = document.getElementById('error');
-        const loader = document.getElementById('loader');
-        const table = document.getElementById('data-table');
-        const tbody = document.getElementById('table-body');
-        const revenueEl = document.getElementById('revenue');
-        const totalCountEl = document.getElementById('total-count');
-        const soonCountEl = document.getElementById('soon-count');
-        const pageTitle = document.getElementById('page-title');
-        const searchInput = document.getElementById('search');
-
-        // --- LOGIN ---
-        async function login() {
-            const pin = document.getElementById('pin').value;
-            const hash = await sha256(pin);
-
-            if(hash === PIN_HASH){
-                loginScreen.style.display = "none";
-                fetchData();
-            } else {
-                errorBox.style.display = "block";
-            }
-        }
-
-        async function sha256(str){
-            const buf = new TextEncoder().encode(str);
-            const hash = await crypto.subtle.digest('SHA-256', buf);
-            return Array.from(new Uint8Array(hash))
-                .map(b=>b.toString(16).padStart(2,'0'))
-                .join('');
-        }
-
-        // --- FETCH DATA ---
-        async function fetchData(){
-            try{
-                const res = await fetch(SCRIPT_URL);
-                const data = await res.json();
-                
-                // Skip header row
-                const rows = data.data.slice(1);
-
-                DB = rows.map(r => ({
-                    date: r[0],
-                    name: r[1] || "",
-                    phone: r[2] || "",
-                    plan: r[3] || "",
-                    amount: parseInt(r[4]) || 0,
-                    days: parseInt(r[7]) || 0
-                }));
-
-                // Sort Latest First
-                DB.sort((a,b)=> new Date(b.date) - new Date(a.date));
-
-                initStats();
-                render(DB);
-
-                loader.style.display = "none";
-                table.style.display = "table";
-
-            } catch(err){
-                console.error(err);
-                loader.innerHTML = "⚠ Failed to load data. Check Script URL.";
-            }
-        }
-
-        // --- STATS ---
-        function initStats(){
-            const revenue = DB.reduce((s,i)=> s+i.amount,0);
-            const soon = DB.filter(i=> i.days>=0 && i.days<=7).length;
-
-            revenueEl.innerText = revenue.toLocaleString();
-            totalCountEl.innerText = DB.length;
-            soonCountEl.innerText = soon;
-        }
-
-        // --- FILTER ---
-        function filter(type, btn){
-            document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
-            btn.classList.add('active');
-
-            let list = DB;
-
-            if(type==="active"){
-                list = DB.filter(i=>i.days>=0);
-                pageTitle.innerText="Active Members";
-            }
-            else if(type==="soon"){
-                list = DB.filter(i=>i.days>=0 && i.days<=7);
-                pageTitle.innerText="Expiring Soon";
-            }
-            else if(type==="expired"){
-                list = DB.filter(i=>i.days<0);
-                pageTitle.innerText="Expired Members";
-            }
-            else{
-                pageTitle.innerText="All Records";
-            }
-
-            render(list);
-        }
-
-        // --- RENDER TABLE ---
-        function render(list){
-            if(!list.length){
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px">No records found</td></tr>`;
-                return;
-            }
-
-            let html = "";
-            list.forEach(item=>{
-                let badge = `<span class="badge b-active">${item.days} Days Left</span>`;
-                if(item.days<=7) badge = `<span class="badge b-expiring">${item.days} Days Left</span>`;
-                if(item.days<0) badge = `<span class="badge b-expired">Expired</span>`;
-
-                const dateStr = new Date(item.date).toLocaleDateString('en-IN');
-                
-                let wa = `<span style="opacity:0.3"><i class="fas fa-whatsapp"></i></span>`;
-                if(item.phone){
-                    const msg=`Hello ${item.name}, your gym membership status: ${item.days} Days Left.`;
-                    wa=`<a href="https://wa.me/91${item.phone}?text=${encodeURIComponent(msg)}" target="_blank" style="color:#25d366;font-size:1.1rem"><i class="fab fa-whatsapp"></i></a>`;
+        // --- AUTH SYSTEM ---
+        const Auth = {
+            async login() {
+                const input = document.getElementById('pin-input').value;
+                const hash = await this.sha256(input);
+                if(hash === CONFIG.PIN_HASH) {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    App.fetchData();
+                } else {
+                    document.getElementById('error-msg').style.display = 'block';
                 }
+            },
+            async sha256(str) {
+                const buf = new TextEncoder().encode(str);
+                const hash = await crypto.subtle.digest('SHA-256', buf);
+                return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+            }
+        };
 
-                html += `
-                <tr>
-                    <td style="color:#888">${dateStr}</td>
-                    <td style="font-weight:600;color:#fff">${item.name}</td>
-                    <td>${item.phone||"-"}</td>
-                    <td>${item.plan}</td>
-                    <td>${badge}</td>
-                    <td>${wa}</td>
-                </tr>`;
-            });
-            tbody.innerHTML = html;
-        }
+        // --- MAIN APPLICATION ---
+        const App = {
+            fetchData() {
+                fetch(CONFIG.API_URL)
+                    .then(res => res.json())
+                    .then(data => {
+                        // 1. Process Data (Skip Header Row)
+                        const rows = data.data.slice(1);
+                        
+                        DB = rows.map(r => ({
+                            date: r[0],
+                            name: r[1],
+                            phone: r[2],
+                            plan: r[3],
+                            amount: parseInt(r[4]) || 0,
+                            days: parseInt(r[7]) || 0 // Column H is Index 7
+                        }));
 
-        // --- SEARCH ---
-        let searchTimeout;
-        searchInput.addEventListener("input", ()=>{
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(()=>{
-                const term = searchInput.value.toLowerCase();
-                const filtered = DB.filter(i=>
-                    i.name.toLowerCase().includes(term) ||
+                        // 2. Sort by Latest Date First
+                        DB.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+                        // 3. Initialize
+                        this.updateStats();
+                        this.renderTable(DB);
+                        
+                        document.getElementById('loader').style.display = 'none';
+                        document.getElementById('data-table').style.display = 'table';
+                    })
+                    .catch(err => alert("Error loading data. Check Script URL."));
+            },
+
+            updateStats() {
+                const revenue = DB.reduce((sum, item) => sum + item.amount, 0);
+                const soon = DB.filter(i => i.days >= 0 && i.days <= 7).length;
+                
+                document.getElementById('stat-revenue').innerText = revenue.toLocaleString();
+                document.getElementById('stat-total').innerText = DB.length;
+                document.getElementById('stat-soon').innerText = soon;
+            },
+
+            filter(type, btn) {
+                // UI Toggle
+                document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter Logic
+                let list = DB;
+                const title = document.getElementById('page-title');
+
+                if(type === 'active') { list = DB.filter(i => i.days >= 0); title.innerText = "Active Members"; }
+                else if(type === 'soon') { list = DB.filter(i => i.days >= 0 && i.days <= 7); title.innerText = "Expiring Soon"; }
+                else if(type === 'expired') { list = DB.filter(i => i.days < 0); title.innerText = "Expired Members"; }
+                else { title.innerText = "All Records"; }
+
+                this.renderTable(list);
+            },
+
+            search() {
+                const term = document.getElementById('search').value.toLowerCase();
+                const filtered = DB.filter(i => 
+                    i.name.toLowerCase().includes(term) || 
                     (i.phone && i.phone.toString().includes(term))
                 );
-                render(filtered);
-            }, 200);
-        });
+                this.renderTable(filtered);
+            },
 
+            renderTable(list) {
+                const tbody = document.getElementById('table-body');
+                
+                if(list.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">No records found.</td></tr>`;
+                    return;
+                }
+
+                // Fastest way to render: Build one giant string
+                const htmlRows = list.map(item => {
+                    let badgeClass = 'b-active';
+                    let statusText = `${item.days} Days Left`;
+
+                    if(item.days < 0) { badgeClass = 'b-expired'; statusText = 'Expired'; }
+                    else if(item.days <= 7) { badgeClass = 'b-soon'; }
+
+                    const dateStr = new Date(item.date).toLocaleDateString('en-IN');
+                    
+                    let waLink = `<span style="opacity:0.3"><i class="fas fa-whatsapp"></i></span>`;
+                    if(item.phone) {
+                        const msg = `Hello ${item.name}, your gym membership status: ${statusText}.`;
+                        waLink = `<a href="https://wa.me/91${item.phone}?text=${encodeURIComponent(msg)}" target="_blank" style="color:#25d366; font-size:1.2rem"><i class="fab fa-whatsapp"></i></a>`;
+                    }
+
+                    return `
+                        <tr>
+                            <td style="color:#888">${dateStr}</td>
+                            <td style="font-weight:600; color:#fff">${item.name}</td>
+                            <td>${item.phone || '-'}</td>
+                            <td>${item.plan}</td>
+                            <td><span class="badge ${badgeClass}">${statusText}</span></td>
+                            <td>${waLink}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.innerHTML = htmlRows;
+            }
+        };
     </script>
 </body>
 </html>
