@@ -307,7 +307,7 @@
 /* --- 8. ENGAGING FOOTER --- */
 footer {
     background: #050505;
-    padding: 80px 5% 0; /* Removed bottom padding to let footer-bottom handle it */
+    padding: 80px 5% 30px;
     border-top: 1px solid rgba(255,255,255,0.1);
     position: relative;
     overflow: hidden;
@@ -324,21 +324,17 @@ footer::before {
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 60px; /* Increased gap between columns */
-    margin-bottom: 50px;
+    gap: 50px;
+    margin-bottom: 60px;
 }
 
-/* --- LOGO REDUCTION --- */
-.footer-col .logo, .footer-logo {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem; /* Reduced size (Standard is usually 2rem+) */
-    font-weight: 700;
-    color: white;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
+/* --- LOGO ADJUSTMENT (Only Change) --- */
+/* This targets the logo specifically inside the footer */
+.footer-col .logo {
+    font-size: 1.5rem; /* Reduced from default header size */
+    margin-bottom: 20px;
     display: inline-block;
 }
-.footer-col .logo span, .footer-logo span { color: var(--primary); }
 
 .footer-col h3 {
     font-size: 1.2rem;
@@ -352,7 +348,6 @@ footer::before {
     line-height: 1.8;
     margin: 20px 0;
     font-size: 0.95rem;
-    max-width: 300px;
 }
 
 /* Quick Links Hover Effect */
@@ -362,31 +357,25 @@ footer::before {
     font-size: 0.95rem;
     transition: 0.3s;
     display: inline-block;
-    text-decoration: none;
 }
 .footer-links a:hover {
     color: var(--primary);
-    transform: translateX(5px);
+    transform: translateX(5px); /* Slide right on hover */
 }
 
-/* --- SOCIAL ICONS (Improved Spacing) --- */
-.social-icons { 
-    display: flex; 
-    gap: 20px; /* More space between buttons */
-    margin-top: 25px; 
-}
+/* Social Icons */
+.social-icons { display: flex; gap: 15px; margin-top: 20px; }
 .social-icons a {
-    width: 45px; height: 45px; /* Slightly larger touch target */
+    width: 40px; height: 40px;
     background: rgba(255,255,255,0.05);
     display: flex; justify-content: center; align-items: center;
     border-radius: 50%;
     color: white;
     transition: 0.3s;
-    border: 1px solid rgba(255,255,255,0.1); /* Subtle border for definition */
+    border: 1px solid transparent;
 }
 .social-icons a:hover {
     background: var(--primary);
-    border-color: var(--primary);
     box-shadow: 0 0 15px var(--primary-glow);
     transform: translateY(-3px);
 }
@@ -398,14 +387,10 @@ footer::before {
 }
 .contact-row i { color: var(--primary); font-size: 1.1rem; }
 
-
-/* --- BOTTOM BAR (Fixed Line) --- */
+/* --- BOTTOM BAR & DEV BUTTON --- */
 .footer-bottom {
-    /* Made the line brighter (0.15 opacity instead of 0.05) */
-    border-top: 1px solid rgba(255,255,255,0.15); 
-    padding: 30px 0;
-    margin-top: 20px;
-    
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -413,7 +398,7 @@ footer::before {
     gap: 20px;
 }
 
-.copyright { color: #666; font-size: 0.85rem; }
+.copyright { color: #555; font-size: 0.85rem; }
 
 /* Premium Developer Button */
 .dev-btn {
@@ -428,7 +413,7 @@ footer::before {
     text-decoration: none;
     transition: 0.4s;
 }
-.dev-btn i { color: #0077b5; font-size: 1.1rem; } 
+.dev-btn i { color: #0077b5; font-size: 1.1rem; } /* LinkedIn Blue */
 
 .dev-btn:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -439,11 +424,10 @@ footer::before {
 
 /* Mobile Footer Adjustments */
 @media (max-width: 768px) {
-    .footer-bottom { justify-content: center; text-align: center; flex-direction: column-reverse; }
+    .footer-bottom { justify-content: center; text-align: center; }
     .footer-col { text-align: center; }
     .social-icons { justify-content: center; }
     .contact-row { justify-content: center; }
-    .footer-bio { margin-left: auto; margin-right: auto; }
 }
 
 /* --- 9. FAQ STYLES (Kept as is) --- */
