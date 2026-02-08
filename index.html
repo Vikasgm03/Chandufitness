@@ -476,16 +476,17 @@ footer::before {
    ========================================= */
 @media (max-width: 768px) {
     .footer-bottom { 
-        /* Switch from Grid to Flex for simple stacking */
+        /* FIXED: Changed from column-reverse to column */
+        /* This keeps Copyright (Top) and Developer Logo (Bottom) */
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column; 
         gap: 20px;
         text-align: center;
     }
 
     .copyright { 
         text-align: center; 
-        white-space: normal; /* Allow wrapping on small screens */
+        white-space: normal; 
     }
     
     .dev-credit-wrapper { 
