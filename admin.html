@@ -149,7 +149,7 @@
 
   <div class="main">
     <header class="header">
-      <input id="search" class="search-bar" placeholder="🔍 Search name or phone..." onkeyup="App.search()"/>
+      <input id="search" class="search-bar" placeholder="🔍 Search name or phone..." oninput="App.search()"/>
       
       <div class="filters">
         <div class="filter-chip active" onclick="App.filter('all', this)">All</div>
@@ -204,6 +204,7 @@ const CONFIG = {
 };
 
 let DB = [];
+let currentList = []; // Keeps track of currently filtered list for searching
 
 const Auth = {
     async login() {
@@ -232,13 +233,14 @@ const App = {
         DB = rows.filter(r => r[0] && r[1]).map(r => ({
           date: r[0],
           name: r[1],
-          phone: r[2],
+          phone: r[2] ? String(r[2]) : "", // FIXED: Convert to String safely
           plan: r[3],
           amount: parseInt(r[4]) || 0,
           days: parseInt(r[7]) || 0
         }));
         DB.sort((a,b) => new Date(b.date) - new Date(a.date));
-
+        
+        currentList = DB; // Init current list
         this.updateStats();
         this.render(DB);
 
@@ -257,22 +259,29 @@ const App = {
   },
 
   filter(type, btn) {
+    // 1. Update UI Buttons
     document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
     
-    let list = DB;
-    if(type === 'active') list = DB.filter(i => i.days >= 0);
-    else if(type === 'soon') list = DB.filter(i => i.days >= 0 && i.days <= 7);
-    else if(type === 'expired') list = DB.filter(i => i.days < 0);
+    // 2. Filter Data
+    if(type === 'active') currentList = DB.filter(i => i.days >= 0);
+    else if(type === 'soon') currentList = DB.filter(i => i.days >= 0 && i.days <= 7);
+    else if(type === 'expired') currentList = DB.filter(i => i.days < 0);
+    else currentList = DB;
     
-    this.render(list);
+    // 3. Clear search box when changing filter to avoid confusion
+    document.getElementById("search").value = "";
+    
+    this.render(currentList);
   },
 
   search() {
     const term = document.getElementById("search").value.toLowerCase().trim();
-    const filtered = DB.filter(i =>
-      i.name.toLowerCase().includes(term) ||
-      (i.phone && i.phone.includes(term))
+    
+    // Search inside the currently filtered list (e.g. if you are in 'Expired', search only expired people)
+    const filtered = currentList.filter(i =>
+      (i.name && i.name.toLowerCase().includes(term)) ||
+      (i.phone && i.phone.toString().includes(term)) // FIXED: toString() added for safety
     );
     this.render(filtered);
   },
