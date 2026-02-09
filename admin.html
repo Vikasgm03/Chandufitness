@@ -32,8 +32,6 @@
     .tabs { display: flex; background: #111; padding: 4px; border-radius: 12px; border: 1px solid #333; }
     .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; position: relative; }
     .tab.active { background: #222; color: white; border: 1px solid #333; }
-    
-    /* Notification Badge */
     .notif-badge { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; display: none; }
 
     .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
@@ -89,7 +87,7 @@
     .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; border: 1px solid rgba(255,183,0,0.15); }
     .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; border: 1px solid rgba(255,59,59,0.15); }
     
-    /* Edit Modal (Hidden by default) */
+    /* Edit Modal */
     #edit-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
     .edit-box { background: #111; width: 90%; max-width: 400px; padding: 25px; border-radius: 20px; border: 1px solid #333; }
     .edit-field { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
@@ -99,7 +97,7 @@
 
   <div id="login-overlay">
     <div class="login-box">
-      <div class="login-logo">CHANDHU<span>FITNESS</span></div>
+      <div class="login-logo">CHANDU<span>FITNESS</span></div>
       <p style="color:#666; font-size:0.8rem; margin-bottom:20px; font-weight:600;">SECURE ADMIN PANEL</p>
       <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="4" inputmode="numeric">
       <button class="btn-main" onclick="Auth.login()">ACCESS DASHBOARD</button>
@@ -113,12 +111,7 @@
        <input type="hidden" id="edit-row">
        <input type="text" id="edit-name" class="edit-field" placeholder="Name">
        <input type="number" id="edit-phone" class="edit-field" placeholder="Phone">
-       <select id="edit-plan" class="edit-field">
-          <option value="1 MONTH">1 MONTH</option>
-          <option value="3 MONTHS">3 MONTHS</option>
-          <option value="6 MONTHS">6 MONTHS</option>
-          <option value="1 YEAR">1 YEAR</option>
-       </select>
+       <input type="text" id="edit-plan" class="edit-field" placeholder="Plan">
        <input type="number" id="edit-amount" class="edit-field" placeholder="Amount">
        <div style="display:flex; gap:10px;">
            <button class="btn-main" style="background:#222;" onclick="document.getElementById('edit-modal').style.display='none'">CANCEL</button>
@@ -172,7 +165,7 @@
 // --- CONFIGURATION ---
 const CONFIG = {
     // ⚠️ PASTE YOUR NEW WEB APP URL HERE
-    API_URL: "https://script.google.com/macros/s/AKfycbzpw1HwGfmsTVQSWSkX6a8614g9pUWogmipLnyabmkA-y_mkiJRisUtqUxa4F6NKy53Aw/exec",
+    API_URL: "https://script.google.com/macros/s/AKfycbwNGxdDIqJdUZFwya2fwijTm4m-ASk1XJvBQd93BsM2jBMWADhs81x2TpHdPJndoHualw/exec",
     PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
 };
 
@@ -209,34 +202,22 @@ const App = {
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
-        // --- 1. PROCESS APPROVED MEMBERS ---
-        const approvedRows = data.approved.slice(1);
-        APPROVED_DATA = approvedRows.map((r, i) => ({
-            date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
-            plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, 
-            rowIndex: i + 2 
-        })).filter(item => item.name && String(item.name).trim() !== ""); 
-        
-        APPROVED_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
+        // 1. APPROVED DATA
+        if (data.approved) {
+           APPROVED_DATA = data.approved.map((r, i) => ({
+              date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
+              plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, 
+              rowIndex: i + 2 
+           }));
+           APPROVED_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
+        }
 
-        // --- 2. PROCESS PENDING REQUESTS (WITH GHOST ROW KILLER) ---
-        PENDING_DATA = [];
-        
-        if (data.pending && data.pending.length > 0) {
-            PENDING_DATA = data.pending
-                .map((r, i) => ({
-                     date: r[0], name: r[1], phone: r[2], plan: r[3], amount: r[4], 
-                     rowIndex: i + 2 // Keeps correct sheet index
-                }))
-                // 👇 STRICT FILTER TO REMOVE EMPTY ROWS 👇
-                .filter(item => {
-                    // Check if name is present, not empty string, and not "undefined"
-                    if (!item.name) return false;
-                    const cleanName = String(item.name).trim();
-                    if (cleanName === "") return false;
-                    if (cleanName.toLowerCase() === "undefined") return false;
-                    return true;
-                });
+        // 2. PENDING DATA
+        if (data.pending) {
+           PENDING_DATA = data.pending.map((r, i) => ({
+                date: r[0], name: r[1], phone: r[2], plan: r[3], amount: r[4], 
+                rowIndex: i + 2 
+           }));
         }
 
         this.updateStats();
@@ -253,8 +234,6 @@ const App = {
     document.getElementById("stat-revenue").innerText = APPROVED_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
     document.getElementById("stat-total").innerText = uniqueMap.size;
     document.getElementById("stat-pending").innerText = PENDING_DATA.length;
-    
-    // Show Red Dot if pending requests exist
     document.getElementById("req-dot").style.display = PENDING_DATA.length > 0 ? 'block' : 'none';
   },
 
@@ -263,7 +242,6 @@ const App = {
     btn.classList.add('active');
     CURRENT_MODE = mode;
     
-    // Toggle UI elements based on mode
     document.getElementById('stats-container').style.display = (mode === 'dashboard') ? 'grid' : 'none';
     document.getElementById('filters-container').style.display = (mode === 'dashboard') ? 'flex' : 'none';
     
@@ -280,25 +258,18 @@ const App = {
 
   search() { this.render(); },
 
-  // --- APPROVAL ACTIONS ---
   decideMember(rowIndex, action) {
-    const btnText = action === 'approve' ? 'Approving...' : 'Rejecting...';
-    if(!confirm(`Are you sure you want to ${action} this request?`)) return;
-
+    if(!confirm(`Confirm ${action}?`)) return;
     const formData = new URLSearchParams();
-    formData.append('action', action); // 'approve' or 'delete' (reject)
+    formData.append('action', action); 
     formData.append('row', rowIndex);
-    if(action === 'delete') formData.append('sheet', 'Pending'); // Tell backend to delete from Pending
+    if(action === 'delete') formData.append('sheet', 'Pending'); 
 
     fetch(CONFIG.API_URL, { method: 'POST', body: formData })
         .then(r => r.json())
-        .then(() => {
-            this.fetchData(); // Refresh everything
-            alert(action === 'approve' ? 'Member Approved!' : 'Request Rejected');
-        });
+        .then(() => { this.fetchData(); alert('Success'); });
   },
 
-  // --- EDIT & DELETE (APPROVED) ---
   openEdit(rowIndex, name, phone, plan, amount) {
     document.getElementById('edit-row').value = rowIndex;
     document.getElementById('edit-name').value = name;
@@ -324,21 +295,19 @@ const App = {
   },
 
   deleteRow(rowIndex, name) {
-    if(!confirm(`⚠️ Delete ${name} permanently?`)) return;
+    if(!confirm(`Delete ${name}?`)) return;
     const formData = new URLSearchParams();
     formData.append('action', 'delete');
     formData.append('row', rowIndex);
-    formData.append('sheet', 'Approved'); // Tell backend to delete from Approved
+    formData.append('sheet', 'Approved'); 
     fetch(CONFIG.API_URL, { method: 'POST', body: formData }).then(() => { this.fetchData(); });
   },
 
-  // --- RENDER LOGIC ---
   render() {
     const term = document.getElementById("search").value.toLowerCase().trim();
     const tbody = document.getElementById("table-body");
     const thead = document.getElementById("table-head");
     
-    // 1. REQUESTS MODE (Pending)
     if(CURRENT_MODE === 'requests') {
         let list = PENDING_DATA;
         if(list.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:#666;">No Pending Requests</td></tr>`; return; }
@@ -346,11 +315,7 @@ const App = {
         thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Plan</th><th>Contact</th><th>Action</th></tr>`;
         tbody.innerHTML = list.map(item => `
             <tr class="hist-view">
-                <td>${item.date}</td>
-                <td>${item.name}</td>
-                <td>${item.plan} (₹${item.amount})</td>
-                <td>${item.phone}</td>
-                <td></td>
+                <td>${item.date}</td><td>${item.name}</td><td>${item.plan}</td><td>${item.phone}</td><td></td>
                 <td>
                     <div class="action-group">
                         <button class="btn-icon btn-approve" onclick="App.decideMember(${item.rowIndex}, 'approve')"><i class="fas fa-check"></i></button>
@@ -361,28 +326,20 @@ const App = {
         return;
     }
 
-    // 2. DASHBOARD & HISTORY MODE (Approved)
     let list = APPROVED_DATA;
-    
-    // Apply Filters
     if(CURRENT_MODE === 'dashboard') {
         const unique = []; const map = new Map();
         for (const item of list) { if(!map.has(item.phone)){ map.set(item.phone, true); unique.push(item); }}
         list = unique;
-
         if(CURRENT_FILTER === 'active') list = list.filter(i => i.days >= 0);
         else if(CURRENT_FILTER === 'soon') list = list.filter(i => i.days >= 0 && i.days <= 7);
         else if(CURRENT_FILTER === 'expired') list = list.filter(i => i.days < 0);
     }
     
-    // Apply Search
-    if(term) {
-        list = list.filter(i => (i.name && i.name.toLowerCase().includes(term)) || (i.phone && i.phone.includes(term)));
-    }
-
+    if(term) list = list.filter(i => (i.name && i.name.toLowerCase().includes(term)) || (i.phone && i.phone.includes(term)));
+    
     if(list.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:#666;">No records found</td></tr>`; return; }
 
-    // RENDER DASHBOARD
     if(CURRENT_MODE === 'dashboard') {
         thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th><th>Action</th></tr>`;
         tbody.innerHTML = list.map(item => {
@@ -394,9 +351,7 @@ const App = {
                 <td>${item.phone ? `<a href="https://wa.me/91${item.phone}?text=Hello ${item.name}, your membership status: ${status}" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i></a>` : ""}</td>
             </tr>`;
         }).join("");
-    } 
-    // RENDER HISTORY
-    else {
+    } else {
         thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Amount</th><th>Action</th></tr>`;
         tbody.innerHTML = list.map(item => `
             <tr class="hist-view">
