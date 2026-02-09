@@ -1425,12 +1425,18 @@ details[open] summary::after {
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+    // --- 1. CONFIGURATION ---
+    // This is the URL from your Admin Panel code. It connects to your Google Sheet.
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec";
+
+    // --- 2. INITIALIZATION ---
     AOS.init({ duration: 800 });
 
     window.addEventListener('scroll', () => {
         document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
     });
 
+    // --- 3. TYPEWRITER EFFECT ---
     const words = ["LEGACY", "STRENGTH", "DISCIPLINE"];
     let i = 0, j = 0, isDeleting = false;
     function type() {
@@ -1442,6 +1448,7 @@ details[open] summary::after {
     }
     type();
 
+    // --- 4. NAVIGATION & TABS ---
     function toggleMenu() { document.getElementById("nav-list").classList.toggle("active"); }
 
     function switchLevel(levelName) {
@@ -1453,6 +1460,7 @@ details[open] summary::after {
         document.getElementById(levelName).classList.add('active');
     }
 
+    // --- 5. CALCULATORS ---
     function calcBMI() {
         const w = document.getElementById('bmi-weight').value, h = document.getElementById('bmi-height').value;
         if(w && h) document.getElementById('bmi-result').innerText = `BMI: ${(w/((h/100)**2)).toFixed(1)}`;
@@ -1463,6 +1471,7 @@ details[open] summary::after {
         if(w && h && a) document.getElementById('cal-result').innerText = `Needs: ${Math.round(10*w + 6.25*h - 5*a + 5)} kcal`;
     }
 
+    // --- 6. MODAL LOGIC ---
     function openModal(plan, price) {
         document.getElementById('paymentModal').style.display = "block";
         document.getElementById('modalPlan').innerText = plan;
@@ -1470,6 +1479,7 @@ details[open] summary::after {
         document.body.style.overflow = "hidden";
     }
     function closeModal() { document.getElementById('paymentModal').style.display = "none"; document.body.style.overflow = "auto"; }
+    
     function openAdmission() { document.getElementById('admissionModal').style.display = "block"; document.body.style.overflow = "hidden"; }
     function closeAdmission() { document.getElementById('admissionModal').style.display = "none"; document.body.style.overflow = "auto"; }
 
@@ -1479,10 +1489,73 @@ details[open] summary::after {
             document.body.style.overflow = "auto";
         }
     }
-</script>
-    
-<script>
-    // LIGHTBOX SCRIPT
+
+    // --- 7. FORM SUBMISSION (STOPS EMPTY REQUESTS) ---
+    function submitForm(e) {
+        e.preventDefault(); // Stop page reload
+        
+        const form = document.getElementById('gym-form');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerText;
+        
+        // A. GET VALUES
+        // We use .trim() to remove accidental spaces
+        const nameInput = form.querySelector('input[name="Name"]');
+        const phoneInput = form.querySelector('input[name="Phone"]');
+        
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const plan = form.querySelector('select[name="Plan"]').value;
+
+        // B. STRICT VALIDATION
+        if (name === "") {
+            alert("⚠️ Name is required!");
+            nameInput.focus();
+            return;
+        }
+        if (phone === "" || phone.length < 10) {
+            alert("⚠️ Please enter a valid 10-digit phone number!");
+            phoneInput.focus();
+            return;
+        }
+
+        // C. SHOW LOADING STATE
+        submitBtn.innerText = "Sending...";
+        submitBtn.disabled = true;
+
+        // D. PREPARE DATA
+        const formData = new FormData();
+        formData.append("action", "submit"); // Important for Admin Panel
+        formData.append("Name", name);
+        formData.append("Phone", phone);
+        formData.append("Plan", plan);
+        formData.append("Date", new Date().toISOString().split('T')[0]); 
+
+        // E. SEND TO GOOGLE SHEET
+        fetch(SCRIPT_URL, { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    alert("✅ Request Sent! We will contact you soon.");
+                    form.reset(); 
+                    closeAdmission();
+                } else {
+                    alert("❌ Server Error. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to WhatsApp if server fails
+                const msg = `Hello, I want to join! Name: ${name}, Plan: ${plan}`;
+                window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, '_blank');
+            })
+            .finally(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            });
+    }
+
+    // --- 8. LIGHTBOX SCRIPT ---
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
 
