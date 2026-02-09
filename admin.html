@@ -9,182 +9,91 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   
   <style>
-    :root {
-      --primary: #ff3b3b;
-      --bg: #000000;
-      --card-bg: #121212;
-      --border: #222;
-      --text: #ffffff;
-      --text-muted: #888888;
-      --success: #00ff88;
-      --warning: #ffb700;
-    }
-
+    /* ... (STYLES SAME AS BEFORE) ... */
+    :root { --primary: #ff3b3b; --bg: #000000; --card-bg: #121212; --border: #222; --text: #ffffff; --text-muted: #888888; --success: #00ff88; --warning: #ffb700; }
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-
-    /* ── LOGIN SCREEN ── */
-    #login-overlay {
-      position: fixed; inset: 0; background: #000; z-index: 9999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      background-image: radial-gradient(circle at center, #1a0505 0%, #000 70%);
-    }
-    .login-box {
-      background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border);
-      padding: 40px; border-radius: 24px; text-align: center; width: 85%; max-width: 340px;
-      backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
+    body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* Login & Modal Styles (Same as before) */
+    #login-overlay { position: fixed; inset: 0; background: radial-gradient(circle at center, #1a0505 0%, #000 70%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .login-box { background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border); padding: 40px; border-radius: 24px; text-align: center; width: 85%; max-width: 340px; backdrop-filter: blur(10px); }
     .login-logo { font-family: 'Oswald', sans-serif; font-size: 2rem; color: white; margin-bottom: 5px; }
     .login-logo span { color: var(--primary); }
-    .pin-input {
-      width: 100%; padding: 15px; margin: 30px 0; background: #000; border: 1px solid #333;
-      color: #fff; text-align: center; font-size: 1.8rem; letter-spacing: 10px; border-radius: 12px;
-      outline: none; transition: 0.3s;
-    }
-    .pin-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(255, 59, 59, 0.2); }
-    .btn-main {
-      width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none;
-      border-radius: 12px; font-weight: 700; font-family: 'Oswald', sans-serif; font-size: 1.1rem;
-      cursor: pointer; transition: 0.2s; letter-spacing: 1px;
-    }
-    .btn-main:active { transform: scale(0.98); }
+    .pin-input { width: 100%; padding: 15px; margin: 30px 0; background: #000; border: 1px solid #333; color: #fff; text-align: center; font-size: 1.8rem; letter-spacing: 10px; border-radius: 12px; outline: none; }
+    .btn-main { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 700; font-family: 'Oswald', sans-serif; font-size: 1.1rem; cursor: pointer; }
 
-    /* ── HEADER AREA ── */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(12px);
-      padding: 15px 20px; border-bottom: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 15px;
-    }
-    
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(12px); padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
     .logo-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
     .app-logo { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 600; color: white; display: flex; align-items: center; gap: 10px; }
-    .app-logo i { color: var(--primary); font-size: 1.1rem; }
-    .badge-admin { background: #222; color: #888; font-size: 0.6rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; letter-spacing: 1px; border: 1px solid #333; }
+    .badge-admin { background: #222; color: #888; font-size: 0.6rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; border: 1px solid #333; }
+    .search-bar { width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid #333; background: #111; color: white; outline: none; }
 
-    .search-bar {
-      width: 100%; padding: 14px 16px; border-radius: 14px;
-      border: 1px solid #333; background: #111; color: white; font-size: 1rem; outline: none;
-      transition: 0.3s;
-    }
-    .search-bar:focus { border-color: #444; background: #151515; }
-
-    /* ── TABS & FILTERS ── */
+    /* Tabs */
     .tabs { display: flex; background: #111; padding: 4px; border-radius: 12px; border: 1px solid #333; }
-    .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; }
-    .tab.active { background: #222; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.3); border: 1px solid #333; }
+    .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; position: relative; }
+    .tab.active { background: #222; color: white; border: 1px solid #333; }
+    
+    /* Notification Badge */
+    .notif-badge { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; display: none; }
 
     .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-    .filter-chip {
-      padding: 8px 16px; background: #151515; border: 1px solid #333; border-radius: 20px;
-      color: #888; font-size: 0.8rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.3s;
-    }
-    .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(255, 59, 59, 0.2); }
+    .filter-chip { padding: 8px 16px; background: #151515; border: 1px solid #333; border-radius: 20px; color: #888; font-size: 0.8rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
+    .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* ── CONTENT AREA ── */
+    /* Content */
     .content-wrapper { flex: 1; padding: 20px 20px 80px; }
-
-    /* Stats Cards */
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
-    .stat-card {
-      background: linear-gradient(145deg, #151515, #0a0a0a);
-      padding: 16px; border-radius: 16px; text-align: center; border: 1px solid var(--border);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 600; color: white; margin-bottom: 4px; }
-    .stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+    .stat-card { background: #0f0f0f; padding: 16px; border-radius: 16px; text-align: center; border: 1px solid var(--border); }
+    .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 600; color: white; }
+    .stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; font-weight: 600; }
 
-    /* Table & List */
+    /* Table Styles */
     table { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
-    thead th { text-align: left; padding: 10px; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
-    
-    tbody tr {
-      background: var(--card-bg); transition: transform 0.2s;
-    }
-    tbody tr:hover { transform: translateY(-2px); }
-    
+    tbody tr { background: var(--card-bg); }
     tbody td { padding: 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: #ccc; font-size: 0.95rem; }
     tbody tr td:first-child { border-left: 1px solid var(--border); border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
     tbody tr td:last-child { border-right: 1px solid var(--border); border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
-
-    /* ── ACTION BUTTONS ── */
-    .btn-wa {
-      display: flex; align-items: center; justify-content: center;
-      width: 42px; height: 42px; background: rgba(37, 211, 102, 0.1);
-      border-radius: 12px; color: #25d366; font-size: 1.4rem; border: 1px solid rgba(37, 211, 102, 0.2);
-      transition: 0.2s;
-    }
-    .btn-wa:active { transform: scale(0.9); background: rgba(37, 211, 102, 0.2); }
-
-    .action-group { display: flex; gap: 8px; justify-content: flex-end; }
-    .btn-icon {
-      width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; cursor: pointer; transition: 0.2s; border: 1px solid #333; background: #1a1a1a; color: #888;
-    }
-    .btn-edit:hover { color: #00bcd4; border-color: #00bcd4; background: rgba(0, 188, 212, 0.1); }
-    .btn-delete:hover { color: #ff3b3b; border-color: #ff3b3b; background: rgba(255, 59, 59, 0.1); }
-
-    /* ── EDIT MODAL ── */
-    #edit-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999;
-      display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
-    }
-    .edit-box {
-      background: #111; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; border: 1px solid #333;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-    }
-    .edit-title { font-family: 'Oswald', sans-serif; color: white; font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
-    .input-group { margin-bottom: 15px; }
-    .input-label { color: #666; font-size: 0.75rem; margin-bottom: 6px; display: block; font-weight: 600; }
-    .edit-field {
-      width: 100%; background: #080808; border: 1px solid #333; color: white;
-      padding: 12px; border-radius: 10px; outline: none; font-size: 1rem;
-    }
-    .edit-field:focus { border-color: var(--primary); }
     
-    .modal-actions { display: flex; gap: 12px; margin-top: 25px; }
-    .btn-cancel { flex: 1; padding: 12px; background: #222; color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
-    .btn-save { flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
+    /* Buttons */
+    .btn-wa { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: rgba(37, 211, 102, 0.1); border-radius: 12px; color: #25d366; font-size: 1.4rem; border: 1px solid rgba(37, 211, 102, 0.2); }
+    .action-group { display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #333; background: #1a1a1a; color: #888; }
+    
+    .btn-approve { color: #00ff88; border-color: #00ff88; background: rgba(0, 255, 136, 0.1); }
+    .btn-reject { color: #ff3b3b; border-color: #ff3b3b; background: rgba(255, 59, 59, 0.1); }
 
-    /* ── MOBILE CARD LAYOUT ── */
+    /* Mobile Cards */
     @media (max-width: 768px) {
-      .stats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 5px; gap: 12px; }
-      .stat-card { min-width: 130px; scroll-snap-align: start; }
-      
       thead { display: none; }
-      tr {
-        display: block; margin-bottom: 16px; border-radius: 18px; position: relative;
-        border: 1px solid #222; padding: 18px; background: #111;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      }
+      tr { display: block; margin-bottom: 16px; border-radius: 18px; position: relative; border: 1px solid #222; padding: 18px; background: #111; }
       td { display: block; padding: 0; border: none !important; }
       
-      /* Dashboard Card */
-      .dash-view td:nth-child(2) { font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 4px; font-family: 'Oswald', sans-serif; }
-      .dash-view td:nth-child(3) { color: #666; font-size: 0.9rem; margin-bottom: 12px; display: block; } /* Phone */
+      /* Dashboard */
+      .dash-view td:nth-child(2) { font-size: 1.25rem; font-weight: 700; color: white; font-family: 'Oswald', sans-serif; }
+      .dash-view td:nth-child(3) { color: #666; font-size: 0.9rem; margin-bottom: 10px; }
       .dash-view td:nth-child(4) { display: inline-block; background: #1a1a1a; padding: 4px 10px; border-radius: 6px; color: var(--primary); font-size: 0.8rem; font-weight: 600; border: 1px solid #222; }
-      .dash-view td:nth-child(5) { margin-top: 12px; } /* Badge */
+      .dash-view td:nth-child(5) { margin-top: 12px; }
       .dash-view td:nth-child(1) { position: absolute; top: 18px; right: 70px; font-size: 0.75rem; color: #555; font-weight: 600; }
-      .dash-view td:nth-child(6) { position: absolute; top: 15px; right: 15px; } /* WA Btn */
-
-      /* History Card */
-      .hist-view td:nth-child(2) { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 2px; }
-      .hist-view td:nth-child(4) { color: #888; font-size: 0.85rem; }
-      .hist-view td:nth-child(5) { display: none; }
-      .hist-view td:nth-child(1) { color: #444; font-size: 0.75rem; margin-bottom: 8px; display: block; }
+      .dash-view td:nth-child(6) { position: absolute; top: 15px; right: 15px; }
+      
+      /* History/Requests */
+      .hist-view td:nth-child(2) { font-size: 1.1rem; font-weight: 700; color: white; }
+      .hist-view td:nth-child(4) { color: #888; font-size: 0.85rem; margin-bottom: 10px; display:block; }
+      .hist-view td:nth-child(5) { color: var(--success); font-weight:bold; }
+      .hist-view td:nth-child(1) { color: #444; font-size: 0.75rem; margin-bottom: 5px; display: block; }
       .hist-view td:nth-child(6) { position: absolute; top: 18px; right: 15px; }
     }
-
-    /* Badges */
-    .badge { padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; display: inline-block; letter-spacing: 0.5px; text-transform: uppercase; }
+    
+    .badge { padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; display: inline-block; text-transform: uppercase; }
     .b-active { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.15); }
     .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; border: 1px solid rgba(255,183,0,0.15); }
     .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; border: 1px solid rgba(255,59,59,0.15); }
+    
+    /* Edit Modal (Hidden by default) */
+    #edit-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+    .edit-box { background: #111; width: 90%; max-width: 400px; padding: 25px; border-radius: 20px; border: 1px solid #333; }
+    .edit-field { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
   </style>
 </head>
 <body>
@@ -192,42 +101,30 @@
   <div id="login-overlay">
     <div class="login-box">
       <div class="login-logo">CHANDHU<span>FITNESS</span></div>
-      <p style="color:#666; font-size:0.8rem; letter-spacing:1px; margin-bottom:20px; font-weight:600;">SECURE ADMIN PANEL</p>
+      <p style="color:#666; font-size:0.8rem; margin-bottom:20px; font-weight:600;">SECURE ADMIN PANEL</p>
       <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="4" inputmode="numeric">
       <button class="btn-main" onclick="Auth.login()">ACCESS DASHBOARD</button>
-      <p id="error-msg" style="color:var(--primary); margin-top:20px; font-size:0.9rem; display:none"><i class="fas fa-exclamation-circle"></i> Incorrect PIN</p>
+      <p id="error-msg" style="color:var(--primary); margin-top:20px; font-size:0.9rem; display:none">Incorrect PIN</p>
     </div>
   </div>
 
   <div id="edit-modal">
     <div class="edit-box">
-        <div class="edit-title">EDIT MEMBER</div>
-        <input type="hidden" id="edit-row">
-        
-        <div class="input-group">
-            <label class="input-label">FULL NAME</label>
-            <input type="text" id="edit-name" class="edit-field">
-        </div>
-        <div class="input-group">
-            <label class="input-label">PHONE NUMBER</label>
-            <input type="number" id="edit-phone" class="edit-field">
-        </div>
-        <div class="input-group">
-            <label class="input-label">MEMBERSHIP PLAN</label>
-            <select id="edit-plan" class="edit-field">
-                <option value="1 MONTH">1 MONTH</option>
-                <option value="PLATINUM">PLATINUM</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label class="input-label">AMOUNT PAID (₹)</label>
-            <input type="number" id="edit-amount" class="edit-field">
-        </div>
-        
-        <div class="modal-actions">
-            <button class="btn-cancel" onclick="document.getElementById('edit-modal').style.display='none'">CANCEL</button>
-            <button class="btn-save" onclick="App.saveEdit()">SAVE</button>
-        </div>
+       <h3 style="color:white; margin-bottom:20px; font-family:'Oswald',sans-serif;">EDIT MEMBER</h3>
+       <input type="hidden" id="edit-row">
+       <input type="text" id="edit-name" class="edit-field" placeholder="Name">
+       <input type="number" id="edit-phone" class="edit-field" placeholder="Phone">
+       <select id="edit-plan" class="edit-field">
+          <option value="1 MONTH">1 MONTH</option>
+          <option value="3 MONTHS">3 MONTHS</option>
+          <option value="6 MONTHS">6 MONTHS</option>
+          <option value="1 YEAR">1 YEAR</option>
+       </select>
+       <input type="number" id="edit-amount" class="edit-field" placeholder="Amount">
+       <div style="display:flex; gap:10px;">
+           <button class="btn-main" style="background:#222;" onclick="document.getElementById('edit-modal').style.display='none'">CANCEL</button>
+           <button class="btn-main" onclick="App.saveEdit()">SAVE</button>
+       </div>
     </div>
   </div>
 
@@ -242,7 +139,8 @@
       
       <div class="tabs">
         <div class="tab active" onclick="App.setMode('dashboard', this)">Dashboard</div>
-        <div class="tab" onclick="App.setMode('history', this)">History & Edit</div>
+        <div class="tab" onclick="App.setMode('requests', this)">Requests <div id="req-dot" class="notif-badge"></div></div>
+        <div class="tab" onclick="App.setMode('history', this)">History</div>
       </div>
 
       <div id="filters-container" class="filters">
@@ -255,12 +153,12 @@
 
     <div class="content-wrapper">
       <div id="stats-container" class="stats">
-        <div class="stat-card"><div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div><div class="stat-label">Total Revenue</div></div>
-        <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total Members</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--warning)" id="stat-soon">0</div><div class="stat-label">Expiring Soon</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--primary)">₹<span id="stat-revenue">0</span></div><div class="stat-label">Revenue</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Members</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--warning)" id="stat-pending">0</div><div class="stat-label">Pending</div></div>
       </div>
 
-      <div id="loader" style="text-align:center; padding:60px; color:#444">
+      <div id="loader" style="text-align:center; padding:60px; color:#444;">
         <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Syncing Database...
       </div>
 
@@ -272,15 +170,19 @@
   </div>
 
 <script>
-// ──────────────── LOGIC (EXACT SAME) ────────────────
+// --- CONFIGURATION ---
 const CONFIG = {
-    // PASTE YOUR URL HERE
+    // ⚠️ PASTE YOUR NEW WEB APP URL HERE
     API_URL: "https://script.google.com/macros/s/AKfycbynxK5255t3pAmsCHsQegf1L_pS4bTICU9PeJPUvobGxty1Ld1jYO103b6woWGd7yVFpQ/exec",
     PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
 };
 
-let RAW_DATA = []; let SMART_DATA = []; let CURRENT_MODE = 'dashboard'; let CURRENT_FILTER = 'all';
+let APPROVED_DATA = []; 
+let PENDING_DATA = [];
+let CURRENT_MODE = 'dashboard'; 
+let CURRENT_FILTER = 'all';
 
+// --- AUTH SYSTEM ---
 const Auth = {
     async login() {
         const input = document.getElementById('pin-input').value;
@@ -299,6 +201,7 @@ const Auth = {
     }
 };
 
+// --- APP LOGIC ---
 const App = {
   fetchData() {
     document.getElementById("loader").style.display = "block";
@@ -307,22 +210,22 @@ const App = {
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
-        const rows = data.data.slice(1);
-        RAW_DATA = rows
-            .map((r, i) => ({
-                date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
-                plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, rowIndex: i + 2 
-            }))
-            .filter(item => item.name && item.date);
+        // 1. PROCESS APPROVED
+        const rows = data.approved.slice(1);
+        APPROVED_DATA = rows.map((r, i) => ({
+            date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
+            plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, 
+            rowIndex: i + 2 // Sheet Row Index
+        })).filter(item => item.name && item.date);
         
-        RAW_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
+        // Sort by Date (Newest first)
+        APPROVED_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        const uniqueMap = new Map();
-        SMART_DATA = [];
-        RAW_DATA.forEach(item => {
-            if(!item.phone) { SMART_DATA.push(item); } 
-            else if(!uniqueMap.has(item.phone)) { uniqueMap.set(item.phone, true); SMART_DATA.push(item); }
-        });
+        // 2. PROCESS PENDING
+        PENDING_DATA = data.pending.map((r, i) => ({
+             date: r[0], name: r[1], phone: r[2], plan: r[3], amount: r[4], 
+             rowIndex: i + 2 // Pending Sheet Row Index
+        }));
 
         this.updateStats();
         this.render();
@@ -332,19 +235,28 @@ const App = {
   },
 
   updateStats() {
-    document.getElementById("stat-revenue").innerText = RAW_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
-    document.getElementById("stat-total").innerText = SMART_DATA.length;
-    document.getElementById("stat-soon").innerText = SMART_DATA.filter(i => i.days >= 0 && i.days <= 7).length;
+    // Unique Members logic
+    const uniqueMap = new Map();
+    APPROVED_DATA.forEach(i => uniqueMap.set(i.phone, true));
+    
+    document.getElementById("stat-revenue").innerText = APPROVED_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
+    document.getElementById("stat-total").innerText = uniqueMap.size;
+    document.getElementById("stat-pending").innerText = PENDING_DATA.length;
+    
+    // Show Red Dot if pending requests exist
+    document.getElementById("req-dot").style.display = PENDING_DATA.length > 0 ? 'block' : 'none';
   },
 
   setMode(mode, btn) {
     document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
     CURRENT_MODE = mode;
+    
+    // Toggle UI elements based on mode
     document.getElementById('stats-container').style.display = (mode === 'dashboard') ? 'grid' : 'none';
     document.getElementById('filters-container').style.display = (mode === 'dashboard') ? 'flex' : 'none';
-    if(mode === 'dashboard') this.filter('all', document.querySelector('.filter-chip'));
-    else this.render();
+    
+    this.render();
   },
 
   filter(type, btn) {
@@ -357,6 +269,25 @@ const App = {
 
   search() { this.render(); },
 
+  // --- APPROVAL ACTIONS ---
+  decideMember(rowIndex, action) {
+    const btnText = action === 'approve' ? 'Approving...' : 'Rejecting...';
+    if(!confirm(`Are you sure you want to ${action} this request?`)) return;
+
+    const formData = new URLSearchParams();
+    formData.append('action', action); // 'approve' or 'delete' (reject)
+    formData.append('row', rowIndex);
+    if(action === 'delete') formData.append('sheet', 'Pending'); // Tell backend to delete from Pending
+
+    fetch(CONFIG.API_URL, { method: 'POST', body: formData })
+        .then(r => r.json())
+        .then(() => {
+            this.fetchData(); // Refresh everything
+            alert(action === 'approve' ? 'Member Approved!' : 'Request Rejected');
+        });
+  },
+
+  // --- EDIT & DELETE (APPROVED) ---
   openEdit(rowIndex, name, phone, plan, amount) {
     document.getElementById('edit-row').value = rowIndex;
     document.getElementById('edit-name').value = name;
@@ -367,10 +298,6 @@ const App = {
   },
 
   saveEdit() {
-    const btn = document.querySelector('.btn-save');
-    const originalText = btn.innerText;
-    btn.innerText = 'SAVING...';
-    
     const formData = new URLSearchParams();
     formData.append('action', 'edit');
     formData.append('row', document.getElementById('edit-row').value);
@@ -379,72 +306,98 @@ const App = {
     formData.append('Plan', document.getElementById('edit-plan').value);
     formData.append('Amount', document.getElementById('edit-amount').value);
 
-    fetch(CONFIG.API_URL, { method: 'POST', body: formData })
-      .then(r => r.json())
-      .then(res => {
-        if(res.result === 'success') {
-            document.getElementById('edit-modal').style.display = 'none';
-            btn.innerText = originalText;
-            this.fetchData();
-        } else {
-            alert('Error updating row');
-            btn.innerText = originalText;
-        }
-      });
+    fetch(CONFIG.API_URL, { method: 'POST', body: formData }).then(() => {
+       document.getElementById('edit-modal').style.display = 'none';
+       this.fetchData();
+    });
   },
 
   deleteRow(rowIndex, name) {
-    if(!confirm(`⚠️ Delete ${name}?`)) return;
+    if(!confirm(`⚠️ Delete ${name} permanently?`)) return;
     const formData = new URLSearchParams();
     formData.append('action', 'delete');
     formData.append('row', rowIndex);
-    fetch(CONFIG.API_URL, { method: 'POST', body: formData }).then(r => { this.fetchData(); });
+    formData.append('sheet', 'Approved'); // Tell backend to delete from Approved
+    fetch(CONFIG.API_URL, { method: 'POST', body: formData }).then(() => { this.fetchData(); });
   },
 
+  // --- RENDER LOGIC ---
   render() {
     const term = document.getElementById("search").value.toLowerCase().trim();
     const tbody = document.getElementById("table-body");
     const thead = document.getElementById("table-head");
-    let list = (CURRENT_MODE === 'dashboard') ? SMART_DATA : RAW_DATA;
     
+    // 1. REQUESTS MODE (Pending)
+    if(CURRENT_MODE === 'requests') {
+        let list = PENDING_DATA;
+        if(list.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:#666;">No Pending Requests</td></tr>`; return; }
+        
+        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Plan</th><th>Contact</th><th>Action</th></tr>`;
+        tbody.innerHTML = list.map(item => `
+            <tr class="hist-view">
+                <td>${item.date}</td>
+                <td>${item.name}</td>
+                <td>${item.plan} (₹${item.amount})</td>
+                <td>${item.phone}</td>
+                <td></td>
+                <td>
+                    <div class="action-group">
+                        <button class="btn-icon btn-approve" onclick="App.decideMember(${item.rowIndex}, 'approve')"><i class="fas fa-check"></i></button>
+                        <button class="btn-icon btn-reject" onclick="App.decideMember(${item.rowIndex}, 'delete')"><i class="fas fa-times"></i></button>
+                    </div>
+                </td>
+            </tr>`).join("");
+        return;
+    }
+
+    // 2. DASHBOARD & HISTORY MODE (Approved)
+    let list = APPROVED_DATA;
+    
+    // Apply Filters
     if(CURRENT_MODE === 'dashboard') {
+        // Simple deduplication for dashboard view
+        const unique = []; const map = new Map();
+        for (const item of list) { if(!map.has(item.phone)){ map.set(item.phone, true); unique.push(item); }}
+        list = unique;
+
         if(CURRENT_FILTER === 'active') list = list.filter(i => i.days >= 0);
         else if(CURRENT_FILTER === 'soon') list = list.filter(i => i.days >= 0 && i.days <= 7);
         else if(CURRENT_FILTER === 'expired') list = list.filter(i => i.days < 0);
     }
     
+    // Apply Search
     if(term) {
         list = list.filter(i => (i.name && i.name.toLowerCase().includes(term)) || (i.phone && i.phone.includes(term)));
     }
 
     if(list.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:#666;">No records found</td></tr>`; return; }
 
+    // RENDER DASHBOARD
     if(CURRENT_MODE === 'dashboard') {
         thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th><th>Action</th></tr>`;
         tbody.innerHTML = list.map(item => {
             let badge = item.days < 0 ? "b-expired" : (item.days <= 7 ? "b-soon" : "b-active");
             let status = item.days < 0 ? "Expired" : `${item.days} Days Left`;
-            let dateStr = "N/A"; try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
             return `<tr class="dash-view">
-                <td>${dateStr}</td><td>${item.name}</td><td>${item.phone||"No Phone"}</td><td>${item.plan}</td>
+                <td>${item.date}</td><td>${item.name}</td><td>${item.phone||"No Phone"}</td><td>${item.plan}</td>
                 <td><span class="badge ${badge}">${status}</span></td>
                 <td>${item.phone ? `<a href="https://wa.me/91${item.phone}?text=Hello ${item.name}, your membership status: ${status}" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i></a>` : ""}</td>
             </tr>`;
         }).join("");
-    } else {
+    } 
+    // RENDER HISTORY
+    else {
         thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Amount</th><th>Action</th></tr>`;
-        tbody.innerHTML = list.map(item => {
-            let dateStr = "N/A"; try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
-            return `<tr class="hist-view">
-                <td>${dateStr}</td><td>${item.name}</td><td>${item.phone||""}</td><td>${item.plan}</td><td>₹${item.amount}</td>
+        tbody.innerHTML = list.map(item => `
+            <tr class="hist-view">
+                <td>${item.date}</td><td>${item.name}</td><td>${item.phone||""}</td><td>${item.plan}</td><td>₹${item.amount}</td>
                 <td>
                     <div class="action-group">
                         <button class="btn-icon btn-edit" onclick="App.openEdit(${item.rowIndex}, '${item.name}', '${item.phone}', '${item.plan}', '${item.amount}')"><i class="fas fa-pen"></i></button>
                         <button class="btn-icon btn-delete" onclick="App.deleteRow(${item.rowIndex}, '${item.name}')"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
-            </tr>`;
-        }).join("");
+            </tr>`).join("");
     }
   }
 };
