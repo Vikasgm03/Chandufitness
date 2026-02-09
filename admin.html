@@ -9,12 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   
   <style>
-    /* ... (STYLES SAME AS BEFORE) ... */
     :root { --primary: #ff3b3b; --bg: #000000; --card-bg: #121212; --border: #222; --text: #ffffff; --text-muted: #888888; --success: #00ff88; --warning: #ffb700; }
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
     
-    /* Login & Modal Styles (Same as before) */
+    /* Login & Modal Styles */
     #login-overlay { position: fixed; inset: 0; background: radial-gradient(circle at center, #1a0505 0%, #000 70%); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
     .login-box { background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border); padding: 40px; border-radius: 24px; text-align: center; width: 85%; max-width: 340px; backdrop-filter: blur(10px); }
     .login-logo { font-family: 'Oswald', sans-serif; font-size: 2rem; color: white; margin-bottom: 5px; }
@@ -210,22 +209,35 @@ const App = {
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
-        // 1. PROCESS APPROVED
-        const rows = data.approved.slice(1);
-        APPROVED_DATA = rows.map((r, i) => ({
+        // --- 1. PROCESS APPROVED MEMBERS ---
+        const approvedRows = data.approved.slice(1);
+        APPROVED_DATA = approvedRows.map((r, i) => ({
             date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
             plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, 
-            rowIndex: i + 2 // Sheet Row Index
-        })).filter(item => item.name && item.date);
+            rowIndex: i + 2 
+        })).filter(item => item.name && String(item.name).trim() !== ""); 
         
-        // Sort by Date (Newest first)
         APPROVED_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        // 2. PROCESS PENDING
-        PENDING_DATA = data.pending.map((r, i) => ({
-             date: r[0], name: r[1], phone: r[2], plan: r[3], amount: r[4], 
-             rowIndex: i + 2 // Pending Sheet Row Index
-        }));
+        // --- 2. PROCESS PENDING REQUESTS (WITH GHOST ROW KILLER) ---
+        PENDING_DATA = [];
+        
+        if (data.pending && data.pending.length > 0) {
+            PENDING_DATA = data.pending
+                .map((r, i) => ({
+                     date: r[0], name: r[1], phone: r[2], plan: r[3], amount: r[4], 
+                     rowIndex: i + 2 // Keeps correct sheet index
+                }))
+                // 👇 STRICT FILTER TO REMOVE EMPTY ROWS 👇
+                .filter(item => {
+                    // Check if name is present, not empty string, and not "undefined"
+                    if (!item.name) return false;
+                    const cleanName = String(item.name).trim();
+                    if (cleanName === "") return false;
+                    if (cleanName.toLowerCase() === "undefined") return false;
+                    return true;
+                });
+        }
 
         this.updateStats();
         this.render();
@@ -235,7 +247,6 @@ const App = {
   },
 
   updateStats() {
-    // Unique Members logic
     const uniqueMap = new Map();
     APPROVED_DATA.forEach(i => uniqueMap.set(i.phone, true));
     
@@ -355,7 +366,6 @@ const App = {
     
     // Apply Filters
     if(CURRENT_MODE === 'dashboard') {
-        // Simple deduplication for dashboard view
         const unique = []; const map = new Map();
         for (const item of list) { if(!map.has(item.phone)){ map.set(item.phone, true); unique.push(item); }}
         list = unique;
