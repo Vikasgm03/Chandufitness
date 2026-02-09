@@ -1417,9 +1417,42 @@ details[open] summary::after {
 <div id="admissionModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeAdmission()">×</span>
-        <h2 style="color:var(--primary); margin-bottom:20px">JOIN THE CLUB</h2>
-        <p style="color:#ccc; margin-bottom: 30px;">To ensure secure document submission, our admission form opens in a new secure window.</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfD.../viewform?embedded=true" target="_blank" class="join-btn" style="text-decoration:none; display:inline-block; width:100%; text-align:center; font-size:1.1rem;">OPEN ADMISSION FORM</a>
+        <h2 style="color:var(--primary); margin-bottom:20px; font-family:'Oswald',sans-serif;">JOIN THE CLUB</h2>
+        
+        <form id="gym-form" onsubmit="submitForm(event)">
+            
+            <div style="margin-bottom:15px; text-align:left;">
+                <label style="color:#888; font-size:0.8rem; margin-bottom:5px; display:block;">FULL NAME</label>
+                <input type="text" name="Name" required placeholder="Enter Name"
+                       style="width:100%; padding:12px; background:#000; border:1px solid #333; color:white; border-radius:6px; outline:none;">
+            </div>
+
+            <div style="margin-bottom:15px; text-align:left;">
+                <label style="color:#888; font-size:0.8rem; margin-bottom:5px; display:block;">PHONE NUMBER</label>
+                <input type="number" name="Phone" required placeholder="Enter Phone"
+                       style="width:100%; padding:12px; background:#000; border:1px solid #333; color:white; border-radius:6px; outline:none;">
+            </div>
+
+            <div style="margin-bottom:15px; text-align:left;">
+                <label style="color:#888; font-size:0.8rem; margin-bottom:5px; display:block;">MEMBERSHIP PLAN</label>
+                <select id="plan-select" name="Plan" onchange="toggleCustomAmount()"
+                        style="width:100%; padding:12px; background:#000; border:1px solid #333; color:white; border-radius:6px; outline:none;">
+                    <option value="SILVER">Silver Plan (₹699)</option>
+                    <option value="GOLD">Gold Plan (₹799)</option>
+                    <option value="PLATINUM">Platinum Plan (₹4999)</option>
+                    <option value="CUSTOM">Custom Plan (Enter Amount)</option>
+                </select>
+            </div>
+
+            <div id="custom-amount-box" style="margin-bottom:25px; text-align:left; display:none;">
+                <label style="color:#888; font-size:0.8rem; margin-bottom:5px; display:block;">ENTER AMOUNT (₹)</label>
+                <input type="number" id="custom-amount" placeholder="e.g. 500"
+                       style="width:100%; padding:12px; background:#1a1a1a; border:1px solid var(--primary); color:white; border-radius:6px; outline:none;">
+            </div>
+
+            <button type="submit" class="join-btn" style="width:100%; padding:15px; font-size:1rem;">SUBMIT REQUEST</button>
+            
+        </form>
     </div>
 </div>
 
@@ -1427,7 +1460,7 @@ details[open] summary::after {
 <script>
     // --- 1. CONFIGURATION ---
     // This is the URL from your Admin Panel code. It connects to your Google Sheet.
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpw1HwGfmsTVQSWSkX6a8614g9pUWogmipLnyabmkA-y_mkiJRisUtqUxa4F6NKy53Aw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwuEJ4dYm3fDSAPGy2JIZSb-p2AeTnqP4HCFtMsQsYKaOT2U42Vc4fYotZTVZU8ruIcQ/exec";
 
     // --- 2. INITIALIZATION ---
     AOS.init({ duration: 800 });
@@ -1497,6 +1530,22 @@ details[open] summary::after {
         const form = document.getElementById('gym-form');
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerText;
+
+        // TOGGLE CUSTOM AMOUNT INPUT
+function toggleCustomAmount() {
+    const plan = document.getElementById('plan-select').value;
+    const box = document.getElementById('custom-amount-box');
+    const input = document.getElementById('custom-amount');
+    
+    if (plan === 'CUSTOM') {
+        box.style.display = 'block';
+        input.required = true; // Make it mandatory
+    } else {
+        box.style.display = 'none';
+        input.required = false; // Not needed for standard plans
+        input.value = ""; // Clear it
+    }
+}
         
         // A. GET VALUES
         // We use .trim() to remove accidental spaces
