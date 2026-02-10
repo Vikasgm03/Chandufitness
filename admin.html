@@ -76,8 +76,13 @@
 
     /* ── TABS & FILTERS ── */
     .tabs { display: flex; background: #111; padding: 4px; border-radius: 12px; border: 1px solid #333; }
-    .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+    .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; position: relative; }
     .tab.active { background: #222; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.3); border: 1px solid #333; }
+    
+    .badge-count { 
+        background: var(--primary); color: white; font-size: 0.6rem; 
+        padding: 2px 6px; border-radius: 10px; margin-left: 5px; display: none; 
+    }
 
     .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
     .filter-chip {
@@ -129,6 +134,17 @@
     .btn-edit:hover { color: #00bcd4; border-color: #00bcd4; background: rgba(0, 188, 212, 0.1); }
     .btn-delete:hover { color: #ff3b3b; border-color: #ff3b3b; background: rgba(255, 59, 59, 0.1); }
 
+    /* Approval Card Styling */
+    .approval-card {
+        background: #151515; border: 1px solid #333; border-radius: 12px; padding: 20px;
+        margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .appr-info strong { color: white; font-size: 1.1rem; display: block; margin-bottom: 5px; }
+    .appr-info span { color: #888; font-size: 0.9rem; display: block; }
+    .appr-actions { display: flex; gap: 10px; }
+    .btn-approve { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .btn-reject { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
     /* ── EDIT MODAL ── */
     #edit-modal {
       position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999;
@@ -164,6 +180,10 @@
       }
       td { display: block; padding: 0; border: none !important; }
       
+      .approval-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+      .appr-actions { width: 100%; justify-content: space-between; }
+      .btn-approve, .btn-reject { flex: 1; text-align: center; }
+
       /* Dashboard Card */
       .dash-view td:nth-child(2) { font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 4px; font-family: 'Oswald', sans-serif; }
       .dash-view td:nth-child(3) { color: #666; font-size: 0.9rem; margin-bottom: 12px; display: block; } /* Phone */
@@ -242,6 +262,7 @@
       
       <div class="tabs">
         <div class="tab active" onclick="App.setMode('dashboard', this)">Dashboard</div>
+        <div class="tab" onclick="App.setMode('approvals', this)">Approvals <span id="badge-pending" class="badge-count">0</span></div>
         <div class="tab" onclick="App.setMode('history', this)">History & Edit</div>
       </div>
 
@@ -264,6 +285,8 @@
         <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Syncing Database...
       </div>
 
+      <div id="approvals-container" style="display:none"></div>
+
       <table id="data-table" style="display:none">
         <thead id="table-head"></thead>
         <tbody id="table-body"></tbody>
@@ -272,14 +295,15 @@
   </div>
 
 <script>
-// ──────────────── LOGIC (EXACT SAME) ────────────────
+// ──────────────── LOGIC ────────────────
 const CONFIG = {
-    // PASTE YOUR URL HERE
+    // PASTE YOUR GOOGLE SCRIPT URL HERE
     API_URL: "https://script.google.com/macros/s/AKfycbymgRnIp9TEAAUbyqjDHW-j__iPnKQX3T_G3yJfSGBVBTzuWUYK4WSaWtvG7i8W3hqXwg/exec",
     PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
 };
 
-let RAW_DATA = []; let SMART_DATA = []; let CURRENT_MODE = 'dashboard'; let CURRENT_FILTER = 'all';
+let RAW_DATA = []; let SMART_DATA = []; let PENDING_DATA = []; 
+let CURRENT_MODE = 'dashboard'; let CURRENT_FILTER = 'all';
 
 const Auth = {
     async login() {
@@ -303,10 +327,13 @@ const App = {
   fetchData() {
     document.getElementById("loader").style.display = "block";
     document.getElementById("data-table").style.display = "none";
+    document.getElementById("approvals-container").style.display = "none";
     
+    // 1. Fetch Main Data
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
+        // --- Process Main Data ---
         const rows = data.data.slice(1);
         RAW_DATA = rows
             .map((r, i) => ({
@@ -325,9 +352,23 @@ const App = {
         });
 
         this.updateStats();
-        this.render();
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("data-table").style.display = "table";
+        
+        // 2. Fetch Pending Approvals (Nested)
+        fetch(CONFIG.API_URL + "?action=getPending")
+            .then(res => res.json())
+            .then(pending => {
+                PENDING_DATA = pending;
+                const badge = document.getElementById('badge-pending');
+                if(pending.length > 0) {
+                    badge.style.display = 'inline-block';
+                    badge.innerText = pending.length;
+                } else {
+                    badge.style.display = 'none';
+                }
+                
+                document.getElementById("loader").style.display = "none";
+                this.render(); // Render based on current mode
+            });
       });
   },
 
@@ -341,10 +382,12 @@ const App = {
     document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
     CURRENT_MODE = mode;
+    
+    // Toggle UI Elements
     document.getElementById('stats-container').style.display = (mode === 'dashboard') ? 'grid' : 'none';
     document.getElementById('filters-container').style.display = (mode === 'dashboard') ? 'flex' : 'none';
-    if(mode === 'dashboard') this.filter('all', document.querySelector('.filter-chip'));
-    else this.render();
+    
+    this.render();
   },
 
   filter(type, btn) {
@@ -356,6 +399,27 @@ const App = {
   },
 
   search() { this.render(); },
+
+  // --- ACTIONS ---
+  
+  processApproval(id, action, btn) {
+    if(!confirm(`Are you sure you want to ${action}?`)) return;
+    
+    btn.innerText = "...";
+    btn.disabled = true;
+    
+    const formData = new FormData();
+    formData.append("action", action);
+    formData.append("id", id);
+    
+    fetch(CONFIG.API_URL, { method: "POST", body: formData })
+        .then(r => r.text())
+        .then(res => {
+            alert("Success: " + res);
+            this.fetchData(); // Refresh everything
+        })
+        .catch(e => alert("Error: " + e));
+  },
 
   openEdit(rowIndex, name, phone, plan, amount) {
     document.getElementById('edit-row').value = rowIndex;
@@ -401,10 +465,44 @@ const App = {
     fetch(CONFIG.API_URL, { method: 'POST', body: formData }).then(r => { this.fetchData(); });
   },
 
+  // --- RENDER ---
   render() {
     const term = document.getElementById("search").value.toLowerCase().trim();
     const tbody = document.getElementById("table-body");
     const thead = document.getElementById("table-head");
+    const appContainer = document.getElementById("approvals-container");
+    const tableContainer = document.getElementById("data-table");
+    
+    // 1. APPROVALS MODE
+    if(CURRENT_MODE === 'approvals') {
+        tableContainer.style.display = 'none';
+        appContainer.style.display = 'block';
+        
+        if(PENDING_DATA.length === 0) {
+            appContainer.innerHTML = `<div style="text-align:center; padding:40px; color:#666">No pending approvals</div>`;
+            return;
+        }
+
+        appContainer.innerHTML = PENDING_DATA.map(user => `
+            <div class="approval-card">
+                <div class="appr-info">
+                    <strong>${user.Name}</strong>
+                    <span>${user.Phone} | ₹${user.Amount} (${user.Plan})</span>
+                    <span style="font-size:0.8rem; margin-top:5px; color:#555">UTR: ${user.UTR} | Date: ${new Date(user.Date).toLocaleDateString()}</span>
+                </div>
+                <div class="appr-actions">
+                    <button class="btn-approve" onclick="App.processApproval('${user.uid || user[0]}', 'approve', this)">Confirm</button>
+                    <button class="btn-reject" onclick="App.processApproval('${user.uid || user[0]}', 'reject', this)">Reject</button>
+                </div>
+            </div>
+        `).join("");
+        return;
+    }
+
+    // 2. DASHBOARD & HISTORY MODES
+    appContainer.style.display = 'none';
+    tableContainer.style.display = 'table';
+
     let list = (CURRENT_MODE === 'dashboard') ? SMART_DATA : RAW_DATA;
     
     if(CURRENT_MODE === 'dashboard') {
