@@ -1,5 +1,79 @@
 <style>
 
+/* --- FLOATING ICONS SYSTEM --- */
+.floating-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 1; /* Behind text, above overlay */
+    pointer-events: none; /* So clicks pass through to buttons */
+}
+
+.float-icon {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.05); /* Very subtle transparent white */
+    font-size: 3rem; /* Big icons */
+    filter: blur(2px); /* Slight blur for depth (bokeh effect) */
+    animation: floatAnimation 6s ease-in-out infinite;
+}
+
+/* --- INDIVIDUAL POSITIONS --- */
+/* Top Left - Dumbbell */
+.icon-1 {
+    top: 15%; left: 10%;
+    font-size: 4rem;
+    animation-duration: 6s;
+    color: rgba(255, 59, 59, 0.1); /* Slight Red Tint */
+}
+
+/* Bottom Right - Weight Plate */
+.icon-2 {
+    bottom: 20%; right: 10%;
+    font-size: 8rem; /* Giant background element */
+    animation-duration: 8s;
+    animation-delay: 1s;
+}
+
+/* Top Right - Heartbeat */
+.icon-3 {
+    top: 20%; right: 15%;
+    font-size: 3rem;
+    animation-duration: 5s;
+    animation-delay: 2s;
+    color: rgba(255, 59, 59, 0.15); /* Red Tint */
+}
+
+/* Bottom Left - Bolt */
+.icon-4 {
+    bottom: 30%; left: 5%;
+    font-size: 2.5rem;
+    animation-duration: 7s;
+    animation-delay: 0.5s;
+}
+
+/* Center Background - Stopwatch */
+.icon-5 {
+    top: 50%; left: 50%;
+    font-size: 10rem;
+    opacity: 0.02; /* Extremely faint */
+    transform: translate(-50%, -50%);
+    animation: breatheAnimation 10s ease-in-out infinite;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes floatAnimation {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); } /* Move Up */
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes breatheAnimation {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
         /* Prevent auto-zoom on inputs for iOS */
 @media screen and (max-width: 768px) {
     input, select, textarea {
@@ -925,77 +999,5 @@ details[open] summary::after {
 
         @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
 
-/* --- FLOATING ICONS SYSTEM --- */
-.floating-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    overflow: hidden;
-    z-index: 1; /* Behind text, above overlay */
-    pointer-events: none; /* So clicks pass through to buttons */
-}
 
-.float-icon {
-    position: absolute;
-    color: rgba(255, 255, 255, 0.05); /* Very subtle transparent white */
-    font-size: 3rem; /* Big icons */
-    filter: blur(2px); /* Slight blur for depth (bokeh effect) */
-    animation: floatAnimation 6s ease-in-out infinite;
-}
-
-/* --- INDIVIDUAL POSITIONS --- */
-/* Top Left - Dumbbell */
-.icon-1 {
-    top: 15%; left: 10%;
-    font-size: 4rem;
-    animation-duration: 6s;
-    color: rgba(255, 59, 59, 0.1); /* Slight Red Tint */
-}
-
-/* Bottom Right - Weight Plate */
-.icon-2 {
-    bottom: 20%; right: 10%;
-    font-size: 8rem; /* Giant background element */
-    animation-duration: 8s;
-    animation-delay: 1s;
-}
-
-/* Top Right - Heartbeat */
-.icon-3 {
-    top: 20%; right: 15%;
-    font-size: 3rem;
-    animation-duration: 5s;
-    animation-delay: 2s;
-    color: rgba(255, 59, 59, 0.15); /* Red Tint */
-}
-
-/* Bottom Left - Bolt */
-.icon-4 {
-    bottom: 30%; left: 5%;
-    font-size: 2.5rem;
-    animation-duration: 7s;
-    animation-delay: 0.5s;
-}
-
-/* Center Background - Stopwatch */
-.icon-5 {
-    top: 50%; left: 50%;
-    font-size: 10rem;
-    opacity: 0.02; /* Extremely faint */
-    transform: translate(-50%, -50%);
-    animation: breatheAnimation 10s ease-in-out infinite;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes floatAnimation {
-    0% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); } /* Move Up */
-    100% { transform: translateY(0px) rotate(0deg); }
-}
-
-@keyframes breatheAnimation {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.1); }
-    100% { transform: translate(-50%, -50%) scale(1); }
-}
     </style>
