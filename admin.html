@@ -9,202 +9,63 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   
   <style>
-    :root {
-      --primary: #ff3b3b;
-      --bg: #000000;
-      --card-bg: #121212;
-      --border: #222;
-      --text: #ffffff;
-      --text-muted: #888888;
-      --success: #00ff88;
-      --warning: #ffb700;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh; display: flex; flex-direction: column;
-    }
-
-    /* ── LOGIN SCREEN ── */
-    #login-overlay {
-      position: fixed; inset: 0; background: #000; z-index: 9999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      background-image: radial-gradient(circle at center, #1a0505 0%, #000 70%);
-    }
-    .login-box {
-      background: rgba(20, 20, 20, 0.9); border: 1px solid var(--border);
-      padding: 40px; border-radius: 24px; text-align: center; width: 85%; max-width: 340px;
-      backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    .login-logo { font-family: 'Oswald', sans-serif; font-size: 2rem; color: white; margin-bottom: 5px; }
-    .login-logo span { color: var(--primary); }
-    .pin-input {
-      width: 100%; padding: 15px; margin: 30px 0; background: #000; border: 1px solid #333;
-      color: #fff; text-align: center; font-size: 1.8rem; letter-spacing: 10px; border-radius: 12px;
-      outline: none; transition: 0.3s;
-    }
-    .pin-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(255, 59, 59, 0.2); }
-    .btn-main {
-      width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none;
-      border-radius: 12px; font-weight: 700; font-family: 'Oswald', sans-serif; font-size: 1.1rem;
-      cursor: pointer; transition: 0.2s; letter-spacing: 1px;
-    }
-    .btn-main:active { transform: scale(0.98); }
-
-    /* ── HEADER AREA ── */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(12px);
-      padding: 15px 20px; border-bottom: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 15px;
-    }
+    /* ── STYLES (Kept Compact) ── */
+    :root { --primary:#ff3b3b; --bg:#000; --card-bg:#121212; --border:#222; --text:#fff; }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body { background:var(--bg); color:var(--text); font-family:'Montserrat', sans-serif; min-height:100vh; display:flex; flex-direction:column; }
     
-    .logo-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
-    .app-logo { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 600; color: white; display: flex; align-items: center; gap: 10px; }
-    .app-logo i { color: var(--primary); font-size: 1.1rem; }
-    .badge-admin { background: #222; color: #888; font-size: 0.6rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; letter-spacing: 1px; border: 1px solid #333; }
-
-    .search-bar {
-      width: 100%; padding: 14px 16px; border-radius: 14px;
-      border: 1px solid #333; background: #111; color: white; font-size: 1rem; outline: none;
-      transition: 0.3s;
-    }
-    .search-bar:focus { border-color: #444; background: #151515; }
-
-    /* ── TABS & FILTERS ── */
-    .tabs { display: flex; background: #111; padding: 4px; border-radius: 12px; border: 1px solid #333; }
-    .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; position: relative; }
-    .tab.active { background: #222; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.3); border: 1px solid #333; }
+    #login-overlay { position:fixed; inset:0; background:#000; z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; background-image:radial-gradient(circle at center, #1a0505 0%, #000 70%); }
+    .login-box { background:rgba(20,20,20,0.9); border:1px solid var(--border); padding:40px; border-radius:24px; text-align:center; width:85%; max-width:340px; backdrop-filter:blur(10px); }
+    .pin-input { width:100%; padding:15px; margin:30px 0; background:#000; border:1px solid #333; color:#fff; text-align:center; font-size:1.8rem; letter-spacing:10px; border-radius:12px; outline:none; }
+    .btn-main { width:100%; padding:16px; background:var(--primary); color:#fff; border:none; border-radius:12px; font-weight:700; font-family:'Oswald', sans-serif; cursor:pointer; }
     
-    .badge-count { 
-        background: var(--primary); color: white; font-size: 0.6rem; 
-        padding: 2px 6px; border-radius: 10px; margin-left: 5px; display: none; 
-    }
-
-    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-    .filter-chip {
-      padding: 8px 16px; background: #151515; border: 1px solid #333; border-radius: 20px;
-      color: #888; font-size: 0.8rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.3s;
-    }
-    .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(255, 59, 59, 0.2); }
-
-    /* ── CONTENT AREA ── */
-    .content-wrapper { flex: 1; padding: 20px 20px 80px; }
-
-    /* Stats Cards */
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
-    .stat-card {
-      background: linear-gradient(145deg, #151515, #0a0a0a);
-      padding: 16px; border-radius: 16px; text-align: center; border: 1px solid var(--border);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    .stat-val { font-family: 'Oswald', sans-serif; font-size: 1.4rem; font-weight: 600; color: white; margin-bottom: 4px; }
-    .stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
-
-    /* Table & List */
-    table { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
-    thead th { text-align: left; padding: 10px; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+    .header { position:sticky; top:0; z-index:100; background:rgba(5,5,5,0.85); backdrop-filter:blur(12px); padding:15px 20px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:15px; }
+    .logo-bar { display:flex; align-items:center; justify-content:space-between; }
+    .app-logo { font-family:'Oswald', sans-serif; font-size:1.3rem; color:white; }
+    .search-bar { width:100%; padding:14px; border-radius:14px; border:1px solid #333; background:#111; color:white; outline:none; }
     
-    tbody tr {
-      background: var(--card-bg); transition: transform 0.2s;
-    }
-    tbody tr:hover { transform: translateY(-2px); }
+    .tabs { display:flex; background:#111; padding:4px; border-radius:12px; border:1px solid #333; }
+    .tab { flex:1; text-align:center; padding:10px; font-size:0.85rem; font-weight:600; color:#666; cursor:pointer; border-radius:8px; }
+    .tab.active { background:#222; color:white; }
+    .badge-count { background:var(--primary); color:white; font-size:0.6rem; padding:2px 6px; border-radius:10px; margin-left:5px; display:none; }
     
-    tbody td { padding: 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: #ccc; font-size: 0.95rem; }
-    tbody tr td:first-child { border-left: 1px solid var(--border); border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
-    tbody tr td:last-child { border-right: 1px solid var(--border); border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
-
-    /* ── ACTION BUTTONS ── */
-    .btn-wa {
-      display: flex; align-items: center; justify-content: center;
-      width: 42px; height: 42px; background: rgba(37, 211, 102, 0.1);
-      border-radius: 12px; color: #25d366; font-size: 1.4rem; border: 1px solid rgba(37, 211, 102, 0.2);
-      transition: 0.2s;
-    }
-    .btn-wa:active { transform: scale(0.9); background: rgba(37, 211, 102, 0.2); }
-
-    .action-group { display: flex; gap: 8px; justify-content: flex-end; }
-    .btn-icon {
-      width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; cursor: pointer; transition: 0.2s; border: 1px solid #333; background: #1a1a1a; color: #888;
-    }
-    .btn-edit:hover { color: #00bcd4; border-color: #00bcd4; background: rgba(0, 188, 212, 0.1); }
-    .btn-delete:hover { color: #ff3b3b; border-color: #ff3b3b; background: rgba(255, 59, 59, 0.1); }
-
-    /* Approval Card Styling */
-    .approval-card {
-        background: #151515; border: 1px solid #333; border-radius: 12px; padding: 20px;
-        margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;
-    }
-    .appr-info strong { color: white; font-size: 1.1rem; display: block; margin-bottom: 5px; }
-    .appr-info span { color: #888; font-size: 0.9rem; display: block; }
-    .appr-actions { display: flex; gap: 10px; }
-    .btn-approve { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .btn-reject { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-
-    /* ── EDIT MODAL ── */
-    #edit-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999;
-      display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
-    }
-    .edit-box {
-      background: #111; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; border: 1px solid #333;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-    }
-    .edit-title { font-family: 'Oswald', sans-serif; color: white; font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
-    .input-group { margin-bottom: 15px; }
-    .input-label { color: #666; font-size: 0.75rem; margin-bottom: 6px; display: block; font-weight: 600; }
-    .edit-field {
-      width: 100%; background: #080808; border: 1px solid #333; color: white;
-      padding: 12px; border-radius: 10px; outline: none; font-size: 1rem;
-    }
-    .edit-field:focus { border-color: var(--primary); }
+    .content-wrapper { flex:1; padding:20px; }
+    .stats { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:25px; }
+    .stat-card { background:#151515; padding:16px; border-radius:16px; text-align:center; border:1px solid var(--border); }
+    .stat-val { font-family:'Oswald', sans-serif; font-size:1.4rem; color:white; }
+    .stat-label { font-size:0.65rem; color:#666; }
     
-    .modal-actions { display: flex; gap: 12px; margin-top: 25px; }
-    .btn-cancel { flex: 1; padding: 12px; background: #222; color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
-    .btn-save { flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
+    /* Table & Cards */
+    table { width:100%; border-collapse:separate; border-spacing:0 12px; }
+    tbody tr { background:var(--card-bg); }
+    tbody td { padding:16px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ccc; }
+    tbody tr td:first-child { border-left:1px solid var(--border); border-top-left-radius:14px; border-bottom-left-radius:14px; }
+    tbody tr td:last-child { border-right:1px solid var(--border); border-top-right-radius:14px; border-bottom-right-radius:14px; }
+    
+    .approval-card { background:#151515; border:1px solid #333; border-radius:12px; padding:20px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; }
+    .appr-info strong { color:white; display:block; margin-bottom:5px; }
+    .appr-info span { color:#888; font-size:0.9rem; display:block; }
+    .appr-actions { display:flex; gap:10px; }
+    .btn-approve { background:#28a745; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .btn-reject { background:#dc3545; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .btn-wa { color:#25d366; font-size:1.4rem; }
 
-    /* ── MOBILE CARD LAYOUT ── */
     @media (max-width: 768px) {
-      .stats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 5px; gap: 12px; }
-      .stat-card { min-width: 130px; scroll-snap-align: start; }
+      .stats { display:flex; overflow-x:auto; gap:12px; }
+      .stat-card { min-width:130px; }
+      thead { display:none; }
+      tr { display:block; margin-bottom:16px; padding:18px; border:1px solid #222; border-radius:18px; position:relative; }
+      td { display:block; padding:0; border:none!important; }
+      .approval-card { flex-direction:column; align-items:flex-start; gap:15px; }
+      .appr-actions { width:100%; } .btn-approve, .btn-reject { flex:1; }
       
-      thead { display: none; }
-      tr {
-        display: block; margin-bottom: 16px; border-radius: 18px; position: relative;
-        border: 1px solid #222; padding: 18px; background: #111;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      }
-      td { display: block; padding: 0; border: none !important; }
-      
-      .approval-card { flex-direction: column; align-items: flex-start; gap: 15px; }
-      .appr-actions { width: 100%; justify-content: space-between; }
-      .btn-approve, .btn-reject { flex: 1; text-align: center; }
-
-      /* Dashboard Card */
-      .dash-view td:nth-child(2) { font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 4px; font-family: 'Oswald', sans-serif; }
-      .dash-view td:nth-child(3) { color: #666; font-size: 0.9rem; margin-bottom: 12px; display: block; } /* Phone */
-      .dash-view td:nth-child(4) { display: inline-block; background: #1a1a1a; padding: 4px 10px; border-radius: 6px; color: var(--primary); font-size: 0.8rem; font-weight: 600; border: 1px solid #222; }
-      .dash-view td:nth-child(5) { margin-top: 12px; } /* Badge */
-      .dash-view td:nth-child(1) { position: absolute; top: 18px; right: 70px; font-size: 0.75rem; color: #555; font-weight: 600; }
-      .dash-view td:nth-child(6) { position: absolute; top: 15px; right: 15px; } /* WA Btn */
-
-      /* History Card */
-      .hist-view td:nth-child(2) { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 2px; }
-      .hist-view td:nth-child(4) { color: #888; font-size: 0.85rem; }
-      .hist-view td:nth-child(5) { display: none; }
-      .hist-view td:nth-child(1) { color: #444; font-size: 0.75rem; margin-bottom: 8px; display: block; }
-      .hist-view td:nth-child(6) { position: absolute; top: 18px; right: 15px; }
+      /* Mobile Rows */
+      .dash-view td:nth-child(2) { font-size:1.25rem; font-weight:700; color:#fff; margin-bottom:4px; font-family:'Oswald', sans-serif; }
+      .dash-view td:nth-child(3) { color:#666; font-size:0.9rem; margin-bottom:12px; }
+      .dash-view td:nth-child(4) { display:inline-block; background:#1a1a1a; padding:4px 10px; border-radius:6px; color:var(--primary); font-size:0.8rem; }
+      .dash-view td:nth-child(1) { position:absolute; top:18px; right:70px; font-size:0.75rem; color:#555; }
+      .dash-view td:nth-child(6) { position:absolute; top:15px; right:15px; }
     }
-
-    /* Badges */
-    .badge { padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; display: inline-block; letter-spacing: 0.5px; text-transform: uppercase; }
-    .b-active { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.15); }
-    .b-soon { background: rgba(255,183,0,0.1); color: #ffb700; border: 1px solid rgba(255,183,0,0.15); }
-    .b-expired { background: rgba(255,59,59,0.1); color: #ff3b3b; border: 1px solid rgba(255,59,59,0.15); }
   </style>
 </head>
 <body>
@@ -212,42 +73,10 @@
   <div id="login-overlay">
     <div class="login-box">
       <div class="login-logo">CHANDHU<span>FITNESS</span></div>
-      <p style="color:#666; font-size:0.8rem; letter-spacing:1px; margin-bottom:20px; font-weight:600;">SECURE ADMIN PANEL</p>
+      <p style="color:#666; font-size:0.8rem; margin-bottom:20px;">SECURE ADMIN PANEL</p>
       <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="4" inputmode="numeric">
       <button class="btn-main" onclick="Auth.login()">ACCESS DASHBOARD</button>
-      <p id="error-msg" style="color:var(--primary); margin-top:20px; font-size:0.9rem; display:none"><i class="fas fa-exclamation-circle"></i> Incorrect PIN</p>
-    </div>
-  </div>
-
-  <div id="edit-modal">
-    <div class="edit-box">
-        <div class="edit-title">EDIT MEMBER</div>
-        <input type="hidden" id="edit-row">
-        
-        <div class="input-group">
-            <label class="input-label">FULL NAME</label>
-            <input type="text" id="edit-name" class="edit-field">
-        </div>
-        <div class="input-group">
-            <label class="input-label">PHONE NUMBER</label>
-            <input type="number" id="edit-phone" class="edit-field">
-        </div>
-        <div class="input-group">
-            <label class="input-label">MEMBERSHIP PLAN</label>
-            <select id="edit-plan" class="edit-field">
-                <option value="1 MONTH">1 MONTH</option>
-                <option value="PLATINUM">PLATINUM</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label class="input-label">AMOUNT PAID (₹)</label>
-            <input type="number" id="edit-amount" class="edit-field">
-        </div>
-        
-        <div class="modal-actions">
-            <button class="btn-cancel" onclick="document.getElementById('edit-modal').style.display='none'">CANCEL</button>
-            <button class="btn-save" onclick="App.saveEdit()">SAVE</button>
-        </div>
+      <p id="error-msg" style="color:var(--primary); margin-top:20px; font-size:0.9rem; display:none">Incorrect PIN</p>
     </div>
   </div>
 
@@ -255,22 +84,10 @@
     <header class="header">
       <div class="logo-bar">
         <div class="app-logo"><i class="fas fa-dumbbell"></i> CHANDHU FITNESS</div>
-        <div class="badge-admin">ADMIN</div>
       </div>
-      
-      <input id="search" class="search-bar" placeholder="Search members..." oninput="App.search()"/>
-      
       <div class="tabs">
         <div class="tab active" onclick="App.setMode('dashboard', this)">Dashboard</div>
         <div class="tab" onclick="App.setMode('approvals', this)">Approvals <span id="badge-pending" class="badge-count">0</span></div>
-        <div class="tab" onclick="App.setMode('history', this)">History & Edit</div>
-      </div>
-
-      <div id="filters-container" class="filters">
-        <div class="filter-chip active" onclick="App.filter('all', this)">All</div>
-        <div class="filter-chip" onclick="App.filter('active', this)">Active</div>
-        <div class="filter-chip" onclick="App.filter('soon', this)">Expiring Soon</div>
-        <div class="filter-chip" onclick="App.filter('expired', this)">Expired</div>
       </div>
     </header>
 
@@ -295,24 +112,18 @@
   </div>
 
 <script>
-// ──────────────── LOGIC ────────────────
 const CONFIG = {
-    // PASTE YOUR GOOGLE SCRIPT URL HERE
+    // ⚠️ RE-DEPLOY YOUR SCRIPT AND PASTE THE NEW URL HERE
     API_URL: "https://script.google.com/macros/s/AKfycbx-2znQf8ysCS-QJMxUSGYyIKZUbIu6XSq9NtGVcOS-pbs42oJx69i6a9BcfR5nS5i_pw/exec",
-    
-    // Default Hash for "1234" is "1509442"
-    PIN_HASH: "1509442" 
+    PIN_HASH: "1509442" // Hash for 1234
 };
 
-let RAW_DATA = []; let SMART_DATA = []; let PENDING_DATA = []; 
-let CURRENT_MODE = 'dashboard'; let CURRENT_FILTER = 'all';
+let RAW_DATA = []; let SMART_DATA = []; let PENDING_DATA = []; let CURRENT_MODE = 'dashboard';
 
-// ──────────────── AUTH (Universal Hash) ────────────────
 const Auth = {
     login() {
         const input = document.getElementById('pin-input').value;
         const hash = this.generateHash(input);
-        
         if(hash === CONFIG.PIN_HASH) {
             document.getElementById('login-overlay').style.display = 'none';
             App.fetchData();
@@ -320,85 +131,69 @@ const Auth = {
             document.getElementById('error-msg').style.display = 'block';
         }
     },
-
-    // Custom Hash Function (Works Everywhere)
     generateHash(str) {
-        let hash = 0;
-        if (str.length === 0) return hash.toString();
+        let hash = 0; if (str.length === 0) return hash.toString();
         for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash.toString();
+            const char = str.charCodeAt(i); hash = ((hash << 5) - hash) + char; hash = hash & hash;
+        } return hash.toString();
     }
 };
 
 const App = {
   fetchData() {
     document.getElementById("loader").style.display = "block";
-    document.getElementById("data-table").style.display = "none";
-    document.getElementById("approvals-container").style.display = "none";
     
-    // 1. Fetch Main Data (Active Members)
+    // 1. Fetch Main Data
     fetch(CONFIG.API_URL)
-      .then(r => r.json())
+      .then(r => {
+          if(!r.ok) throw new Error("Script URL is wrong or permissions denied");
+          return r.json();
+      })
       .then(data => {
-        // --- Process Main Dashboard Data ---
+        // Process Main Data
         const rows = data.data.slice(1);
-        RAW_DATA = rows
-            .map((r, i) => ({
-                date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
-                plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, rowIndex: i + 2 
-            }))
-            .filter(item => item.name && item.phone && item.name.trim() !== "");
+        RAW_DATA = rows.map((r, i) => ({
+            date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
+            plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0 
+        })).filter(i => i.name && i.name.trim() !== "");
         
         RAW_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
-
-        const uniqueMap = new Map();
-        SMART_DATA = [];
+        
+        // Remove Duplicates for Stats
+        const uniqueMap = new Map(); SMART_DATA = [];
         RAW_DATA.forEach(item => {
-            if(!item.phone) { SMART_DATA.push(item); } 
-            else if(!uniqueMap.has(item.phone)) { uniqueMap.set(item.phone, true); SMART_DATA.push(item); }
+            if(!item.phone || !uniqueMap.has(item.phone)) { 
+                uniqueMap.set(item.phone, true); SMART_DATA.push(item); 
+            }
         });
 
         this.updateStats();
         
-        // 2. Fetch Pending Approvals
-        fetch(CONFIG.API_URL + "?action=getPending")
-            .then(res => res.json())
-            .then(pending => {
-                if (Array.isArray(pending)) {
-                    // Filter: Remove junk rows
-                    PENDING_DATA = pending.filter(user => 
-                        user && user.Name && user.Phone && String(user.Name).trim() !== ""
-                    );
-                    // Sort: Newest First (Simple Reverse)
-                    PENDING_DATA.reverse();
-                } else {
-                    PENDING_DATA = [];
-                }
+        // 2. Fetch Pending Data
+        return fetch(CONFIG.API_URL + "?action=getPending");
+      })
+      .then(r => r.json())
+      .then(pending => {
+          // SAFE FILTERING: Check if it's an array first
+          if (Array.isArray(pending)) {
+              PENDING_DATA = pending.filter(user => user && user.Name && user.Phone);
+              PENDING_DATA.reverse(); // Newest First
+          } else {
+              PENDING_DATA = [];
+          }
 
-                const badge = document.getElementById('badge-pending');
-                if(PENDING_DATA.length > 0) {
-                    badge.style.display = 'inline-block';
-                    badge.innerText = PENDING_DATA.length;
-                } else {
-                    badge.style.display = 'none';
-                }
-                
-                document.getElementById("loader").style.display = "none";
-                this.render(); 
-            })
-            .catch(e => {
-                console.error("Pending Data Error:", e);
-                document.getElementById("loader").style.display = "none";
-                this.render(); // Still render main dashboard if pending fails
-            });
+          // Update Badge
+          const badge = document.getElementById('badge-pending');
+          badge.style.display = PENDING_DATA.length > 0 ? 'inline-block' : 'none';
+          badge.innerText = PENDING_DATA.length;
+          
+          document.getElementById("loader").style.display = "none";
+          this.render();
       })
       .catch(e => {
           console.error(e);
-          alert("Connection Error. Please Refresh.");
+          alert("Error: " + e.message + "\n\nTip: Did you Deploy > New Version in Google Script?");
+          document.getElementById("loader").style.display = "none";
       });
   },
 
@@ -413,30 +208,13 @@ const App = {
     btn.classList.add('active');
     CURRENT_MODE = mode;
     
-    // Toggle UI Elements
     document.getElementById('stats-container').style.display = (mode === 'dashboard') ? 'grid' : 'none';
-    document.getElementById('filters-container').style.display = (mode === 'dashboard') ? 'flex' : 'none';
-    
     this.render();
   },
 
-  filter(type, btn) {
-    if(CURRENT_MODE !== 'dashboard') return;
-    document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    CURRENT_FILTER = type;
-    this.render();
-  },
-
-  search() { this.render(); },
-
-  // --- ACTIONS ---
-  
   processApproval(id, action, btn) {
-    if(!confirm(`Are you sure you want to ${action}?`)) return;
-    
-    btn.innerText = "...";
-    btn.disabled = true;
+    if(!confirm(`Confirm ${action}?`)) return;
+    btn.innerText = "..."; btn.disabled = true;
     
     const formData = new FormData();
     formData.append("action", action);
@@ -445,65 +223,17 @@ const App = {
     fetch(CONFIG.API_URL, { method: "POST", body: formData })
         .then(r => r.text())
         .then(res => {
-            alert("Success: " + res);
-            this.fetchData(); // Refresh everything
+            alert(res);
+            this.fetchData();
         })
         .catch(e => alert("Error: " + e));
   },
 
-  openEdit(rowIndex, name, phone, plan, amount) {
-    document.getElementById('edit-row').value = rowIndex;
-    document.getElementById('edit-name').value = name;
-    document.getElementById('edit-phone').value = phone;
-    document.getElementById('edit-plan').value = plan;
-    document.getElementById('edit-amount').value = amount;
-    document.getElementById('edit-modal').style.display = 'flex';
-  },
-
-  saveEdit() {
-    const btn = document.querySelector('.btn-save');
-    const originalText = btn.innerText;
-    btn.innerText = 'SAVING...';
-    
-    const formData = new URLSearchParams();
-    formData.append('action', 'edit');
-    formData.append('row', document.getElementById('edit-row').value);
-    formData.append('Name', document.getElementById('edit-name').value);
-    formData.append('Phone', document.getElementById('edit-phone').value);
-    formData.append('Plan', document.getElementById('edit-plan').value);
-    formData.append('Amount', document.getElementById('edit-amount').value);
-
-    fetch(CONFIG.API_URL, { method: 'POST', body: formData })
-      .then(r => r.json())
-      .then(res => {
-        if(res.result === 'success') {
-            document.getElementById('edit-modal').style.display = 'none';
-            btn.innerText = originalText;
-            this.fetchData();
-        } else {
-            alert('Error updating row');
-            btn.innerText = originalText;
-        }
-      });
-  },
-
-  deleteRow(rowIndex, name) {
-    if(!confirm(`⚠️ Delete ${name}?`)) return;
-    const formData = new URLSearchParams();
-    formData.append('action', 'delete');
-    formData.append('row', rowIndex);
-    fetch(CONFIG.API_URL, { method: 'POST', body: formData }).then(r => { this.fetchData(); });
-  },
-
-  // --- RENDER ---
   render() {
-    const term = document.getElementById("search").value.toLowerCase().trim();
     const tbody = document.getElementById("table-body");
-    const thead = document.getElementById("table-head");
     const appContainer = document.getElementById("approvals-container");
     const tableContainer = document.getElementById("data-table");
     
-    // 1. APPROVALS MODE
     if(CURRENT_MODE === 'approvals') {
         tableContainer.style.display = 'none';
         appContainer.style.display = 'block';
@@ -518,62 +248,32 @@ const App = {
                 <div class="appr-info">
                     <strong>${user.Name}</strong>
                     <span>${user.Phone} | ₹${user.Amount} (${user.Plan})</span>
-                    <span style="font-size:0.8rem; margin-top:5px; color:#555">UTR: ${user.UTR} | Date: ${new Date(user.Date).toLocaleDateString()}</span>
+                    <span style="font-size:0.8rem; margin-top:5px; color:#555">Date: ${new Date(user.Date).toLocaleDateString()}</span>
                 </div>
                 <div class="appr-actions">
-                    <button class="btn-approve" onclick="App.processApproval('${user.uid}', 'approve', this)">Confirm</button>
-                    <button class="btn-reject" onclick="App.processApproval('${user.uid}', 'reject', this)">Reject</button>
+                    <button class="btn-approve" onclick="App.processApproval('${user.uid}', 'approve', this)">✔</button>
+                    <button class="btn-reject" onclick="App.processApproval('${user.uid}', 'reject', this)">✖</button>
                 </div>
             </div>
         `).join("");
         return;
     }
 
-    // 2. DASHBOARD & HISTORY MODES
+    // Dashboard Mode
     appContainer.style.display = 'none';
     tableContainer.style.display = 'table';
-
-    let list = (CURRENT_MODE === 'dashboard') ? SMART_DATA : RAW_DATA;
+    document.getElementById("table-head").innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th><th>Action</th></tr>`;
     
-    if(CURRENT_MODE === 'dashboard') {
-        if(CURRENT_FILTER === 'active') list = list.filter(i => i.days >= 0);
-        else if(CURRENT_FILTER === 'soon') list = list.filter(i => i.days >= 0 && i.days <= 7);
-        else if(CURRENT_FILTER === 'expired') list = list.filter(i => i.days < 0);
-    }
-    
-    if(term) {
-        list = list.filter(i => (i.name && i.name.toLowerCase().includes(term)) || (i.phone && i.phone.includes(term)));
-    }
-
-    if(list.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:#666;">No records found</td></tr>`; return; }
-
-    if(CURRENT_MODE === 'dashboard') {
-        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th><th>Action</th></tr>`;
-        tbody.innerHTML = list.map(item => {
-            let badge = item.days < 0 ? "b-expired" : (item.days <= 7 ? "b-soon" : "b-active");
-            let status = item.days < 0 ? "Expired" : `${item.days} Days Left`;
-            let dateStr = "N/A"; try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
-            return `<tr class="dash-view">
-                <td>${dateStr}</td><td>${item.name}</td><td>${item.phone||"No Phone"}</td><td>${item.plan}</td>
-                <td><span class="badge ${badge}">${status}</span></td>
-                <td>${item.phone ? `<a href="https://wa.me/91${item.phone}?text=Hello ${item.name}, your membership status: ${status}" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i></a>` : ""}</td>
-            </tr>`;
-        }).join("");
-    } else {
-        thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Amount</th><th>Action</th></tr>`;
-        tbody.innerHTML = list.map(item => {
-            let dateStr = "N/A"; try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
-            return `<tr class="hist-view">
-                <td>${dateStr}</td><td>${item.name}</td><td>${item.phone||""}</td><td>${item.plan}</td><td>₹${item.amount}</td>
-                <td>
-                    <div class="action-group">
-                        <button class="btn-icon btn-edit" onclick="App.openEdit(${item.rowIndex}, '${item.name}', '${item.phone}', '${item.plan}', '${item.amount}')"><i class="fas fa-pen"></i></button>
-                        <button class="btn-icon btn-delete" onclick="App.deleteRow(${item.rowIndex}, '${item.name}')"><i class="fas fa-trash"></i></button>
-                    </div>
-                </td>
-            </tr>`;
-        }).join("");
-    }
+    tbody.innerHTML = RAW_DATA.map(item => {
+        let badge = item.days < 0 ? "b-expired" : (item.days <= 7 ? "b-soon" : "b-active");
+        let status = item.days < 0 ? "Expired" : `${item.days} Days Left`;
+        let dateStr = "N/A"; try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
+        return `<tr class="dash-view">
+            <td>${dateStr}</td><td>${item.name}</td><td>${item.phone}</td><td>${item.plan}</td>
+            <td><span class="badge ${badge}">${status}</span></td>
+            <td><a href="https://wa.me/91${item.phone}" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i></a></td>
+        </tr>`;
+    }).join("");
   }
 };
 </script>
