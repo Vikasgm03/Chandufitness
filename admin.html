@@ -299,16 +299,20 @@
 const CONFIG = {
     // PASTE YOUR GOOGLE SCRIPT URL HERE
     API_URL: "https://script.google.com/macros/s/AKfycbx-2znQf8ysCS-QJMxUSGYyIKZUbIu6XSq9NtGVcOS-pbs42oJx69i6a9BcfR5nS5i_pw/exec",
-    PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+    
+    // Default Hash for "1234" is "1509442"
+    PIN_HASH: "1509442" 
 };
 
 let RAW_DATA = []; let SMART_DATA = []; let PENDING_DATA = []; 
 let CURRENT_MODE = 'dashboard'; let CURRENT_FILTER = 'all';
 
+// ──────────────── AUTH (Universal Hash) ────────────────
 const Auth = {
-    async login() {
+    login() {
         const input = document.getElementById('pin-input').value;
-        const hash = await this.sha256(input);
+        const hash = this.generateHash(input);
+        
         if(hash === CONFIG.PIN_HASH) {
             document.getElementById('login-overlay').style.display = 'none';
             App.fetchData();
@@ -316,26 +320,34 @@ const Auth = {
             document.getElementById('error-msg').style.display = 'block';
         }
     },
-    async sha256(str) {
-        const buf = new TextEncoder().encode(str);
-        const hash = await crypto.subtle.digest('SHA-256', buf);
-        return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+
+    // Custom Hash Function (Works Everywhere)
+    generateHash(str) {
+        let hash = 0;
+        if (str.length === 0) return hash.toString();
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash.toString();
     }
 };
 
-fetchData() {
+const App = {
+  fetchData() {
     document.getElementById("loader").style.display = "block";
     document.getElementById("data-table").style.display = "none";
     document.getElementById("approvals-container").style.display = "none";
     
-    // 1. Fetch Main Data (Sheet1)
+    // 1. Fetch Main Data (Active Members)
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
+        // --- Process Main Dashboard Data ---
         const rows = data.data.slice(1);
         RAW_DATA = rows
             .map((r, i) => ({
-                // Main Sheet Mapping: Date is [0], Name is [1]...
                 date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
                 plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, rowIndex: i + 2 
             }))
@@ -357,10 +369,12 @@ fetchData() {
             .then(res => res.json())
             .then(pending => {
                 if (Array.isArray(pending)) {
-                    // Filter empty rows
-                    PENDING_DATA = pending.filter(user => user && user.Name && user.Phone);
-                    // Sort: Newest First (Using UID logic or array order)
-                    PENDING_DATA.reverse(); 
+                    // Filter: Remove junk rows
+                    PENDING_DATA = pending.filter(user => 
+                        user && user.Name && user.Phone && String(user.Name).trim() !== ""
+                    );
+                    // Sort: Newest First (Simple Reverse)
+                    PENDING_DATA.reverse();
                 } else {
                     PENDING_DATA = [];
                 }
@@ -375,10 +389,19 @@ fetchData() {
                 
                 document.getElementById("loader").style.display = "none";
                 this.render(); 
+            })
+            .catch(e => {
+                console.error("Pending Data Error:", e);
+                document.getElementById("loader").style.display = "none";
+                this.render(); // Still render main dashboard if pending fails
             });
+      })
+      .catch(e => {
+          console.error(e);
+          alert("Connection Error. Please Refresh.");
       });
   },
-  
+
   updateStats() {
     document.getElementById("stat-revenue").innerText = RAW_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
     document.getElementById("stat-total").innerText = SMART_DATA.length;
@@ -498,8 +521,8 @@ fetchData() {
                     <span style="font-size:0.8rem; margin-top:5px; color:#555">UTR: ${user.UTR} | Date: ${new Date(user.Date).toLocaleDateString()}</span>
                 </div>
                 <div class="appr-actions">
-                    <button class="btn-approve" onclick="App.processApproval('${user.uid || user[0]}', 'approve', this)">Confirm</button>
-                    <button class="btn-reject" onclick="App.processApproval('${user.uid || user[0]}', 'reject', this)">Reject</button>
+                    <button class="btn-approve" onclick="App.processApproval('${user.uid}', 'approve', this)">Confirm</button>
+                    <button class="btn-reject" onclick="App.processApproval('${user.uid}', 'reject', this)">Reject</button>
                 </div>
             </div>
         `).join("");
