@@ -328,20 +328,19 @@ fetchData() {
     document.getElementById("data-table").style.display = "none";
     document.getElementById("approvals-container").style.display = "none";
     
-    // 1. Fetch Main Data (Active Members)
+    // 1. Fetch Main Data (Sheet1)
     fetch(CONFIG.API_URL)
       .then(r => r.json())
       .then(data => {
         const rows = data.data.slice(1);
         RAW_DATA = rows
             .map((r, i) => ({
+                // Main Sheet Mapping: Date is [0], Name is [1]...
                 date: r[0], name: r[1], phone: r[2] ? String(r[2]) : "", 
                 plan: r[3], amount: parseInt(r[4]) || 0, days: parseInt(r[7]) || 0, rowIndex: i + 2 
             }))
-            // FILTER: Remove empty rows from Main Dashboard
             .filter(item => item.name && item.phone && item.name.trim() !== "");
         
-        // SORT: Latest Date First
         RAW_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
 
         const uniqueMap = new Map();
@@ -357,22 +356,14 @@ fetchData() {
         fetch(CONFIG.API_URL + "?action=getPending")
             .then(res => res.json())
             .then(pending => {
-                
-                // --- FIX STARTS HERE ---
-                
-                // A. Filter out empty rows (Must have Name AND Phone)
-                PENDING_DATA = pending.filter(user => 
-                    user.Name && user.Phone && String(user.Name).trim() !== ""
-                );
-
-                // B. Sort by Date (Newest First)
-                PENDING_DATA.sort((a, b) => {
-                    // Assuming 'uid' is a timestamp, it's safer to sort by UID descending
-                    // Or use Date if available: new Date(b.Date) - new Date(a.Date)
-                    return (b.uid || 0) - (a.uid || 0); 
-                });
-
-                // --- FIX ENDS HERE ---
+                if (Array.isArray(pending)) {
+                    // Filter empty rows
+                    PENDING_DATA = pending.filter(user => user && user.Name && user.Phone);
+                    // Sort: Newest First (Using UID logic or array order)
+                    PENDING_DATA.reverse(); 
+                } else {
+                    PENDING_DATA = [];
+                }
 
                 const badge = document.getElementById('badge-pending');
                 if(PENDING_DATA.length > 0) {
@@ -387,7 +378,7 @@ fetchData() {
             });
       });
   },
-
+  
   updateStats() {
     document.getElementById("stat-revenue").innerText = RAW_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
     document.getElementById("stat-total").innerText = SMART_DATA.length;
