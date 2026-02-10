@@ -1,29 +1,34 @@
 <style>
 /* =========================================
-   THE "NEON REACTOR" DESIGN SYSTEM
+   THE "NEON REACTOR" DESIGN SYSTEM (STABILIZED)
    ========================================= */
 
 .reactor-hero {
     /* --- VARIABLES --- */
     --neon-red: #ff003c;
-    --neon-blue: #00f3ff; /* Electric Blue Accent */
+    --neon-blue: #00f3ff;
     --dark-bg: #050505;
     
     position: relative;
-    height: 100vh;
-    width: 100%;
+    height: 100vh; /* Full Screen Height */
+    width: 100%;   /* Force width to fit screen */
+    
+    /* BACKGROUND SETUP */
     background: url('../images/gym_banner.jpeg') no-repeat center center;
     background-size: cover;
+    
+    /* LAYOUT CENTER */
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    font-family: 'Oswald', sans-serif; /* Strong font */
+    text-align: center;
+    
+    /* CRITICAL FIX: Cuts off anything that goes outside */
+    overflow: hidden; 
+    font-family: 'Oswald', sans-serif;
 }
 
 /* --- 1. BACKGROUND FX --- */
-
-/* The Dark Vignette (Focuses eyes on center) */
 .vignette {
     position: absolute;
     inset: 0;
@@ -31,24 +36,24 @@
     z-index: 1;
 }
 
-/* The Grid (Tactical Look) */
 .grid-overlay {
     position: absolute;
     inset: 0;
     background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
+    background-size: 40px 40px;
     z-index: 1;
+    opacity: 0.5;
 }
 
-/* The Scanner Line (Moving Laser) */
+/* The Scanner Line */
 .scanner-line {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 5px;
+    left: 0;
+    width: 100%; height: 2px;
     background: var(--neon-red);
-    box-shadow: 0 0 20px var(--neon-red);
-    opacity: 0.5;
+    box-shadow: 0 0 15px var(--neon-red);
+    opacity: 0.7;
     z-index: 2;
     animation: scanDown 4s linear infinite;
 }
@@ -60,174 +65,148 @@
     100% { top: 110%; opacity: 0; }
 }
 
-/* --- 2. THE GLOWING ICON BOXES (Highly Visible) --- */
+/* --- 2. GLOWING ICON BOXES (Responsive Positions) --- */
 .icon-box {
     position: absolute;
     z-index: 5;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px); /* Glass Effect */
+    backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 15px 25px;
-    border-radius: 8px;
+    
+    /* Sizing Fix: Use smaller padding */
+    padding: 10px 15px; 
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    border-bottom: 3px solid var(--neon-red); /* Red Accent */
+    border-bottom: 2px solid var(--neon-red);
     transition: 0.3s;
 }
 
 .icon-box i {
-    font-size: 2.5rem;
+    font-size: 1.8rem; /* Smaller icons */
     color: white;
-    text-shadow: 0 0 10px var(--neon-red); /* Neon Glow */
+    text-shadow: 0 0 10px var(--neon-red);
 }
 
 .icon-box span {
     color: #ccc;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
-/* Hover Effect for Icons */
-.icon-box:hover {
-    transform: scale(1.1) !important;
-    border-color: var(--neon-red);
-    box-shadow: 0 0 30px var(--neon-red);
-}
-
-/* Positioning */
+/* Desktop Positions */
 .pos-1 { top: 15%; left: 10%; transform: rotate(-5deg); }
 .pos-2 { top: 20%; right: 10%; transform: rotate(5deg); }
-.pos-3 { bottom: 20%; left: 15%; transform: rotate(5deg); }
-.pos-4 { bottom: 25%; right: 15%; transform: rotate(-5deg); }
+.pos-3 { bottom: 20%; left: 10%; transform: rotate(5deg); }
+.pos-4 { bottom: 25%; right: 10%; transform: rotate(-5deg); }
 
-/* Floating Animations */
+/* Float Animation */
 .floating { animation: hoverBox 4s ease-in-out infinite; }
 .floating-delayed { animation: hoverBox 5s ease-in-out infinite reverse; }
 
 @keyframes hoverBox {
     0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
-    50% { transform: translateY(-15px) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
 }
 
-/* --- 3. MAIN CONTENT --- */
+/* --- 3. MAIN CONTENT (Responsive Text) --- */
 .reactor-content {
     position: relative;
     z-index: 10;
-    text-align: center;
-    max-width: 800px;
-    padding: 0 20px;
+    max-width: 900px;
+    width: 100%;
+    padding: 0 20px; /* Prevents text touching edges */
 }
 
 .neon-badge {
     display: inline-block;
     color: var(--neon-blue);
     border: 1px solid var(--neon-blue);
-    padding: 5px 15px;
+    padding: 6px 16px;
     font-size: 0.8rem;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     margin-bottom: 20px;
     background: rgba(0, 243, 255, 0.1);
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    font-weight: bold;
 }
 
+/* CRITICAL FIX: Clamp Font Size */
+/* This makes text shrink automatically based on screen width */
 .reactor-hero h1 {
-    font-size: 5.5rem;
-    line-height: 0.9;
+    font-size: clamp(3rem, 8vw, 6rem); /* Min 3rem, Max 6rem */
+    line-height: 1;
     color: white;
     font-weight: 900;
     margin-bottom: 20px;
     text-transform: uppercase;
-    text-shadow: 4px 4px 0px rgba(255, 0, 60, 0.5); /* 3D Shadow */
+    text-shadow: 3px 3px 0px rgba(255, 0, 60, 0.5);
 }
 
 .hollow-text {
     color: transparent;
-    -webkit-text-stroke: 2px white;
-    position: relative;
-}
-
-/* Glitch Animation on Hover */
-.reactor-hero h1:hover {
-    animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-    color: var(--neon-red);
-}
-
-@keyframes glitch {
-    0% { transform: translate(0) }
-    20% { transform: translate(-2px, 2px) }
-    40% { transform: translate(-2px, -2px) }
-    60% { transform: translate(2px, 2px) }
-    80% { transform: translate(2px, -2px) }
-    100% { transform: translate(0) }
+    -webkit-text-stroke: 1px white; /* Thinner stroke for mobile */
 }
 
 .reactor-hero p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw, 1.3rem);
     color: #bbb;
     margin-bottom: 40px;
-    font-family: 'Montserrat', sans-serif;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* --- 4. CYBER BUTTON --- */
+/* --- 4. BUTTON --- */
 .cyber-btn {
     position: relative;
-    padding: 20px 60px;
+    padding: 18px 50px;
     background: var(--neon-red);
     border: none;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
-    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
     transition: 0.3s;
-    overflow: hidden;
 }
 
 .cyber-btn:hover {
     background: white;
     color: black;
-    box-shadow: 0 0 40px var(--neon-red);
+    box-shadow: 0 0 30px var(--neon-red);
     transform: scale(1.05);
 }
 
-.flare {
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-    animation: flareAnim 3s infinite;
-}
-
-@keyframes flareAnim {
-    0% { left: -100%; }
-    20% { left: 100%; }
-    100% { left: 100%; }
-}
-
-/* --- MOBILE OPTIMIZATION --- */
+/* --- 5. MOBILE OVERRIDES (The Safety Net) --- */
 @media (max-width: 768px) {
-    .reactor-hero h1 { font-size: 3.5rem; }
-    
-    /* On mobile, stack icons at the bottom nicely or hide some */
-    .icon-box {
-        padding: 10px 15px;
+    /* Adjust container to account for mobile browser bars */
+    .reactor-hero {
+        height: 100dvh; /* Dynamic Viewport Height for mobile browsers */
+        padding-top: 60px; /* Space for navbar */
     }
-    .icon-box i { font-size: 1.5rem; }
-    .icon-box span { font-size: 0.6rem; }
 
-    /* Adjust positions to not cover text */
-    .pos-1 { top: 12%; left: 5%; transform: none; }
-    .pos-2 { top: 12%; right: 5%; transform: none; }
-    .pos-3 { top: auto; bottom: 15%; left: 5%; transform: none; }
-    .pos-4 { top: auto; bottom: 15%; right: 5%; transform: none; }
+    /* Force Icon Boxes to corners so they don't cover text */
+    .pos-1 { top: 10%; left: 2%; transform: scale(0.8); }
+    .pos-2 { top: 10%; right: 2%; transform: scale(0.8); }
+    .pos-3 { bottom: 12%; left: 2%; transform: scale(0.8); }
+    .pos-4 { bottom: 12%; right: 2%; transform: scale(0.8); }
+
+    /* Hide the text labels inside icons on very small screens to save space */
+    .icon-box span { display: none; }
+    .icon-box { padding: 8px; border-radius: 50%; } /* Turn into circles */
+    
+    .cyber-btn {
+        width: 100%; /* Full width button on mobile */
+        max-width: 300px;
+    }
 }
-
         /* --- 1. MODERN VARIABLES --- */
         :root {
             --primary: #ff3b3b;
