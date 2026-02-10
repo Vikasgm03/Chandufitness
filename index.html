@@ -1459,18 +1459,12 @@ details[open] summary::after {
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    // --- 1. CONFIGURATION ---
-    // ⚠️ PASTE YOUR NEW WEB APP URL HERE
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb3LzQUY7_BFE9CBr61aMZn0ZkcJQ5S2eAfAgBBWatIp2sPF4Jgs-Dj2gngyaTM3VEaw/exec"; 
-
-    // --- 2. INITIALIZATION ---
     AOS.init({ duration: 800 });
 
     window.addEventListener('scroll', () => {
         document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // --- 3. VISUAL EFFECTS (Typewriter) ---
     const words = ["LEGACY", "STRENGTH", "DISCIPLINE"];
     let i = 0, j = 0, isDeleting = false;
     function type() {
@@ -1482,7 +1476,6 @@ details[open] summary::after {
     }
     type();
 
-    // --- 4. NAVIGATION & UI ---
     function toggleMenu() { document.getElementById("nav-list").classList.toggle("active"); }
 
     function switchLevel(levelName) {
@@ -1494,7 +1487,6 @@ details[open] summary::after {
         document.getElementById(levelName).classList.add('active');
     }
 
-    // --- 5. CALCULATORS ---
     function calcBMI() {
         const w = document.getElementById('bmi-weight').value, h = document.getElementById('bmi-height').value;
         if(w && h) document.getElementById('bmi-result').innerText = `BMI: ${(w/((h/100)**2)).toFixed(1)}`;
@@ -1505,101 +1497,23 @@ details[open] summary::after {
         if(w && h && a) document.getElementById('cal-result').innerText = `Needs: ${Math.round(10*w + 6.25*h - 5*a + 5)} kcal`;
     }
 
-    // --- 6. MODAL SYSTEM ---
-    // Open Admission Modal
-    function openAdmission() { document.getElementById('admissionModal').style.display = "flex"; }
-    function closeAdmission() { document.getElementById('admissionModal').style.display = "none"; }
-
-    // Toggle Custom Amount Input
-    function toggleCustom() {
-        const plan = document.getElementById('plan-select').value;
-        const box = document.getElementById('custom-box');
-        if(box) box.style.display = (plan === 'CUSTOM') ? 'block' : 'none';
+    function openModal(plan, price) {
+        document.getElementById('paymentModal').style.display = "block";
+        document.getElementById('modalPlan').innerText = plan;
+        document.getElementById('modalPrice').innerText = price;
+        document.body.style.overflow = "hidden";
     }
+    function closeModal() { document.getElementById('paymentModal').style.display = "none"; document.body.style.overflow = "auto"; }
+    function openAdmission() { document.getElementById('admissionModal').style.display = "block"; document.body.style.overflow = "hidden"; }
+    function closeAdmission() { document.getElementById('admissionModal').style.display = "none"; document.body.style.overflow = "auto"; }
 
-    // Close modals on outside click
     window.onclick = function(e) {
         if (e.target.classList.contains('modal')) {
             e.target.style.display = "none";
             document.body.style.overflow = "auto";
         }
     }
-
-    // --- 7. FORM SUBMISSION ENGINE ---
-    function submitForm(e) {
-        e.preventDefault();
-        const form = document.getElementById('gym-form');
-        const btn = form.querySelector('button');
-        const originalText = btn.innerText;
-        
-        // 1. Get Values
-        const name = form.querySelector('input[name="Name"]').value.trim();
-        const phone = form.querySelector('input[name="Phone"]').value.trim();
-        let plan = document.getElementById('plan-select').value;
-        let amount = 0;
-
-        // 2. Calculate Amount Automatically
-        if(plan === "SILVER") amount = 699;
-        else if(plan === "GOLD") amount = 799;
-        else if(plan === "PLATINUM") amount = 4999;
-        else if(plan === "CUSTOM") {
-             amount = document.getElementById('custom-amount').value;
-             if(!amount) { alert("Please enter the custom amount"); return; }
-             plan = "Custom"; // Saves as "Custom" in Plan column
-        }
-
-        // 3. Validation
-        if(!name) { alert("⚠️ Name is required!"); return; }
-        if(phone.length < 10) { alert("⚠️ Enter a valid phone number!"); return; }
-
-        // 4. Send Data
-        btn.innerText = "Sending..."; 
-        btn.disabled = true;
-
-        const formData = new FormData();
-        formData.append("action", "submit");
-        formData.append("Name", name);
-        formData.append("Phone", phone);
-        formData.append("Plan", plan);
-        formData.append("Amount", amount); // Sends exact amount to Column E
-
-        fetch(SCRIPT_URL, { method: 'POST', body: formData })
-            .then(r => r.json())
-            .then(data => {
-                if(data.result === 'success') {
-                    alert("✅ Registration Successful!");
-                    form.reset();
-                    document.getElementById('custom-box').style.display = 'none';
-                    closeAdmission();
-                } else {
-                    alert("❌ Server Error. Please try again.");
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("⚠️ Network Error. Sending details to WhatsApp...");
-                const msg = `Hi, I want to join! Name: ${name}, Plan: ${plan}`;
-                window.open(`https://wa.me/919535690976?text=${encodeURIComponent(msg)}`, '_blank');
-            })
-            .finally(() => { 
-                btn.innerText = originalText; 
-                btn.disabled = false; 
-            });
-    }
-
-    // --- 8. LIGHTBOX SCRIPT ---
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-
-    function openLightbox(element) {
-        const img = element.querySelector('img');
-        lightboxImg.src = img.src;
-        lightbox.style.display = 'flex';
-    }
-
-    function closeLightbox() {
-        lightbox.style.display = 'none';
-    }
 </script>
+
 </body>
 </html>
