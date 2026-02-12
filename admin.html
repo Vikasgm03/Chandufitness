@@ -78,14 +78,16 @@
     .btn-add {
       width: 50px; border-radius: 14px; border: none; background: var(--primary); color: white;
       font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: 0.2s;
     }
+    .btn-add:active { transform: scale(0.95); }
 
     /* ── TABS & FILTERS ── */
     .tabs { display: flex; background: #111; padding: 4px; border-radius: 12px; border: 1px solid #333; }
     .tab { flex: 1; text-align: center; padding: 10px; font-size: 0.85rem; font-weight: 600; color: #666; cursor: pointer; border-radius: 8px; transition: 0.3s; position: relative; }
     .tab.active { background: #222; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.3); border: 1px solid #333; }
     
-    /* Notify Dot for Approvals */
+    /* Notify Dot */
     .notify-dot {
         position: absolute; top: 8px; right: 10px; width: 8px; height: 8px;
         background: var(--primary); border-radius: 50%; display: none;
@@ -143,7 +145,7 @@
     .btn-edit:hover { color: #00bcd4; border-color: #00bcd4; background: rgba(0, 188, 212, 0.1); }
     .btn-delete:hover { color: #ff3b3b; border-color: #ff3b3b; background: rgba(255, 59, 59, 0.1); }
 
-    /* ── EDIT & ADD MODAL ── */
+    /* ── MODALS ── */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999;
       display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
@@ -157,9 +159,10 @@
     .input-label { color: #666; font-size: 0.75rem; margin-bottom: 6px; display: block; font-weight: 600; }
     .edit-field {
       width: 100%; background: #080808; border: 1px solid #333; color: white;
-      padding: 12px; border-radius: 10px; outline: none; font-size: 1rem;
+      padding: 12px; border-radius: 10px; outline: none; font-size: 1rem; font-family: 'Montserrat', sans-serif;
     }
     .edit-field:focus { border-color: var(--primary); }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
     
     .modal-actions { display: flex; gap: 12px; margin-top: 25px; }
     .btn-cancel { flex: 1; padding: 12px; background: #222; color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
@@ -246,7 +249,7 @@
     </div>
   </div>
 
- <div id="add-modal" class="modal-overlay">
+  <div id="add-modal" class="modal-overlay">
     <div class="edit-box">
         <div class="edit-title">ADD MEMBER</div>
         
@@ -259,7 +262,6 @@
             <label class="input-label">FULL NAME</label>
             <input type="text" id="new-name" class="edit-field">
         </div>
-      
         <div class="input-group">
             <label class="input-label">PHONE NUMBER</label>
             <input type="number" id="new-phone" class="edit-field">
@@ -301,7 +303,7 @@
         <div class="tab" onclick="App.setMode('approvals', this)">
              Approvals <span id="notify-dot" class="notify-dot"></span>
         </div>
-        <div class="tab" onclick="App.setMode('history', this)">Edit & History</div>
+        <div class="tab" onclick="App.setMode('history', this)">Edit Data</div>
       </div>
 
       <div id="filters-container" class="filters">
@@ -332,6 +334,7 @@
 
 <script>
 const CONFIG = {
+    // ⚠️ IMPORTANT: PASTE YOUR GOOGLE SCRIPT URL HERE
     API_URL: "https://script.google.com/macros/s/AKfycbz2JhcK6xw6pqS9QabNjnMdv7AL-6CYxt1ReKYT6jkivWEDAOqeU5mnmTJ0x07bs0Q8qw/exec",
     PIN_HASH: "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
 };
@@ -370,24 +373,24 @@ const App = {
       .then(data => {
         const rows = data.data.slice(1);
         
-        // --- 1. Map Data (STATUS AT INDEX 8) ---
-        // 0:Date | 1:Name | 2:Phone | 3:Plan | 4:Amount | 5:UTR | 6:Expiry | 7:Days Left | 8:Status
+        // 1. Map Data (Expiry Index 6, Status Index 8)
         RAW_DATA = rows.map((r, i) => ({
                 date: r[0], 
                 name: r[1], 
                 phone: r[2] ? String(r[2]) : "", 
                 plan: r[3], 
                 amount: parseInt(r[4]) || 0,
-                status: r[8] ? r[8].toString().toLowerCase() : "active", // Reads Column 9 (Index 8)
+                expiry: r[6], // Reading Expiry
                 days: parseInt(r[7]) || 0, 
+                status: r[8] ? r[8].toString().toLowerCase() : "active", // Reading Status
                 rowIndex: i + 2 
             }))
             .filter(item => item.name);
         
-        // --- 2. Sort Newest First ---
+        // 2. Sort Newest First
         RAW_DATA.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        // --- 3. Split Lists ---
+        // 3. Filter Lists
         APPROVED_DATA = RAW_DATA.filter(i => i.status !== 'pending');
         PENDING_DATA = RAW_DATA.filter(i => i.status === 'pending');
 
@@ -400,10 +403,7 @@ const App = {
   },
 
   updateStats() {
-    // Notify Dot
     document.getElementById("notify-dot").style.display = PENDING_DATA.length > 0 ? "block" : "none";
-    
-    // Stats (Only Approved)
     document.getElementById("stat-revenue").innerText = APPROVED_DATA.reduce((s, i) => s + i.amount, 0).toLocaleString();
     document.getElementById("stat-total").innerText = APPROVED_DATA.length;
     document.getElementById("stat-soon").innerText = APPROVED_DATA.filter(i => i.days >= 0 && i.days <= 7).length;
@@ -431,8 +431,6 @@ const App = {
 
   search() { this.render(); },
 
-  // --- ACTIONS ---
-  
   approveRow(rowIndex, name) {
     if(!confirm(`✅ Approve ${name}?`)) return;
     const btn = event.currentTarget;
@@ -484,29 +482,23 @@ const App = {
     });
   },
 
- openAddModal() {
-    // Set today's date automatically
+  openAddModal() {
+    // Set Default Date to Today
     document.getElementById('new-date').valueAsDate = new Date();
-    
     document.getElementById('new-name').value = '';
     document.getElementById('new-phone').value = '';
     document.getElementById('new-amount').value = '';
     document.getElementById('add-modal').style.display = 'flex';
   },
 
-saveNewMember() {
-    // 1. Get the Date
+  saveNewMember() {
     const date = document.getElementById('new-date').value;
     const name = document.getElementById('new-name').value;
     const phone = document.getElementById('new-phone').value;
     const plan = document.getElementById('new-plan').value;
     const amount = document.getElementById('new-amount').value;
 
-    // 2. Validate Date is selected
-    if(!date || !name || !phone || !amount) { 
-        alert("Please fill all fields, including Date."); 
-        return; 
-    }
+    if(!date || !name || !phone || !amount) { alert("Please fill all fields"); return; }
 
     const btn = document.querySelector('#add-modal .btn-save');
     const oldText = btn.innerText;
@@ -514,7 +506,7 @@ saveNewMember() {
 
     const formData = new URLSearchParams();
     formData.append('action', 'create_admin'); 
-    formData.append('Date', date); // <--- Sending Date to Backend
+    formData.append('Date', date); // Send selected date
     formData.append('Name', name);
     formData.append('Phone', phone);
     formData.append('Plan', plan);
@@ -554,8 +546,16 @@ saveNewMember() {
         thead.innerHTML = `<tr><th>Date</th><th>Name</th><th>Phone</th><th>Plan</th><th>Status</th><th>Action</th></tr>`;
         tbody.innerHTML = list.map(item => {
             let badge = item.days < 0 ? "b-expired" : (item.days <= 7 ? "b-soon" : "b-active");
-            let status = item.days < 0 ? "Expired" : `${item.days} Days Left`;
+            
+            // --- EXPIRED DATE LOGIC ---
+            let expiryStr = "";
+            try { 
+                expiryStr = new Date(item.expiry).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'2-digit'}); 
+            } catch(e){}
+            
+            let status = item.days < 0 ? `Expired on ${expiryStr}` : `${item.days} Days Left`;
             let dateStr = "N/A"; try { dateStr = new Date(item.date).toLocaleDateString('en-IN', {day:'numeric', month:'short'}); } catch(e){}
+            
             return `<tr class="dash-view">
                 <td>${dateStr}</td><td>${item.name}</td><td>${item.phone||"No Phone"}</td><td>${item.plan}</td>
                 <td><span class="badge ${badge}">${status}</span></td>
