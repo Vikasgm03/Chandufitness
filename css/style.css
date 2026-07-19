@@ -1,4 +1,3 @@
-<style>
 /* =========================================
    THE "MODERN GLASS" DESIGN SYSTEM
    ========================================= */
@@ -1210,4 +1209,143 @@ details[open] summary::after {
         @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
 
 
-    </style>
+/* =========================================
+   TRAINERS SHOWCASE (photos from images/trainer)
+   ========================================= */
+.trainers-showcase {
+    padding: 80px 5%;
+    background: #050505;
+}
+.trainers-showcase .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.trainers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+.trainer-showcase-card {
+    position: relative;
+    height: 360px;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #222;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    background: #111;
+}
+.trainer-showcase-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.6s ease, filter 0.4s ease;
+    filter: brightness(0.85) grayscale(15%);
+}
+.trainer-showcase-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(1) grayscale(0%);
+}
+.trainer-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0) 55%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.trainer-showcase-card:hover .trainer-overlay { opacity: 1; }
+.trainer-overlay span {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    color: #fff;
+    border-left: 3px solid var(--primary);
+    padding-left: 10px;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   CONTACT / CTA SECTION
+   ========================================= */
+.contact-section {
+    padding: 90px 5%;
+    background: radial-gradient(circle at 50% 0%, #1a0505 0%, #000 70%);
+    text-align: center;
+}
+.contact-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 50px 30px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 40px rgba(255, 59, 59, 0.08);
+}
+.contact-lead {
+    color: #bbb;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto 30px;
+}
+.contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 1px solid var(--primary);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+.contact-btn:hover {
+    background: rgba(255, 59, 59, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+.contact-btn.primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+.contact-btn.primary:hover {
+    background: #fff;
+    color: var(--primary);
+}
+.contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    color: #999;
+    font-size: 0.9rem;
+}
+.contact-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 520px;
+}
+.contact-meta-item i { color: var(--primary); }
+
+@media (max-width: 480px) {
+    .trainer-showcase-card { height: 300px; }
+    .contact-inner { padding: 40px 20px; }
+    .contact-btn { width: 100%; justify-content: center; }
+}
